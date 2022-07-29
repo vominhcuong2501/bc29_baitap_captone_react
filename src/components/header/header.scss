@@ -1,0 +1,23 @@
+.header {
+  .nav-link {
+    color: white;
+  }
+  .active {
+    color: rgb(253, 194, 33);
+  }
+
+  .navbar-brand {
+    color: rgb(253, 194, 33) !important;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 50px !important;
+    font-weight: bold;
+    font-style: italic;
+  }
+  .btn-outline-light {
+    transition: all 0.5s;
+    &:hover {
+      background-color: rgb(253, 194, 33) !important;
+      border: 1px solid rgb(253, 194, 33) !important;
+    }
+  }
+}
