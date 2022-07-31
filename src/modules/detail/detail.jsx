@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchMovieDetailApi } from "../../services/movie";
 import {useParams} from 'react-router-dom'
-import '../css/detail.css'
+import './detail.scss'
+import moment from "moment";
 
 export default function Detail() {
     const params = useParams()
@@ -37,7 +38,7 @@ export default function Detail() {
         <p className="text-secondary">
           {movieDetail.moTa}
         </p>
-        <p>Ngày khởi chiếu: {movieDetail.ngayKhoiChieu}</p>
+        <p>Ngày khởi chiếu: {moment(movieDetail.ngayKhoiChieu).format('LLL')}</p>
         <div>
           <button className="btn btn-info mr-2"><a style={styleButtonTrailer} href={movieDetail.trailer} target='_blank'>Trailer</a></button>
         </div>

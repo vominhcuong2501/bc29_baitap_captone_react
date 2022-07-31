@@ -1,0 +1,28 @@
+.booking-btn button{
+  color: #000;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 50px;
+  height: 35px;
+  margin: 0 5px 5px 0;
+  &.ghe {
+    background: #fff;
+    border: 3px solid #fff;
+  }
+  &.gheVip {
+    background: rgb(242, 140, 255);
+  }
+  &.daDat {
+    border: 3px solid rgb(255, 0, 13);
+
+    background:  rgb(255, 0, 13);
+    cursor: no-drop !important;
+    // pointer-events: none;
+  }
+
+  &.dangDat {
+    background: rgb(109, 238, 109);
+    border: 3px solid rgb(109, 238, 109);
+    cursor: pointer;
+  }
+}

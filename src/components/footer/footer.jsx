@@ -1,5 +1,5 @@
 import React from "react";
-import '../css/footer.css'
+import './footer.scss'
 export default function Footer() {
   return (
     <div className="text-light container">
@@ -55,11 +55,11 @@ export default function Footer() {
         <div className="col-3">
           <h4 className="mb-4 doitac">Đối tác</h4>
           <div className="footer-img">
-            <img src="./BHD.png" alt="BHD" width={50} height={50} />
-            <img src="./CGV.png" alt="CGV" width={50} height={50} />
-            <img src="./LOTTE.png" alt="LOTTE" width={50} height={50} />
-            <img src="./MEGA.png" alt="MEGA" width={50} height={50} />
-            <img src="./GALAXY.png" alt="GALAXY" width={50} height={50} />
+            <img src={require("./BHD.png")} alt="BHD" width={50} height={50} />
+            <img src={require("./CGV.png")} alt="CGV" width={50} height={50} />
+            <img src={require("./LOTTE.png")} alt="LOTTE" width={50} height={50} />
+            <img src={require("./MEGA.png")} alt="MEGA" width={50} height={50} />
+            <img src={require("./GALAXY.png")} alt="GALAXY" width={50} height={50} />
           </div>
         </div>
       </div>

@@ -1,0 +1,46 @@
+.booking-top { 
+  .screen {
+    border-bottom: 50px solid rgb(255, 159, 95);
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    height: 80;
+    width: 90%;
+    filter: drop-shadow(4px 30px 20px rgba(255, 255, 255, 0.5));
+    font-size: 25px;
+    color: #fff;
+    margin: 30px 0;
+  }
+  button {
+    color: #000;
+    border-radius: 5px;
+    width: 50px;
+    height: 35px;
+    margin: 0 5px 5px 0;
+    cursor: no-drop !important;
+    &.ghe {
+      background: #fff;
+      border: 3px solid #fff;
+    }
+    &.gheVip {
+      background: rgb(242, 140, 255);
+    }
+    &.daDat {
+      border: 3px solid rgb(255, 0, 13);
+      background: rgb(255, 0, 13);
+      // pointer-events: none;
+    }
+    &.dangDat {
+      background: rgb(109, 238, 109);
+      border: 3px solid rgb(109, 238, 109);
+    }
+  }
+  span {
+    margin-right: 10px;
+    color: #fff;
+  }
+}
+.col-4 {
+    b {
+        color: orange;
+      }
+  }

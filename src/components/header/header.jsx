@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "../css/header.css";
+import "./header.scss";
 
 export default function header() {
   return (
@@ -47,7 +47,7 @@ export default function header() {
             </li>
 
             <li className=" w-20" >
-              <a  href="#">
+              <NavLink  to="/login">
                 <button className="btn btn-outline-light my-2 my-sm-0">
                   <i
                     className="fa-solid fa-circle-user pr-2"
@@ -55,7 +55,7 @@ export default function header() {
                   ></i>
                   ĐĂNG NHẬP
                 </button>
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>

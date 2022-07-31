@@ -5,12 +5,17 @@ import Header from "../components/header/header";
 
 export default function HomeLayout() {
   return (
-    <div className="bg-dark">
+    <div
+      className="bg-dark"
+      style={{
+        fontFamily: "Times New Roman, Times, serif",
+      }}
+    >
       <div className="container-fluid p-0">
-      <Header />
-      <Outlet />
-      <Footer />
-    </div>
+        <Header />
+        <Outlet />
+        <Footer />
+      </div>
     </div>
   );
 }
