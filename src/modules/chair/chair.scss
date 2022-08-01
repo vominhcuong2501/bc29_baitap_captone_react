@@ -13,9 +13,9 @@
     background: rgb(242, 140, 255);
   }
   &.daDat {
-    border: 3px solid rgb(255, 0, 13);
+    border: 3px solid rgb(255, 0, 13) !important;
 
-    background:  rgb(255, 0, 13);
+    background:  rgb(255, 0, 13) !important;
     cursor: no-drop !important;
     // pointer-events: none;
   }

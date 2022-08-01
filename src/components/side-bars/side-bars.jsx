@@ -7,20 +7,20 @@ export default function SideBar() {
     <div className="side-bar">
       <nav >
         <div>
-          <ul style={{listStyle: 'none'}}>
+          <ul className="p-0" style={{listStyle: 'none'}}>
             <li className="nav-item">
               <NavLink className="nav-link" to="/admin/users">
-                Users
+              <i className="fa-solid fa-user"></i> Users
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/admin/films">
-                Films
+              <i className="fa-solid fa-film "></i> Films
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/admin/show-times">
-                Show-times
+              <i className="fa-solid fa-calendar-days"></i> Show-times
               </NavLink>
             </li>
           </ul>

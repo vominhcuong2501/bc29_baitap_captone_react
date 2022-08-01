@@ -11,8 +11,8 @@ export default function HeaderAdmin() {
   };
   return (
     <div className="text-center">
-      <nav className="navbar navbar-expand-sm navbar-light row">
-        <div className="col-3">
+      <nav className="navbar navbar-expand-sm navbar-light row p-0">
+        <div className="col-2" style={{background: '#7386D5'}}>
           <a style={styleLogo} href="#">
             CyberFilm
           </a>
@@ -28,7 +28,7 @@ export default function HeaderAdmin() {
             <span className="navbar-toggler-icon" />
           </button>
         </div>
-        <div className="col-9 text-right pr-5" id="collapsibleNavId">
+        <div className="col-10 text-right pr-5" id="collapsibleNavId">
           <button
             className="btn btn-success  my-sm-0"
             type="button"

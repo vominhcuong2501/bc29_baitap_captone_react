@@ -11,6 +11,7 @@ export default function Booking() {
   const [roomList, setRoomList] = useState();
   const [danhSachGhe, setDanhSachGhe] = useState([]);
 
+  console.log(danhSachGhe);
   // gọi hàm để call api
   useEffect(() => {
     fetchRoomList();
@@ -33,6 +34,17 @@ export default function Booking() {
       data.push(selecTedChair);
     }
     setDanhSachGhe(data);
+  };
+
+  const booking = (danhSachGhe) => {
+    const dataNew = danhSachGhe;
+    for (let i = 0; i < dataNew.length; i++) {
+      if (!dataNew[i].daDat) {
+        dataNew[i].daDat = true;
+      }
+    }
+    setDanhSachGhe([]);
+    danhSachGhe = dataNew;
   };
 
   // nếu roomList tồn tại xuất nội dung còn không thì chạy loading
@@ -78,69 +90,79 @@ export default function Booking() {
           <h2 className="text-warning mb-3">Thông tin vé</h2>
           <table
             className="table p-5 text-light"
-            style={{border: '2px dashed white'}}
+            style={{ border: "2px dashed white" }}
           >
-            <tr className="my-2 text-center">
-              <th className="text-left">Tên phim:</th>
-              <th className="text-right" style={{fontSize:30}}><b>
-                {roomList?.thongTinPhim?.tenPhim}
-              </b></th>
-            </tr>
-            <tr>
-              <td className="text-left">Tên rạp</td>
-              <td className="text-right">
-                {roomList?.thongTinPhim?.tenCumRap}
-              </td>
-            </tr>
-            <tr>
-              <td className="text-left">Địa chỉ:</td>
-              <td className="text-right">{roomList?.thongTinPhim?.diaChi}</td>
-            </tr>
-            <tr>
-              <td className="text-left">Ngày - giờ chiếu:</td>
-              <td className="text-right">
-                {roomList?.thongTinPhim?.ngayChieu} -{" "}
-                <b>{roomList?.thongTinPhim?.gioChieu}</b>
-              </td>
-            </tr>
-            <tr>
-              <td className="text-left">Rạp</td>
-              <td className="text-right">
-                <b>{roomList?.thongTinPhim?.tenRap}</b>
-              </td>
-            </tr>
-            <tr>
-              <td className="text-left">Số ghế:</td>
-              <td className="text-right h-25">
-                {danhSachGhe.map((ele) => {
-                  return (
-                    <span key={ele.maGhe}>
-                      <b>{ele.tenGhe}</b> - {ele.giaVe} VNĐ,{" "}
-                    </span>
-                  );
-                })}
-              </td>
-            </tr>
-            <tr>
-              <td className="text-left">Ưu đãi:</td>
-              <td className="text-right">0%</td>
-            </tr>
-            <tr>
-              <td className="text-left">Tổng tiền:</td>
-              <td className="text-right">
-                <b className="mr-1">
-                  {danhSachGhe
-                    .reduce((preValue, currentValue) => {
-                      return (preValue += currentValue.giaVe);
-                    }, 0)
-                    .toLocaleString()}
-                </b>
-                VNĐ
-              </td>
-            </tr>
+            <tbody>
+              <tr className="my-2 text-center">
+                <th className="text-left">Tên phim:</th>
+                <th className="text-right" style={{ fontSize: 30 }}>
+                  <b>{roomList?.thongTinPhim?.tenPhim}</b>
+                </th>
+              </tr>
+              <tr>
+                <td className="text-left">Tên rạp</td>
+                <td className="text-right">
+                  {roomList?.thongTinPhim?.tenCumRap}
+                </td>
+              </tr>
+              <tr>
+                <td className="text-left">Địa chỉ:</td>
+                <td className="text-right">{roomList?.thongTinPhim?.diaChi}</td>
+              </tr>
+              <tr>
+                <td className="text-left">Ngày - giờ chiếu:</td>
+                <td className="text-right">
+                  {roomList?.thongTinPhim?.ngayChieu} -{" "}
+                  <b>{roomList?.thongTinPhim?.gioChieu}</b>
+                </td>
+              </tr>
+              <tr>
+                <td className="text-left">Rạp</td>
+                <td className="text-right">
+                  <b>{roomList?.thongTinPhim?.tenRap}</b>
+                </td>
+              </tr>
+              <tr>
+                <td className="text-left">Số ghế:</td>
+                <td className="text-right h-25">
+                  {danhSachGhe.map((ele) => {
+                    return (
+                      <span key={ele.maGhe}>
+                        <b>{ele.tenGhe}</b> - {ele.giaVe} VNĐ,{" "}
+                      </span>
+                    );
+                  })}
+                </td>
+              </tr>
+              <tr>
+                <td className="text-left">Ưu đãi:</td>
+                <td className="text-right">0%</td>
+              </tr>
+              <tr>
+                <td className="text-left">Tổng tiền:</td>
+                <td className="text-right">
+                  <b className="mr-1">
+                    {danhSachGhe
+                      .reduce((preValue, currentValue) => {
+                        return (preValue += currentValue.giaVe);
+                      }, 0)
+                      .toLocaleString()}
+                  </b>
+                  VNĐ
+                </td>
+              </tr>
+            </tbody>
           </table>
           <div>
-            <button className="btn btn-warning w-100">BOOKING TICKETS</button>
+            <button
+              onClick={() => {
+                alert('Bạn đã đặt thành công!!!');
+                booking(danhSachGhe);
+              }}
+              className="btn btn-warning w-100"
+            >
+              BOOKING TICKETS
+            </button>
           </div>
         </div>
       </div>
