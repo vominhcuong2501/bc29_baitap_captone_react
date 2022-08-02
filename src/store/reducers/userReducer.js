@@ -1,11 +1,22 @@
+import { USER_INFO_KEY } from "../../constans/common";
+import { SET_USER_INFO } from "../Types/user.type";
+
+let userInfo = localStorage.getItem(USER_INFO_KEY);
+if (userInfo) {
+  userInfo = JSON.parse(userInfo);
+}
+
 const DEFAULT_STATE = {
-    userLogin: null
-}
+  userInfo: userInfo,
+};
 
-
-export const UserReducer = (state = DEFAULT_STATE, {type, payload}) => {
-    switch (type) {
-        default:
-            return {...state}
+export const userReducer = (state = DEFAULT_STATE, { type, payload }) => {
+  switch (type) {
+    case SET_USER_INFO: {
+      state.userInfo = payload;
+      return { ...state };
     }
-}
+    default:
+      return { ...state };
+  }
+};

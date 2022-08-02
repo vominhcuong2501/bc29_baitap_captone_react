@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchMovieListApi } from "../../services/movie";
 import { useNavigate } from "react-router-dom";
 import "./movie-list.scss";
+import { Button } from "antd";
 
 // module xử lý chức năng
 export default function MovieList() {
@@ -19,25 +20,33 @@ export default function MovieList() {
   };
 
   const renderMovieList = () => {
-    return movieList.map((ele) => {
+    return movieList.map((ele, index) => {
       return (
         <div className="col-3 film-item" key={ele.maPhim}>
-          <div className="card movie-card" style={{ marginBottom: 20 }}>
+          <div
+            className="card movie-card"
+            style={{ marginBottom: 20, overflow: "hidden" }}
+          >
             <img
-              style={{ height: "100%", height: "350px" }}
+              style={{ height: "350px", objectFit: "cover" }}
               className="card-img-top"
               src={ele.hinhAnh}
               alt="movie"
             />
             <div className="overlay">
               <div className="card-body film-text">
-                <h5 className="card-title">{ele.tenPhim}</h5>
-                <button
+                <h5
+                  className="card-title text-dark"
+                  style={{ fontWeight: "bold" }}
+                >
+                  {ele.tenPhim}
+                </h5>
+                <Button
+                  type="primary"
                   onClick={() => navigate(`/movie/${ele.maPhim}`)}
-                  className="btn btn-info"
                 >
                   XEM CHI TIẾT
-                </button>
+                </Button>
               </div>
             </div>
           </div>

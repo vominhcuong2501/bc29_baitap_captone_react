@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchUserListApi } from "../../services/user";
 
-export default function Users() {
+export default function UserManagement() {
   const [userList, setUserList] = useState([]);
   useEffect(() => {
     fetchUserList();

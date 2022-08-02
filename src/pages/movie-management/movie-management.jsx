@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchMovieListApi } from "../../services/movie";
 
-export default function FilmList() {
+export default function MovieManagement() {
   const [filmList, setFilmList] = useState([]);
   useEffect(() => {
     fetchFilmList();

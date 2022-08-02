@@ -1,9 +1,16 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Chair from "../../modules/chair/chair";
-import { fetchRoomListApi } from "../../services/booking";
+import {
+  fetchBookingTicketApi,
+  fetchRoomListApi,
+} from "../../services/booking";
 import "./booking.scss";
+
 export default function Booking() {
+  // chuyển trang khi đặt xong
+  const navigate = useNavigate();
+
   //lấy id của url
   const params = useParams();
 
@@ -11,7 +18,6 @@ export default function Booking() {
   const [roomList, setRoomList] = useState();
   const [danhSachGhe, setDanhSachGhe] = useState([]);
 
-  console.log(danhSachGhe);
   // gọi hàm để call api
   useEffect(() => {
     fetchRoomList();
@@ -27,7 +33,7 @@ export default function Booking() {
   // thao tác click kiểm tra ghế dc chọn đã có trong mảng chưa
   const handleSelect = (selecTedChair) => {
     const data = [...danhSachGhe];
-    let index = data.findIndex((ele) => ele.tenGhe === selecTedChair);
+    let index = data.findIndex((ele) => ele.tenGhe === selecTedChair.tenGhe);
     if (index !== -1) {
       data.splice(index, 1);
     } else {
@@ -36,15 +42,21 @@ export default function Booking() {
     setDanhSachGhe(data);
   };
 
-  const booking = (danhSachGhe) => {
-    const dataNew = danhSachGhe;
-    for (let i = 0; i < dataNew.length; i++) {
-      if (!dataNew[i].daDat) {
-        dataNew[i].daDat = true;
-      }
-    }
-    setDanhSachGhe([]);
-    danhSachGhe = dataNew;
+  // booking
+  const handleBookingTicket = async () => {
+    const danhSachVe = danhSachGhe.map((ele) => {
+      return {
+        maGhe: ele.maGhe,
+        giaVe: ele.giaVe,
+      };
+    });
+    const submitData = {
+      maLichChieu: params.maLichChieu,
+      danhSachVe,
+    };
+    await fetchBookingTicketApi(submitData);
+    alert('Chúc mừng bạn đã đặt vé thành công !!!')
+    navigate("/");
   };
 
   // nếu roomList tồn tại xuất nội dung còn không thì chạy loading
@@ -53,14 +65,17 @@ export default function Booking() {
       <div className="row m-5 text-center">
         <div className="col-8 ">
           <div className="booking-top">
-            <div className="mb-3" style={{ fontSize: "20px" }}>
+            <div className="mb-3 text-left" style={{ fontSize: "20px" }}>
               <button className="ghe"></button> <span>Ghế trống</span>
+              <br />
               <button className="gheVip"></button> <span>Ghế vip</span>
+              <br />
               <button className="daDat"></button> <span>Ghế đã đặt</span>
-              <button className="dangDat my-1"></button>{" "}
+              <br />
+              <button className="dangDat my-1"></button>
               <span>Ghế đang đặt</span>
             </div>
-            <div className="screen mt-3 mx-auto">
+            <div className="screen mt-5 mx-auto">
               <p
                 className="text-center"
                 style={{
@@ -88,6 +103,12 @@ export default function Booking() {
         </div>
         <div className="col-4 text-light">
           <h2 className="text-warning mb-3">Thông tin vé</h2>
+          <img
+            className="img-fluid"
+            src={roomList.thongTinPhim.hinhAnh}
+            alt={roomList.thongTinPhim.hinhAnh}
+            style={{ objectFit: "cover"}}
+          />
           <table
             className="table p-5 text-light"
             style={{ border: "2px dashed white" }}
@@ -96,30 +117,30 @@ export default function Booking() {
               <tr className="my-2 text-center">
                 <th className="text-left">Tên phim:</th>
                 <th className="text-right" style={{ fontSize: 30 }}>
-                  <b>{roomList?.thongTinPhim?.tenPhim}</b>
+                  <b>{roomList.thongTinPhim.tenPhim}</b>
                 </th>
               </tr>
               <tr>
                 <td className="text-left">Tên rạp</td>
                 <td className="text-right">
-                  {roomList?.thongTinPhim?.tenCumRap}
+                  {roomList.thongTinPhim.tenCumRap}
                 </td>
               </tr>
               <tr>
                 <td className="text-left">Địa chỉ:</td>
-                <td className="text-right">{roomList?.thongTinPhim?.diaChi}</td>
+                <td className="text-right">{roomList.thongTinPhim.diaChi}</td>
               </tr>
               <tr>
                 <td className="text-left">Ngày - giờ chiếu:</td>
                 <td className="text-right">
-                  {roomList?.thongTinPhim?.ngayChieu} -{" "}
-                  <b>{roomList?.thongTinPhim?.gioChieu}</b>
+                  {roomList.thongTinPhim.ngayChieu} -{" "}
+                  <b>{roomList.thongTinPhim.gioChieu}</b>
                 </td>
               </tr>
               <tr>
                 <td className="text-left">Rạp</td>
                 <td className="text-right">
-                  <b>{roomList?.thongTinPhim?.tenRap}</b>
+                  <b>{roomList.thongTinPhim.tenRap}</b>
                 </td>
               </tr>
               <tr>
@@ -127,8 +148,12 @@ export default function Booking() {
                 <td className="text-right h-25">
                   {danhSachGhe.map((ele) => {
                     return (
-                      <span key={ele.maGhe}>
-                        <b>{ele.tenGhe}</b> - {ele.giaVe} VNĐ,{" "}
+                      <span
+                        className="badge badge-primary m-1"
+                        style={{ fontSize: 15 }}
+                        key={ele.maGhe}
+                      >
+                        <b>{ele.tenGhe}</b> - {ele.giaVe.toLocaleString()}
                       </span>
                     );
                   })}
@@ -155,10 +180,7 @@ export default function Booking() {
           </table>
           <div>
             <button
-              onClick={() => {
-                alert('Bạn đã đặt thành công!!!');
-                booking(danhSachGhe);
-              }}
+              onClick={handleBookingTicket}
               className="btn btn-warning w-100"
             >
               BOOKING TICKETS

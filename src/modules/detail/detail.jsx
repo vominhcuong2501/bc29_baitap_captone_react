@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchMovieDetailApi } from "../../services/movie";
 import {useParams} from 'react-router-dom'
-import './detail.scss'
 import moment from "moment";
 
 export default function Detail() {
@@ -29,12 +28,13 @@ export default function Detail() {
     <div className="row text-light">
       <div className="col-3">
         <img
-          className="w-100"
+          className="img-fluid"
           src={movieDetail.hinhAnh}
+          style={{height: '250px'}}
         />
       </div>
       <div className="col-9">
-        <h4>{movieDetail.tenPhim}</h4>
+        <h4 className="text-light">{movieDetail.tenPhim}</h4>
         <p className="text-secondary">
           {movieDetail.moTa}
         </p>

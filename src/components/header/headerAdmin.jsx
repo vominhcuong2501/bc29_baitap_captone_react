@@ -28,14 +28,6 @@ export default function HeaderAdmin() {
             <span className="navbar-toggler-icon" />
           </button>
         </div>
-        <div className="col-10 text-right pr-5" id="collapsibleNavId">
-          <button
-            className="btn btn-success  my-sm-0"
-            type="button"
-          >
-            Đăng nhập
-          </button>
-        </div>
       </nav>
     </div>
   );

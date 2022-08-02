@@ -6,3 +6,11 @@ export const fetchRoomListApi = (showTimeId) => {
     method: "GET",
   });
 };
+
+export const fetchBookingTicketApi = (data) => {
+  return request({
+    url: `/QuanLyDatVe/DatVe`,
+    method: 'POST',
+    data
+  })
+}

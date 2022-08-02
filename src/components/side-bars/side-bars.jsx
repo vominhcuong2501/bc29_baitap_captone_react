@@ -9,18 +9,13 @@ export default function SideBar() {
         <div>
           <ul className="p-0" style={{listStyle: 'none'}}>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/admin/users">
-              <i className="fa-solid fa-user"></i> Users
+              <NavLink className="nav-link" to="/admin/movie-management">
+              <i className="fa-solid fa-user"></i> Movies
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/admin/films">
-              <i className="fa-solid fa-film "></i> Films
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/admin/show-times">
-              <i className="fa-solid fa-calendar-days"></i> Show-times
+              <NavLink className="nav-link" to="/admin/user-management">
+              <i className="fa-solid fa-film "></i> Users
               </NavLink>
             </li>
           </ul>

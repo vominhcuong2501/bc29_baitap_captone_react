@@ -1,0 +1,5 @@
+deloy project 
+1 window: npm install -g vercel
+1 macos: sudo npm install -g vercel
+2 npm run build
+3 vercel 

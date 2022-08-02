@@ -1,6 +1,6 @@
 import React from "react";
+import Carousels from "../../modules/carousel/carousel";
 import MovieList from "../../modules/movie-list/movie-list";
-import Banner from "../banner/banner";
 
 // page chứa giao diện không xử lý chức năng
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
   }
   return (
     <div className="py-2">
-      <Banner />
+      <Carousels />
       <MovieList />
       <div style={styleBg}></div>
     </div>

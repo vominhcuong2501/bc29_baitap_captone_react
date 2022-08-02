@@ -2,8 +2,8 @@ import React from "react";
 import './footer.scss'
 export default function Footer() {
   return (
-    <div className="text-light container">
-      <div className="footer bg-dark pt-5 row">
+    <div className="text-light container-fluid">
+      <div className="footer bg-dark pt-5 px-5 row">
         <div className="col-3">
           <h3 className="mb-4" style={{fontSize: 30, color: ' rgb(253, 194, 33)'}}><b><i>CyberFilm</i></b></h3>
           <span>

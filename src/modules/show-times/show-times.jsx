@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchMovieShowTimesApi } from "../../services/cinema";
 import { Link, useParams } from "react-router-dom";
 import moment from "moment";
+
 export default function ShowTimes() {
   let params = useParams();
   const [movieShowTimes, setMovieShowTimes] = useState([]);
@@ -38,27 +39,29 @@ export default function ShowTimes() {
     return movieShowTimes?.heThongRapChieu?.map((ele, index) => {
       return (
         <div
-          className={`tab-pane fade show ${index === 0 && 'active'}`}
+          className={`tab-pane fade show ${index === 0 && "active"}`}
           id={ele.maHeThongRap}
           role="tabpanel"
           key={ele.maHeThongRap}
         >
-          {ele.cumRapChieu.map((ele, index) => {
+          {ele.cumRapChieu.map((ele) => {
             return (
               <div className="row mb-5" key={ele.maCumRap}>
-                <div className="col-1">
+                <div className="col-2">
                   <img className="img-fluid rounded" src={ele.hinhAnh} />
                 </div>
-                <div className="col-11 pl-0">
+                <div className="col-10 pl-0">
                   <h5 className="text-light">{ele.tenCumRap}</h5>
                   <span className="text-muted">{ele.diaChi}</span>
-                </div>
-                <div className="col-12">
                   <div className="row">
-                    {ele.lichChieuPhim.map((ele, index) => {
+                    {ele.lichChieuPhim.map((ele) => {
                       return (
-                        <div className="col-3" key={ele.maLichChieu}>
-                          <Link to={`/booking/${ele.maLichChieu}`}>{moment(ele.ngayChieuGioChieu).format('LLL')}</Link>
+                        <div className="col-6 text-light" key={ele.maLichChieu}>
+                            {moment(ele.ngayChieuGioChieu).format("LLL")} 
+                          
+                          <Link to={`/booking/${ele.maLichChieu}`} className='ml-2 btn btnDatVe' style={{backgroundColor: 'pink'}}>
+                            ĐẶT VÉ
+                          </Link>
                         </div>
                       );
                     })}
