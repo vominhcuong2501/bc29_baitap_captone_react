@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { fetchMovieListApi } from "../../services/movie";
+import { Navigate, useNavigate } from "react-router-dom";
+import { fetchDeleteMovieApi, fetchMovieListApi } from "../../services/movie";
 
 export default function MovieManagement() {
+  const navigate = useNavigate()
   const [filmList, setFilmList] = useState([]);
   useEffect(() => {
     fetchFilmList();
   }, []);
+  
   const fetchFilmList = async () => {
     const result = await fetchMovieListApi();
     setFilmList(result.data.content);
     console.log(result.data.content);
   };
 
-  const handleDeleteMovie = (maPhim) => {
-
-  }
+  const fetchDeleteMovie = async (maPhim) => {
+    await fetchDeleteMovieApi(maPhim)
+    alert('Bạn đã xóa thành công!!')
+    navigate("/admin/")
+   }
 
   const renderContent = () => {
     return filmList?.map((ele) => {
@@ -26,10 +31,10 @@ export default function MovieManagement() {
           </td>
           <td>{ele.tenPhim}</td>
           <td>
-            <button onClick={handleDeleteMovie} className="btn btn-warning mr-1">
+            <button className="btn btn-warning mr-1">
               <i className="fa-solid fa-pen-to-square"></i>
             </button>
-            <button className="btn btn-danger">
+            <button className="btn btn-danger" onClick={() => fetchDeleteMovie(ele.maPhim)} >
               <i className="fa-solid fa-trash"></i>
             </button>
           </td>
@@ -37,9 +42,10 @@ export default function MovieManagement() {
       );
     });
   };
-
+ 
   return (
-    <div className="bg-light px-5 py-3" style={{ borderRadius: "20px" }}>
+    <div className="container-fluid">
+      <div className="bg-light px-5 py-3 " style={{ borderRadius: "20px" }}>
       <h2 style={{ color: "#007bff" }}>Quản lý phim</h2>
       <div className="row my-3">
         <div className="col-6">
@@ -233,6 +239,7 @@ export default function MovieManagement() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

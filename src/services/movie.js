@@ -24,8 +24,7 @@ export const fetchBannerApi =() => {
 
 export const fetchDeleteMovieApi = (data) => {
     return request({
-        url:`/QuanLyPhim/XoaPhim`,
+        url:`/QuanLyPhim/XoaPhim?MaPhim=${data}`,
         method: "DELETE",
-        data
     })
 }

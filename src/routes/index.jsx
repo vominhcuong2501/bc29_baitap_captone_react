@@ -67,6 +67,10 @@ export default function Router() {
           element: <AdminGuard />,
           children: [
             {
+              path: "/admin/",
+              element: <Navigate to='/admin/movie-management' />,
+            },
+            {
               path: "/admin/movie-management",
               element: <MovieManagement />,
             },

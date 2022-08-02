@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchAddUserApi, fetchUserListApi } from "../../services/user";
+import { fetchAddUserApi, fetchDeleteUserApi, fetchUserListApi } from "../../services/user";
 let DEFAULT_VALUES = {
   taiKhoan: "",
   matKhau: "",
@@ -22,44 +22,32 @@ let DEFAULT_ERRROS = {
 };
 
 export default function UserManagement() {
+  // chuyển trang
   const navigate = useNavigate();
+
+  // đặt state
   const [userList, setUserList] = useState([]);
-  useEffect(() => {
-    fetchUserList();
-  }, []);
-  const fetchUserList = async () => {
-    const result = await fetchUserListApi();
-    setUserList(result.data.content);
-  };
-
-  const renderContent = () => {
-    return userList?.map((ele) => {
-      return (
-        <tr key={ele.taiKhoan}>
-          <td>{ele.taiKhoan}</td>
-          <td>{ele.hoTen}</td>
-          <td>{ele.email}</td>
-          <td>{ele.soDT}</td>
-          <td>{ele.maLoaiNguoiDung}</td>
-          <td>
-            <button className="btn btn-warning mr-1">
-              <i className="fa-solid fa-pen-to-square"></i>
-            </button>
-            <button className="btn btn-danger">
-              <i className="fa-solid fa-trash"></i>
-            </button>
-          </td>
-        </tr>
-      );
-    });
-  };
-  const formRef = useRef();
-
   const [state, setState] = useState({
     values: DEFAULT_VALUES,
     errors: DEFAULT_ERRROS,
   });
 
+
+  // load lần đầu dể lấy dữ liệu
+  useEffect(() => {
+    fetchUserList();
+  }, []);
+
+  // call api
+  const fetchUserList = async () => {
+    const result = await fetchUserListApi();
+    setUserList(result.data.content);
+  };
+
+  // check validate
+  const formRef = useRef();
+
+  // nhập dữ liệu
   const handleChange = (event) => {
     const {
       name,
@@ -81,6 +69,7 @@ export default function UserManagement() {
     });
   };
 
+  // submit dữ liệu
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!event.target.checkValidity()) {
@@ -94,6 +83,34 @@ export default function UserManagement() {
     await fetchAddUserApi(state.values);
   };
 
+  // render nội dung
+  const renderContent = () => {
+    return userList?.map((ele) => {
+      return (
+        <tr key={ele.taiKhoan}>
+          <td>{ele.taiKhoan}</td>
+          <td>{ele.hoTen}</td>
+          <td>{ele.email}</td>
+          <td>{ele.soDT}</td>
+          <td>{ele.maLoaiNguoiDung}</td>
+          <td>
+            <button className="btn btn-warning mr-1">
+              <i className="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button onClick={() => fetchDeleteUser(ele.taiKhoan)} className="btn btn-danger">
+              <i className="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      );
+    });
+  };
+
+  // xóa người dùng, taiKhoan đã đặt vé không xóa được
+  const fetchDeleteUser = async (taiKhoan) => {
+    await fetchDeleteUserApi(taiKhoan)
+    navigate('/admin/')
+  }
 
   return (
     <div className="bg-light px-5 py-3" style={{ borderRadius: "20px" }}>

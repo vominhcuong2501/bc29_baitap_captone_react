@@ -22,3 +22,10 @@ export const fetchAddUserApi = (data) => {
     data,
   });
 };
+
+export const fetchDeleteUserApi = (data) => {
+  return request({
+    url: `/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${data}`,
+    method: "DELETE",
+  });
+};
