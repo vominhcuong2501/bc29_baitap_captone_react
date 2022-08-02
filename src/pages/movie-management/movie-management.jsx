@@ -12,6 +12,10 @@ export default function MovieManagement() {
     console.log(result.data.content);
   };
 
+  const handleDeleteMovie = (maPhim) => {
+
+  }
+
   const renderContent = () => {
     return filmList?.map((ele) => {
       return (
@@ -22,7 +26,7 @@ export default function MovieManagement() {
           </td>
           <td>{ele.tenPhim}</td>
           <td>
-            <button className="btn btn-warning mr-1">
+            <button onClick={handleDeleteMovie} className="btn btn-warning mr-1">
               <i className="fa-solid fa-pen-to-square"></i>
             </button>
             <button className="btn btn-danger">

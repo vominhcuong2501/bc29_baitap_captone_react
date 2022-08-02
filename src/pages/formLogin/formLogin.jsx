@@ -11,38 +11,33 @@ export default function FormLogin() {
   const formRef = useRef();
 
   const [state, setState] = useState({
-    taiKhoan: '',
-    matKhau: ''
+    taiKhoan: "",
+    matKhau: "",
   });
 
   const handleChange = (event) => {
-    const {
-      name,
-      value,
-    } = event.target;
+    const { name, value } = event.target;
 
     setState({
       ...state,
-      [name] : value
+      [name]: value,
     });
-    
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const result = await loginApi(state)
+    const result = await loginApi(state);
     console.log(result.data.content);
 
     // 1. lưu local store
-    localStorage.setItem(USER_INFO_KEY, JSON.stringify(result.data.content))
+    localStorage.setItem(USER_INFO_KEY, JSON.stringify(result.data.content));
 
     // 2. gửi thông tin lên reducer
-    dispatch(setUserAction(result.data.content))
+    dispatch(setUserAction(result.data.content));
 
     // 3. đăng nhập thành công chuyển page
-    navigate('/')
+    navigate("/");
   };
 
- 
   return (
     <div className="w-25 mx-auto mt-5">
       <div className="card p-0">
@@ -55,39 +50,44 @@ export default function FormLogin() {
         <div className="card-body">
           <form ref={formRef} noValidate onSubmit={handleSubmit}>
             <div className="row">
-              <div className="col-12">
-                <div className="form-group">
-                  <label>Tài khoản</label>
+              <div className=" col-12 form-group my-3">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text">
+                      <i className="fa-solid fa-user"></i>
+                    </span>
+                  </div>
                   <input
                     required
-                    name="taiKhoan"
                     type="text"
                     className="form-control"
+                    placeholder="Tài khoản"
                     onChange={handleChange}
+                    name="taiKhoan"
                   />
-                 
                 </div>
               </div>
-              <div className="col-12">
-                <div className="form-group">
-                  <label>Mật khẩu</label>
+              <div className="form-group col-12 my-3">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text">
+                      <i className="fa fa-key" />
+                    </span>
+                  </div>
                   <input
                     required
-                    name="matKhau"
                     type="text"
                     className="form-control"
+                    placeholder="Mật khẩu"
+                    name="matKhau"
                     onChange={handleChange}
                   />
-                 
                 </div>
               </div>
             </div>
             <p>
               Nếu bạn chưa có tài khoản vui lòng nhấn{" "}
-              <Link
-                style={{ border: "none", color: "blue" }}
-                to="/register"
-              >
+              <Link style={{ border: "none", color: "blue" }} to="/register">
                 đăng ký
               </Link>
             </p>

@@ -21,3 +21,11 @@ export const fetchBannerApi =() => {
         method: 'GET'
     })
 }
+
+export const fetchDeleteMovieApi = (data) => {
+    return request({
+        url:`/QuanLyPhim/XoaPhim`,
+        method: "DELETE",
+        data
+    })
+}

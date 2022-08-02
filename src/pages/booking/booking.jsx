@@ -66,12 +66,9 @@ export default function Booking() {
         <div className="col-8 ">
           <div className="booking-top">
             <div className="mb-3 text-left" style={{ fontSize: "20px" }}>
-              <button className="ghe"></button> <span>Ghế trống</span>
-              <br />
-              <button className="gheVip"></button> <span>Ghế vip</span>
-              <br />
-              <button className="daDat"></button> <span>Ghế đã đặt</span>
-              <br />
+              <button className="ghe"></button> <span style={{marginRight: '50px'}}>Ghế trống</span>
+              <button className="gheVip"></button> <span style={{marginRight: '50px'}}>Ghế vip</span>
+              <button className="daDat"></button> <span style={{marginRight: '50px'}}>Ghế đã đặt</span>
               <button className="dangDat my-1"></button>
               <span>Ghế đang đặt</span>
             </div>
@@ -103,12 +100,6 @@ export default function Booking() {
         </div>
         <div className="col-4 text-light">
           <h2 className="text-warning mb-3">Thông tin vé</h2>
-          <img
-            className="img-fluid"
-            src={roomList.thongTinPhim.hinhAnh}
-            alt={roomList.thongTinPhim.hinhAnh}
-            style={{ objectFit: "cover"}}
-          />
           <table
             className="table p-5 text-light"
             style={{ border: "2px dashed white" }}
@@ -181,9 +172,11 @@ export default function Booking() {
           <div>
             <button
               onClick={handleBookingTicket}
-              className="btn btn-warning w-100"
+              className="btn btn-warning w-100 text-secondary"
+              style={{fontSize: '25px', fontWeight: 'bold'}}
             >
-              BOOKING TICKETS
+              <i className="fa-solid fa-film mr-2"></i>
+              ĐẶT VÉ
             </button>
           </div>
         </div>
