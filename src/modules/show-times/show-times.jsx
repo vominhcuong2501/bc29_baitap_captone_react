@@ -34,7 +34,7 @@ export default function ShowTimes() {
           role="tab"
           aria-selected="true"
         >
-          <img src={ele.logo} alt={ele.tenHeThongRap} width={50} height={50} />
+          <img src={ele.logo} alt={ele.tenHeThongRap} width={70} height={70} />
         </a>
       );
     });
@@ -57,8 +57,8 @@ export default function ShowTimes() {
                   <img className="img-fluid rounded" src={ele.hinhAnh} />
                 </div>
                 <div className="col-lg-9 pl-0">
-                  <h5 className="text-light m-0">{ele.tenCumRap}</h5>
-                  <span className="text-muted">Địa chỉ: {ele.diaChi}</span>
+                  <h3 className="text-warning m-0">{ele.tenCumRap}</h3>
+                  <span className="text-light">Địa chỉ: {ele.diaChi}</span>
                   <div className="row">
                     {ele.lichChieuPhim.map((ele) => {
                       return (
@@ -66,8 +66,8 @@ export default function ShowTimes() {
                           className="col-12 col-md-6 text-light"
                           key={ele.maLichChieu}
                         >
-                          Thời gian: {moment(ele.ngayChieuGioChieu).format("LLL")}
-
+                          <p className="text-light mb-0 mt-3">Thời gian: <span className="text-warning">{moment(ele.ngayChieuGioChieu).format("LLL")}</span></p>
+                          
                           <div>
                             <Link
                               to={`/booking/${ele.maLichChieu}`}

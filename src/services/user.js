@@ -37,3 +37,11 @@ export const fetchDeleteUserApi = (data) => {
     method: "DELETE",
   });
 };
+
+export const fetchEditUserApi = (data) => {
+  return request({
+    url: `/QuanLyNguoiDung/CapNhatThongTinNguoiDung`,
+    method: 'PUT',
+    data
+  })
+}

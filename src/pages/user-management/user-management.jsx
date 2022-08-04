@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   fetchAddUserApi,
   fetchDeleteUserApi,
+  fetchEditUserApi,
   fetchUserListApi,
 } from "../../services/user";
 let DEFAULT_VALUES = {
@@ -27,6 +29,9 @@ let DEFAULT_ERRROS = {
 export default function UserManagement() {
   // chuyển trang
   const navigate = useNavigate();
+
+  // gửi thông tin lên reducer
+  const dispatch = useDispatch();
 
   // đặt state
   const [userList, setUserList] = useState([]);
@@ -71,21 +76,25 @@ export default function UserManagement() {
     });
   };
 
-  // submit dữ liệu
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (!event.target.checkValidity()) {
-      return;
-    }
-    try {
-      await fetchAddUserApi(state.values);
-      alert("Thêm người dùng thành công !!!");
-      navigate("/admin");
-    } catch(errors) {
-      alert(errors.response.data.content)
-    }
-    
+  // đặt state cho user dc chọn
+  const [selectedUser, setSelectedUser] = useState({ selected: null });
+
+  // nhấn nút hiện thi thông tin cần sửa
+  const handleSelectedUser = (user) => {
+    setSelectedUser({
+      selected: user,
+    });
+    console.log(selectedUser.selected);
   };
+
+  useEffect(() => {
+    if (selectedUser.selected) {
+      setState((state) => ({
+        ...state,
+        values: selectedUser.selected,
+      }));
+    }
+  }, [selectedUser.selected]);
 
   // render nội dung
   const renderContent = () => {
@@ -98,7 +107,12 @@ export default function UserManagement() {
           <td>{ele.soDT}</td>
           <td>{ele.maLoaiNguoiDung}</td>
           <td>
-            <button className="btn btn-warning mr-1">
+            <button
+              onClick={() => handleSelectedUser(ele)}
+              className="btn btn-warning mr-1"
+              data-toggle="modal"
+              data-target="#myModal1"
+            >
               <i className="fa-solid fa-pen-to-square"></i>
             </button>
             <button
@@ -113,12 +127,44 @@ export default function UserManagement() {
     });
   };
 
+  // ấn thêm người dùng
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    // check validate
+    if (!event.target.checkValidity()) {
+      return;
+    }
+    try {
+      if (selectedUser.selected) {
+        // sửa thông tin người dùng
+        await fetchEditUserApi(state.values);
+        alert("Cập nhật người dùng thành công !!!");
+        navigate("/admin");
+      } else {
+        // thêm người dùng
+        await fetchAddUserApi(state.values);
+        alert("Thêm người dùng thành công !!!");
+        navigate("/admin");
+      }
+    } catch (errors) {
+      alert(errors.response.data.content);
+    }
+
+    setState({
+      values: DEFAULT_VALUES,
+      errors: DEFAULT_ERRROS
+    })
+  };
+
   // xóa người dùng, taiKhoan đã đặt vé không xóa được
   const fetchDeleteUser = async (taiKhoan) => {
     await fetchDeleteUserApi(taiKhoan);
     alert("Bạn xóa người dùng thành công !!!");
     navigate("/admin");
   };
+
+  const { taiKhoan, hoTen, soDt, email, maLoaiNguoiDung, matKhau, maNhom } =
+    state.values;
 
   return (
     <div className="bg-light px-5 py-3" style={{ borderRadius: "20px" }}>
@@ -182,6 +228,7 @@ export default function UserManagement() {
                       name="taiKhoan"
                       onChange={handleChange}
                       title="(*) Tài khoản"
+                      value={taiKhoan}
                     />
                   </div>
                   {state.errors.taiKhoan && (
@@ -203,6 +250,7 @@ export default function UserManagement() {
                       name="hoTen"
                       onChange={handleChange}
                       title="(*) Họ tên"
+                      value={hoTen}
                     />
                   </div>
                   {state.errors.hoTen && (
@@ -225,6 +273,7 @@ export default function UserManagement() {
                       name="email"
                       onChange={handleChange}
                       title="(*) Email"
+                      value={email}
                     />
                   </div>
                   {state.errors.email && (
@@ -246,6 +295,7 @@ export default function UserManagement() {
                       name="matKhau"
                       onChange={handleChange}
                       title="(*) Mật khẩu"
+                      value={matKhau}
                     />
                   </div>
                   {state.errors.matKhau && (
@@ -267,6 +317,7 @@ export default function UserManagement() {
                       name="soDt"
                       onChange={handleChange}
                       title="(*) Số điện thoại"
+                      value={soDt}
                     />
                   </div>
                   {state.errors.soDt && (
@@ -288,6 +339,7 @@ export default function UserManagement() {
                       name="maNhom"
                       onChange={handleChange}
                       title="(*) Mã nhóm"
+                      value={maNhom}
                     />
                   </div>
                   {state.errors.maNhom && (
@@ -307,6 +359,7 @@ export default function UserManagement() {
                       className="form-control"
                       onChange={handleChange}
                       title="(*) Loại người dùng"
+                      value={maLoaiNguoiDung}
                     >
                       <option>Chọn loại người dùng</option>
                       <option value="QuanTri">Quản trị</option>

@@ -83,6 +83,7 @@ export default function Booking() {
                 style={{
                   position: "absolute",
                   right: "50%",
+                  height:'100px',
                   transform: "translatex(50%)",
                 }}
               >

@@ -45,8 +45,8 @@ export default function Header() {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon text-light" >
-          <i className="fa-solid fa-bars"></i>
+          <span className="navbar-toggler-icon text-light">
+            <i className="fa-solid fa-bars"></i>
           </span>
         </button>
         <div
@@ -91,21 +91,24 @@ export default function Header() {
                 </div>
               ) : (
                 <div className="d-flex">
-                  <NavLink className="nav-link" to="/register">
-                    <span
-                      className="mr-2 text-bottom"
-                      style={{
-                        fontWeight: "bold",
-                        fontSize: "20px",
-                        color: "aqua",
-                      }}
-                    >
+                  <NavLink
+                    to="/"
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "20px",
+                      color: "aqua",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <span className="mr-2 text-bottom" title="Trang cá nhân">
                       Hello ! {userInfo.hoTen}
                     </span>
+                  </NavLink>
+                  <NavLink className="nav-link p-0" to="/register">
                     <i
                       title="Đăng xuất"
                       onClick={handleLogout}
-                      className="fa-solid fa-right-from-bracket log-out"
+                      className="fa-solid fa-right-from-bracket mt-1 log-out"
                     ></i>
                   </NavLink>
                 </div>
