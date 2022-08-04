@@ -6,25 +6,34 @@ import { loginApi } from "../../services/user";
 import { setUserAction } from "../../store/actions/user.action";
 
 export default function FormLogin() {
+  // gửi dữ liệu
   const dispatch = useDispatch();
+
+  // chuyển trang
   const navigate = useNavigate();
+
+  // dùng để lấy event.target trong form
   const formRef = useRef();
 
+  // đặt state
   const [state, setState] = useState({
     taiKhoan: "",
     matKhau: "",
   });
 
+  // setState khi nhập dữ liệu
   const handleChange = (event) => {
     const { name, value } = event.target;
-
     setState({
       ...state,
       [name]: value,
     });
   };
+
+  // submit
   const handleSubmit = async (event) => {
     event.preventDefault();
+   try{
     const result = await loginApi(state);
     console.log(result.data.content);
 
@@ -36,6 +45,9 @@ export default function FormLogin() {
 
     // 3. đăng nhập thành công chuyển page
     navigate("/");
+   } catch(errors) {
+    alert(errors.response.data.content)
+   }
   };
 
   return (

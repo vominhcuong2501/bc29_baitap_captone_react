@@ -5,12 +5,15 @@ import { Carousel } from 'antd';
 
 
 export default function Carousels() {
+  // đặt state
   let [bannerList, setBannerList] = useState([]);
 
+  // gọi hàm khi khởi động trang
   useEffect(() => {
     fetchBannerList();
   }, []);
 
+  // cal api
   const fetchBannerList = async () => {
     const result = await fetchBannerApi();
     setBannerList(result.data.content);

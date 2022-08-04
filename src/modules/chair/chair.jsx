@@ -2,20 +2,27 @@ import React, { useState } from "react";
 import "./chair.scss";
 
 export default function Chair(props) {
+  // đặt state set class cho ghế
   const [isSelected, setIsSelected] = useState(false);
   const populateClass = () => {
+    // ghe bình thường
     let defaultClass = " ghe";
+
+    // ghế vip
     if (props.item.loaiGhe === "Vip") {
       defaultClass += " gheVip";
     }
+    // ghế mình đang chọn
     if (isSelected) {
       defaultClass += " dangDat";
     }
+    // ghế đã đặt
     if (props.item.daDat) {
       defaultClass += " daDat";
     }
     return defaultClass;
   };
+  
   return (
     <button
     disabled={props.item.daDat}

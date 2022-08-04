@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { registerApi } from "../../services/user";
 
 let DEFAULT_VALUES = {
   taiKhoan: "",
@@ -19,13 +20,19 @@ let DEFAULT_ERRROS = {
 };
 
 export default function FormRegister() {
+  // chuyển trang
+  const navigate = useNavigate();
+
+  //đặt form dể lấy được event.target trong form
   const formRef = useRef();
 
+  // đặt state
   const [state, setState] = useState({
     values: DEFAULT_VALUES,
     errors: DEFAULT_ERRROS,
   });
 
+  // setState khi nhập dữ liệu
   const handleChange = (event) => {
     const {
       name,
@@ -40,23 +47,29 @@ export default function FormRegister() {
     if (valueMissing) {
       message = `${title} bị rỗng`;
     }
-
     setState({
       values: { ...state.values, [name]: value },
       errors: { ...state.errors, [name]: message },
     });
   };
-  const handleSubmit = (event) => {
+
+  // submit
+  const handleSubmit = async (event) => {
+    // ngăn load lại trang
     event.preventDefault();
     if (!event.target.checkValidity()) {
       return;
     }
-    setState({
-      values: DEFAULT_VALUES,
-      errors: DEFAULT_ERRROS,
-    });
-  }; 
-  
+    
+    try {
+      await registerApi(state.values);
+      alert("Bạn đã đăng ký thành công !!!");
+      navigate("/login");
+    } catch (errors) {
+      alert(errors.response.data.content);
+    }
+  };
+
   return (
     <div className="w-25 mx-auto mt-5">
       <div className="card p-0">

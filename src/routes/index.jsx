@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, useRoutes } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 import HomeLayout from "../layouts/home";
 import MovieList from "../modules/movie-list/movie-list";
 import Home from "../pages/home/home";
@@ -16,26 +16,27 @@ import AdminGuard from "../pages/guards/admin.guard";
 
 export default function Router() {
   const routing = useRoutes([
+    // trang phim
     {
       path: "/",
       element: <HomeLayout />,
       children: [
+        // trang tổng Outlet
         {
           path: "/",
           element: <Home />,
         },
+        // trang danh sách phim
         {
           path: "/movie",
           element: <MovieList />,
         },
-        {
-          path: "/register",
-          element: <FormRegister />,
-        },
+        // trang phim chi tiết
         {
           path: "/movie/:movieId",
           element: <MovieDetail />,
         },
+        // trang bảo vệ trước khi vào trang booking
         {
           path: "/",
           element: <AuthGuard />,
@@ -46,6 +47,7 @@ export default function Router() {
             },
           ],
         },
+        // trang ngăn lạ khi đăng nhập rồi không vào login hay register nữa
         {
           path: "/",
           element: <NoAuthGuard />,
@@ -54,22 +56,24 @@ export default function Router() {
               path: "/login",
               element: <FormLogin />,
             },
+            {
+              path: "/register",
+              element: <FormRegister />,
+            },
           ],
         },
       ],
     },
+    // trang admin
     {
       path: "/admin",
       element: <AdminLayout />,
       children: [
+        // ngăn những tài khoản không phải QuanTri vào trang admin
         {
           path: "/admin/",
           element: <AdminGuard />,
           children: [
-            {
-              path: "/admin/",
-              element: <Navigate to='/admin/movie-management' />,
-            },
             {
               path: "/admin/movie-management",
               element: <MovieManagement />,
@@ -78,7 +82,7 @@ export default function Router() {
               path: "/admin/user-management",
               element: <UserManagement />,
             },
-          ]
+          ],
         },
       ],
     },

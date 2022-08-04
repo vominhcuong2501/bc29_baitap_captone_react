@@ -8,9 +8,17 @@ export const loginApi = (data) => {
   });
 };
 
+export const registerApi = (data) => {
+  return request({
+    url: `/QuanLyNguoiDung/DangKy`,
+    method: "POST",
+    data: data,
+  });
+};
+
 export const fetchUserListApi = () => {
   return request({
-    url: `/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP01`,
+    url: `/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP02`,
     method: "GET",
   });
 };

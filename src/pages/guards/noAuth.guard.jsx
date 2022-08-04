@@ -8,6 +8,7 @@ export default function NoAuthGuard() {
     const navigate = useNavigate()
 
     useEffect(() => {
+      // nếu đăng nhập rồi thì dược vào trang booking
         if(userInfo) {
             navigate('/')
         }

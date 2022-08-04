@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchAddUserApi, fetchDeleteUserApi, fetchUserListApi } from "../../services/user";
+import {
+  fetchAddUserApi,
+  fetchDeleteUserApi,
+  fetchUserListApi,
+} from "../../services/user";
 let DEFAULT_VALUES = {
   taiKhoan: "",
   matKhau: "",
@@ -9,7 +13,6 @@ let DEFAULT_VALUES = {
   maNhom: "",
   maLoaiNguoiDung: "",
   hoTen: "",
-
 };
 let DEFAULT_ERRROS = {
   taiKhoan: "",
@@ -31,7 +34,6 @@ export default function UserManagement() {
     values: DEFAULT_VALUES,
     errors: DEFAULT_ERRROS,
   });
-
 
   // load lần đầu dể lấy dữ liệu
   useEffect(() => {
@@ -75,12 +77,14 @@ export default function UserManagement() {
     if (!event.target.checkValidity()) {
       return;
     }
-    setState({
-      values: DEFAULT_VALUES,
-      errors: DEFAULT_ERRROS,
-    });
-    console.log(state.values);
-    await fetchAddUserApi(state.values);
+    try {
+      await fetchAddUserApi(state.values);
+      alert("Thêm người dùng thành công !!!");
+      navigate("/admin");
+    } catch(errors) {
+      alert(errors.response.data.content)
+    }
+    
   };
 
   // render nội dung
@@ -97,7 +101,10 @@ export default function UserManagement() {
             <button className="btn btn-warning mr-1">
               <i className="fa-solid fa-pen-to-square"></i>
             </button>
-            <button onClick={() => fetchDeleteUser(ele.taiKhoan)} className="btn btn-danger">
+            <button
+              onClick={() => fetchDeleteUser(ele.taiKhoan)}
+              className="btn btn-danger"
+            >
               <i className="fa-solid fa-trash"></i>
             </button>
           </td>
@@ -108,9 +115,10 @@ export default function UserManagement() {
 
   // xóa người dùng, taiKhoan đã đặt vé không xóa được
   const fetchDeleteUser = async (taiKhoan) => {
-    await fetchDeleteUserApi(taiKhoan)
-    navigate('/admin/')
-  }
+    await fetchDeleteUserApi(taiKhoan);
+    alert("Bạn xóa người dùng thành công !!!");
+    navigate("/admin");
+  };
 
   return (
     <div className="bg-light px-5 py-3" style={{ borderRadius: "20px" }}>

@@ -1,6 +1,7 @@
 import { USER_INFO_KEY } from "../../constans/common";
 import { SET_USER_INFO } from "../Types/user.type";
 
+// store reducer
 let userInfo = localStorage.getItem(USER_INFO_KEY);
 if (userInfo) {
   userInfo = JSON.parse(userInfo);

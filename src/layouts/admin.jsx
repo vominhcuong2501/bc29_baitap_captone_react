@@ -8,12 +8,13 @@ export default function AdminLayout() {
     <div
       className="container-fluid "
       style={{
-        fontFamily: "Times New Roman, Times, serif", background: 'linear-gradient(to right, #ACB6E5, #74ebd5)'
+        fontFamily: "Times New Roman, Times, serif",
+         background: 'linear-gradient(to right, #ACB6E5, #74ebd5)'
       }}
     >
       <HeaderAdmin />
       <div className="row ">
-        <div className="col-2"  style={{background: '#7386D5'}}>
+        <div className="col-2"  style={{backgroundColor: 'black'}}>
           <SideBar />
         </div>
         <div className="col-10 px-5" >

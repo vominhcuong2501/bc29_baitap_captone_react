@@ -1,6 +1,7 @@
 import axios from "axios";
 import { BASE_URL, TOKEN_CYBERSOFT, USER_INFO_KEY } from "../constans/common";
 
+// key dành cho api
 export const request = axios.create({
   baseURL: BASE_URL,
   headers: {

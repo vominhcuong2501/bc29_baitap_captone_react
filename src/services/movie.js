@@ -3,7 +3,7 @@ import { request } from "../configs/axios";
 // file constants chứa các nội dung không thay đổi như biến
 export const fetchMovieListApi = () => {
     return request({
-        url: `/QuanLyPhim/LayDanhSachPhim?maNhom=GP01`,
+        url: `/QuanLyPhim/LayDanhSachPhim?maNhom=GP02`,
         method: 'GET',
     })
 }

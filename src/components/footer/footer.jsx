@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import './footer.scss'
 export default function Footer() {
   return (
-    <div className="text-light container-fluid">
-      <div className="footer bg-dark pt-5 px-5 row">
-        <div className="col-3">
+    <div className="text-light container-fluid footer">
+      <div className=" pt-5 px-5 row">
+        <div className="col-12 col-md-6 col-lg-3 mt-3">
           <h3 className="mb-4" style={{fontSize: 30, color: ' rgb(253, 194, 33)'}}><b><i>CyberFilm</i></b></h3>
           <span>
             CyberFilm giúp bạn mua vé trực tuyến và cập nhật thường xuyên các
@@ -12,7 +13,7 @@ export default function Footer() {
             giá phim và các khuyến mãi dành cho người sử dụng
           </span>
         </div>
-        <div className="col-3">
+        <div className="col-12 col-md-6 col-lg-3 mt-3">
           <h4 className="mb-4 chungtoi">Về chúng tôi</h4>
           <ul>
             <li>
@@ -28,11 +29,11 @@ export default function Footer() {
               <a href="#">Tin tức</a>
             </li>
             <li>
-              <a href="#">Đăng nhập</a>
+              <Link to="/login">Đăng nhập</Link>
             </li>
           </ul>
         </div>
-        <div className="col-3">
+        <div className="col-12 col-md-6 col-lg-3 mt-3">
           <h4 className="mb-4 hotro">Hỗ trợ khách hàng</h4>
           <ul>
             <li>
@@ -52,7 +53,7 @@ export default function Footer() {
             </li>
           </ul>
         </div>
-        <div className="col-3">
+        <div className="col-12 col-md-6 col-lg-3 mt-3">
           <h4 className="mb-4 doitac">Đối tác</h4>
           <div className="footer-img">
             <img src={require("./BHD.png")} alt="BHD" width={50} height={50} />

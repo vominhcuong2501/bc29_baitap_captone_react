@@ -5,6 +5,7 @@
   width: 50px;
   height: 35px;
   margin: 0 5px 5px 0;
+  transition: all 0.5s;
   &.ghe {
     background: #fff;
     border: 3px solid #fff;
@@ -24,5 +25,8 @@
     background: rgb(109, 238, 109);
     border: 3px solid rgb(109, 238, 109);
     cursor: pointer;
+  }
+  &:hover {
+    background-color: rgb(89, 89, 255);
   }
 }

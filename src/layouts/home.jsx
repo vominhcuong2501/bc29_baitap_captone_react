@@ -4,11 +4,12 @@ import Footer from "../components/footer/footer";
 import Header from "../components/header/header";
 
 export default function HomeLayout() {
+
   return (
     <div
-      className="bg-dark"
       style={{
         fontFamily: "Times New Roman, Times, serif",
+        backgroundColor: 'black'
       }}
     >
       <div className="container-fluid p-0">

@@ -1,21 +1,14 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 export default function HeaderAdmin() {
-  const styleLogo = {
-    color: "rgb(253, 194, 33)",
-    fontFamily: "Times New Roman, Times, serif",
-    fontSize: "50px",
-    fontWeight: " bold",
-    fontStyle: "italic",
-    textDecoration: "none",
-  };
   return (
     <div className="text-center">
       <nav className="navbar navbar-expand-sm navbar-light row p-0">
-        <div className="col-2" style={{background: '#7386D5'}}>
-          <a style={styleLogo} href="#">
-            CyberFilm
-          </a>
+        <div className="col-2" style={{ backgroundColor: "black" }}>
+          <NavLink className="navbar-brand" to="/">
+            <img src={require('./logo3.png')} alt="logo" width={200} height={70} />
+          </NavLink>
           <button
             className="navbar-toggler d-lg-none"
             type="button"

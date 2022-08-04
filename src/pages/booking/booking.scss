@@ -43,4 +43,12 @@
     b {
         color: orange;
       }
+    .btn-warning {
+      transition: all 0.5s;
+      border: none;
+      &:hover {
+        background-color: rgb(3, 255, 196);
+        color: #000 !important;
+      }
+    }
   }

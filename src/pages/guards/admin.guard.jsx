@@ -8,16 +8,19 @@ export default function AdminGuard() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // nếu chưa đăng nhập tài khoản thì chuyển trang login
     if (!userInfo) {
       navigate("/login");
     }
+    // nếu đã đăng nhập và tài khoản không phải là QuanTri thì ngăn vào trang admin chuyển về trang home
     if (userInfo && userInfo.maLoaiNguoiDung !== "QuanTri") {
-        notification.warning({
-            message: 'Khách hàng không thể vào trang admin !'
-        })
-        return navigate('/')
+      notification.warning({
+        message: "Khách hàng không thể vào trang admin !",
+      });
+      return navigate("/");
     }
   }, []);
+  
   return (
     <div>
       <Outlet />

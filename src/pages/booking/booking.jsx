@@ -42,7 +42,7 @@ export default function Booking() {
     setDanhSachGhe(data);
   };
 
-  // booking
+  // booking ticket
   const handleBookingTicket = async () => {
     const danhSachVe = danhSachGhe.map((ele) => {
       return {
@@ -55,23 +55,28 @@ export default function Booking() {
       danhSachVe,
     };
     await fetchBookingTicketApi(submitData);
-    alert('Chúc mừng bạn đã đặt vé thành công !!!')
+    alert("Chúc mừng bạn đã đặt vé thành công !!!");
     navigate("/");
+  };
+
+  const styleBg1 = {
+    backgroundImage: `url(./../rapphim.jpg)`,
+    backgroundSize: "cover",
+    backgroundAttachment: "fixed",
+    backgroundPosition: "center",
+    width: "100%",
+    height: "100%",
   };
 
   // nếu roomList tồn tại xuất nội dung còn không thì chạy loading
   return roomList ? (
-    <div className="container-fluid ">
+    <div
+      className="container-fluid py-3"
+      style={styleBg1}
+    >
       <div className="row m-5 text-center">
-        <div className="col-8 ">
+        <div className="col-md-9 col-lg-8 ">
           <div className="booking-top">
-            <div className="mb-3 text-left" style={{ fontSize: "20px" }}>
-              <button className="ghe"></button> <span style={{marginRight: '50px'}}>Ghế trống</span>
-              <button className="gheVip"></button> <span style={{marginRight: '50px'}}>Ghế vip</span>
-              <button className="daDat"></button> <span style={{marginRight: '50px'}}>Ghế đã đặt</span>
-              <button className="dangDat my-1"></button>
-              <span>Ghế đang đặt</span>
-            </div>
             <div className="screen mt-5 mx-auto">
               <p
                 className="text-center"
@@ -97,9 +102,22 @@ export default function Booking() {
               );
             })}
           </div>
+          <div
+            className="mt-5 text-left booking-top"
+            style={{ fontSize: "20px" }}
+          >
+            <button className="ghe"></button>{" "}
+            <span style={{ marginRight: "50px" }}>Ghế trống</span>
+            <button className="gheVip"></button>{" "}
+            <span style={{ marginRight: "50px" }}>Ghế vip</span>
+            <button className="daDat"></button>{" "}
+            <span style={{ marginRight: "50px" }}>Ghế đã đặt</span>
+            <button className="dangDat my-1"></button>
+            <span>Ghế đang đặt</span>
+          </div>
         </div>
-        <div className="col-4 text-light">
-          <h2 className="text-warning mb-3">Thông tin vé</h2>
+        <div className="col-md-3 col-lg-4  ">
+          <h1 className="text-light mb-3" style={{fontWeight: 'bold'}}>Thông tin đặt vé</h1>
           <table
             className="table p-5 text-light"
             style={{ border: "2px dashed white" }}
@@ -107,36 +125,36 @@ export default function Booking() {
             <tbody>
               <tr className="my-2 text-center">
                 <th className="text-left">Tên phim:</th>
-                <th className="text-right" style={{ fontSize: 30 }}>
+                <th className="text-right text-warning" style={{ fontSize: 20 }}>
                   <b>{roomList.thongTinPhim.tenPhim}</b>
                 </th>
               </tr>
               <tr>
                 <td className="text-left">Tên rạp</td>
-                <td className="text-right">
+                <td className="text-right text-warning">
                   {roomList.thongTinPhim.tenCumRap}
                 </td>
               </tr>
               <tr>
                 <td className="text-left">Địa chỉ:</td>
-                <td className="text-right">{roomList.thongTinPhim.diaChi}</td>
+                <td className="text-right text-warning">{roomList.thongTinPhim.diaChi}</td>
               </tr>
               <tr>
                 <td className="text-left">Ngày - giờ chiếu:</td>
-                <td className="text-right">
+                <td className="text-right text-warning">
                   {roomList.thongTinPhim.ngayChieu} -{" "}
                   <b>{roomList.thongTinPhim.gioChieu}</b>
                 </td>
               </tr>
               <tr>
                 <td className="text-left">Rạp</td>
-                <td className="text-right">
+                <td className="text-right text-warning">
                   <b>{roomList.thongTinPhim.tenRap}</b>
                 </td>
               </tr>
               <tr>
                 <td className="text-left">Số ghế:</td>
-                <td className="text-right h-25">
+                <td className="text-right text-warning h-25">
                   {danhSachGhe.map((ele) => {
                     return (
                       <span
@@ -152,11 +170,11 @@ export default function Booking() {
               </tr>
               <tr>
                 <td className="text-left">Ưu đãi:</td>
-                <td className="text-right">0%</td>
+                <td className="text-right text-warning">0%</td>
               </tr>
               <tr>
                 <td className="text-left">Tổng tiền:</td>
-                <td className="text-right">
+                <td className="text-right text-warning">
                   <b className="mr-1">
                     {danhSachGhe
                       .reduce((preValue, currentValue) => {
@@ -172,8 +190,8 @@ export default function Booking() {
           <div>
             <button
               onClick={handleBookingTicket}
-              className="btn btn-warning w-100 text-secondary"
-              style={{fontSize: '25px', fontWeight: 'bold'}}
+              className="btn btn-warning w-100 text-light"
+              style={{ fontSize: "25px", fontWeight: "bold" }}
             >
               <i className="fa-solid fa-film mr-2"></i>
               ĐẶT VÉ
