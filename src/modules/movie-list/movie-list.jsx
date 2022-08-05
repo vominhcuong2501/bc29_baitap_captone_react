@@ -27,7 +27,10 @@ export default function MovieList() {
   const renderMovieList = () => {
     return movieList.map((ele, index) => {
       return (
-        <div className="col-12 col-sm-6 col-md-4 col-lg-3 film-item" key={ele.maPhim}>
+        <div
+          className="col-12 col-sm-6 col-md-4 col-lg-3 film-item"
+          key={ele.maPhim}
+        >
           <div
             className="card movie-card"
             style={{ marginBottom: 20, overflow: "hidden" }}
@@ -60,7 +63,7 @@ export default function MovieList() {
     });
   };
 
-  const styleBg1 = {
+  const styleBgMovieList = {
     backgroundImage: `url(./hinhnen.jpg)`,
     backgroundSize: "cover",
     backgroundAttachment: "fixed",
@@ -69,7 +72,7 @@ export default function MovieList() {
     height: "100%",
   };
   return (
-    <div style={styleBg1}>
+    <div style={styleBgMovieList}>
       <div className="container py-5">
         <div className="row">{renderMovieList()}</div>
       </div>

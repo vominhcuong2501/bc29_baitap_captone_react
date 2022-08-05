@@ -3,7 +3,7 @@ import Detail from "../../modules/detail/detail";
 import ShowTimes from "../../modules/show-times/show-times";
 
 export default function MovieDetail() {
-  const styleBg2 = {
+  const styleBgMovieDetail = {
     backgroundImage: `url(./../hinhNen1.jpg)`,
     backgroundSize: "cover",
     backgroundAttachment: "fixed",
@@ -14,7 +14,7 @@ export default function MovieDetail() {
 
   // render nôi dung phim và hệ thống rạp chiếu của bộ phim
   return (
-    <div style={styleBg2}>
+    <div style={styleBgMovieDetail}>
       <div className="py-5 container">
       <div className="row">
         <div

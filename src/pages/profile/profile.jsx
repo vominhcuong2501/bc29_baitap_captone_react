@@ -1,36 +1,38 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerApi } from "../../services/user";
+import { fetchEditUserApi, fetchInfomationApi } from "../../services/user";
+import { useSelector } from "react-redux";
+import moment from "moment";
 
-let DEFAULT_VALUES = {
-  taiKhoan: "",
-  hoTen: "",
-  email: "",
-  matKhau: "",
-  soDt: "",
-  maNhom: "",
-};
-let DEFAULT_ERRROS = {
-  taiKhoan: "",
-  hoTen: "",
-  email: "",
-  matKhau: "",
-  soDt: "",
-  maNhom: "",
-};
-
-export default function FormRegister() {
+export default function FormProfile(props) {
   // chuyển trang
   const navigate = useNavigate();
 
-  //đặt form dể lấy được event.target trong form
+  // đặt form dể lấy được event.target trong form
   const formRef = useRef();
 
   // đặt state
   const [state, setState] = useState({
-    values: DEFAULT_VALUES,
-    errors: DEFAULT_ERRROS,
+    values: {
+      taiKhoan: "",
+      matKhau: "",
+      soDT: "",
+      email: "",
+      maNhom: "",
+      hoTen: "",
+    },
+    errors: {
+      taiKhoan: "",
+      matKhau: "",
+      soDT: "",
+      email: "",
+      maNhom: "",
+      hoTen: "",
+    },
   });
+
+  // lấy thông tin từ reducer
+  const { userInfo } = useSelector((state) => state.userReducer);
 
   // setState khi nhập dữ liệu
   const handleChange = (event) => {
@@ -53,33 +55,68 @@ export default function FormRegister() {
     });
   };
 
-  // submit
+  // đặt state
+  const [infoUser, setInfoUser] = useState();
+
+  // gọi hàm lấy thông tin tài khoản
+  useEffect(() => {
+    fetchInfomation();
+  }, []);
+
+  // call api lấy thông tin tài khoản
+  const fetchInfomation = async () => {
+    const result = await fetchInfomationApi(userInfo.taiKhoan);
+    setInfoUser(result.data.content);
+    console.log(result.data.content);
+  };
+
+  // gọi hàm gửi thông tin tài khoản đã cập nhật
+  useEffect(() => {
+    if (infoUser) {
+      setState((state) => ({
+        ...state,
+        values: infoUser,
+      }));
+    }
+  }, [infoUser]);
+
+  // submit cập nhật thông tin
   const handleSubmit = async (event) => {
     // ngăn load lại trang
     event.preventDefault();
     if (!event.target.checkValidity()) {
       return;
     }
-
     try {
-      await registerApi(state.values);
-      alert("Bạn đã đăng ký thành công !!!");
-      navigate("/login");
+      await fetchEditUserApi(state.values);
+      alert("Cập nhật thành công");
+      navigate("/profile");
     } catch (errors) {
       alert(errors.response.data.content);
     }
   };
 
+  const styleBgProfile = {
+    backgroundImage: `url(./../profile3.jpg)`,
+    backgroundSize: "cover",
+    backgroundAttachment: "fixed",
+    backgroundPosition: "center",
+    width: "100%",
+    height: "100%",
+  };
+
+  const { taiKhoan, hoTen, email, maNhom, soDT, matKhau } = state.values;
+
   return (
-    <div className="container">
-      <div className="row ">
-        <div className="w-25 col-md-6 col-12 mx-auto mt-5">
+    <div className="container-fluid" style={styleBgProfile}>
+      <div className="row">
+        <div className="col-12 col-lg-4 p-5">
           <div className="card p-0">
             <div
-              className="card-header bg-warning text-white font-weight-bold text-center"
+              className="card-header bg-warning text-light font-weight-bold text-center"
               style={{ fontSize: "25px" }}
             >
-              ĐĂNG KÝ
+              Thông tin tài khoản
             </div>
             <div className="card-body">
               <form ref={formRef} noValidate onSubmit={handleSubmit}>
@@ -98,6 +135,7 @@ export default function FormRegister() {
                       name="taiKhoan"
                       onChange={handleChange}
                       title="(*) Tài khoản"
+                      value={taiKhoan}
                     />
                   </div>
                   {state.errors.taiKhoan && (
@@ -119,6 +157,7 @@ export default function FormRegister() {
                       name="hoTen"
                       onChange={handleChange}
                       title="(*) Họ tên"
+                      value={hoTen}
                     />
                   </div>
                   {state.errors.hoTen && (
@@ -141,6 +180,7 @@ export default function FormRegister() {
                       name="email"
                       onChange={handleChange}
                       title="(*) Email"
+                      value={email}
                     />
                   </div>
                   {state.errors.email && (
@@ -162,6 +202,7 @@ export default function FormRegister() {
                       name="matKhau"
                       onChange={handleChange}
                       title="(*) Mật khẩu"
+                      value={matKhau}
                     />
                   </div>
                   {state.errors.matKhau && (
@@ -180,9 +221,10 @@ export default function FormRegister() {
                       type="text"
                       className="form-control"
                       placeholder="Số điện thoại"
-                      name="soDt"
+                      name="soDT"
                       onChange={handleChange}
                       title="(*) Số điện thoại"
+                      value={soDT}
                     />
                   </div>
                   {state.errors.soDt && (
@@ -204,30 +246,89 @@ export default function FormRegister() {
                       name="maNhom"
                       onChange={handleChange}
                       title="(*) Mã nhóm"
+                      value={maNhom}
                     />
                   </div>
                   {state.errors.maNhom && (
                     <span className="text-danger">{state.errors.maNhom}</span>
                   )}
                 </div>
-                <p>
-                  Nếu bạn đã có tài khoản vui lòng nhấn{" "}
-                  <Link style={{ border: "none", color: "blue" }} to="/login">
-                    đăng nhập
-                  </Link>
-                </p>
                 <div className="text-right">
                   <button
                     disabled={!formRef.current?.checkValidity()}
                     type="submit"
                     className="btn btn-warning mr-2"
                   >
-                    Đăng ký
+                    Cập nhật
                   </button>
                 </div>
               </form>
             </div>
           </div>
+        </div>
+        <div className="col-12 col-lg-8 p-5">
+          <div
+            className="card-header bg-warning text-light font-weight-bold text-center"
+            style={{ fontSize: "25px" }}
+          >
+            Lịch sử đặt vé
+          </div>
+          {infoUser?.thongTinDatVe.map((ele) => {
+            return (
+              <div className="card" key={ele.maVe}>
+                <div className="row mt-2">
+                  <div className="col-3">
+                    <img
+                      src={ele.hinhAnh}
+                      alt={ele.hinhAnh}
+                      width={200}
+                      height={250}
+                      className="ml-3"
+                    />
+                  </div>
+                  <div className="col-9 card-body p-0">
+                    <h2 className="card-title" style={{ fontWeight: "bold" }}>
+                      Tên phim:{" "}
+                      <span className=" text-warning">{ele.tenPhim}</span>
+                    </h2>
+                    <p className="card-text m-0">
+                      Ngày đặt:{" "}
+                      <span className="text-primary">
+                        {moment(ele.ngayDat).format("LLL")}
+                      </span>
+                    </p>
+                    <p className="card-text m-0">
+                      Giá vé:{" "}
+                      <span className="text-primary">
+                        {ele.giaVe.toLocaleString()} VNĐ
+                      </span>
+                    </p>
+                    <p className="card-text m-0">
+                      Thời lượng:{" "}
+                      <span className="text-primary">
+                        {ele.thoiLuongPhim} phút
+                      </span>
+                    </p>
+                    <p className="card-text m-0">
+                      {ele.danhSachGhe.map((ele, index) => {
+                        return (
+                          <div key={index}>
+                            Địa chỉ:{" "}
+                            <span className="text-primary">
+                              {ele.tenHeThongRap}
+                            </span>{" "}
+                            - <span className="text-primary">{ele.tenRap}</span>{" "}
+                            - Số ghế:{" "}
+                            <span className="text-primary">{ele.tenGhe}</span>
+                          </div>
+                        );
+                      })}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

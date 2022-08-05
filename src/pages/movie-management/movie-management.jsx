@@ -1,20 +1,79 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchDeleteMovieApi, fetchMovieListApi } from "../../services/movie";
+
+let DEFAULT_VALUES_ADD_MOVIE = {
+  tenPhim: "",
+  moTa: "",
+  trailer: "",
+  ngayKhoiChieu: "",
+  dangChieu: "Đang chiếu",
+  sapChieu: "Sắp chiếu",
+  doHot: "Hot",
+  danhGiaSao: "Đánh giá sao",
+  linkHinhAnh: "",
+};
+
+let DEFAULT_ERRROS_ADD_MOVIE = {
+  tenPhim: "",
+  moTa: "",
+  trailer: "",
+  dangChieu: "Đang chiếu",
+  sapChieu: "Sắp chiếu",
+  doHot: "Hot",
+  danhGiaSao: "Đánh giá sao",
+  linkHinhAnh: "",
+};
+
+let DEFAULT_VALUES_SHOW_TIME = {
+  tenPhim: "",
+  moTa: "",
+  trailer: "",
+  ngayKhoiChieu: "",
+  dangChieu: "Đang chiếu",
+  sapChieu: "Sắp chiếu",
+  doHot: "Hot",
+  danhGiaSao: "Đánh giá sao",
+  linkHinhAnh: "",
+};
+
+let DEFAULT_ERRROS_SHOW_TIME = {
+  tenPhim: "",
+  moTa: "",
+  trailer: "",
+  dangChieu: "Đang chiếu",
+  sapChieu: "Sắp chiếu",
+  doHot: "Hot",
+  danhGiaSao: "Đánh giá sao",
+  linkHinhAnh: "",
+};
 
 export default function MovieManagement() {
   // cuyển trang
   const navigate = useNavigate();
 
-  // đặt state
+  // đặt state render
   const [filmList, setFilmList] = useState([]);
+  // đặt state add movie
+  const [state, setState] = useState({
+    values: DEFAULT_VALUES_ADD_MOVIE,
+    errors: DEFAULT_ERRROS_ADD_MOVIE,
+  });
+  // đặt state show-time
+  const [showTime, setShowTime] = useState({
+    valuesShowTime: DEFAULT_VALUES_SHOW_TIME,
+    errorsShowTime: DEFAULT_ERRROS_SHOW_TIME
+  })
+
+  // check validate
+  const formRef = useRef();
 
   // gọi hàm chạy lần đầu lấy dữ liệu để render
   useEffect(() => {
     fetchFilmList();
   }, []);
 
-  // call api
+  // call api lấy danh sách
   const fetchFilmList = async () => {
     const result = await fetchMovieListApi();
     setFilmList(result.data.content);
@@ -48,14 +107,69 @@ export default function MovieManagement() {
             >
               <i className="fa-solid fa-trash"></i>
             </button>
-            <button className="btn btn-success">
-            <i className="fa-solid fa-calendar"></i>
-
+            <button
+              className="btn btn-success"
+              data-toggle="modal"
+              data-target="#myModal2"
+            >
+              <i className="fa-solid fa-calendar"></i>
             </button>
           </td>
         </tr>
       );
     });
+  };
+
+  // nhập dữ liệu add movie
+  const handleChangeAddMovie = (event) => {
+    const {
+      name,
+      value,
+      title,
+      validity: { valueMissing, patternMismatch },
+    } = event.target;
+    let message = "";
+    if (patternMismatch) {
+      message = `${title} không đúng kiểu dữ liệu`;
+    }
+    if (valueMissing) {
+      message = `${title} bị rỗng`;
+    }
+
+    setState({
+      values: { ...state.values, [name]: value },
+      errors: { ...state.errors, [name]: message },
+    });
+  };
+
+  // nhập dữ liệu show-time
+  const handleChangeShowTime = (event) => {
+    const {
+      name,
+      value,
+      title,
+      validity: { valueMissing, patternMismatch },
+    } = event.target;
+    let message = "";
+    if (patternMismatch) {
+      message = `${title} không đúng kiểu dữ liệu`;
+    }
+    if (valueMissing) {
+      message = `${title} bị rỗng`;
+    }
+
+    setState({
+      valuesShowTime: { ...showTime.valuesShowTime, [name]: value },
+      errorsShowTime: { ...showTime.errorsShowTime, [name]: message },
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // check validate
+    if (!event.target.checkValidity()) {
+      return;
+    }
   };
 
   return (
@@ -91,6 +205,8 @@ export default function MovieManagement() {
           </thead>
           <tbody>{renderContent()}</tbody>
         </table>
+
+        {/* THÊM PHIM */}
         <div className="modal fade" id="myModal">
           <div className="modal-dialog">
             <div className="modal-content">
@@ -103,7 +219,12 @@ export default function MovieManagement() {
                 </button>
               </div>
               <div className="modal-body">
-                <form role="form">
+                <form
+                  role="form"
+                  ref={formRef}
+                  noValidate
+                  onSubmit={handleSubmit}
+                >
                   <div className="form-group">
                     <div className="input-group">
                       <div className="input-group-prepend">
@@ -116,6 +237,8 @@ export default function MovieManagement() {
                         name="tenPhim"
                         className="form-control input-sm"
                         placeholder="Tên phim"
+                        required
+                        onChange={handleChangeAddMovie}
                       />
                     </div>
                   </div>
@@ -131,6 +254,8 @@ export default function MovieManagement() {
                         type="text"
                         className="form-control input-sm"
                         placeholder="Mô tả"
+                        required
+                        onChange={handleChangeAddMovie}
                       />
                     </div>
                   </div>
@@ -146,6 +271,8 @@ export default function MovieManagement() {
                         name="trailer"
                         className="form-control input-sm"
                         placeholder="Trailer"
+                        required
+                        onChange={handleChangeAddMovie}
                       />
                     </div>
                   </div>
@@ -161,6 +288,8 @@ export default function MovieManagement() {
                         name="ngayKhoiChieu"
                         className="form-control "
                         placeholder="Ngày khởi chiếu"
+                        required
+                        onChange={handleChangeAddMovie}
                       />
                     </div>
                   </div>
@@ -171,7 +300,12 @@ export default function MovieManagement() {
                           <i className="fa-solid fa-eye"></i>
                         </span>
                       </div>
-                      <select className="form-control" name="dangChieu">
+                      <select
+                        className="form-control"
+                        name="dangChieu"
+                        required
+                        onChange={handleChangeAddMovie}
+                      >
                         <option>Đang chiếu</option>
                         <option>Bật</option>
                         <option>Tắt</option>
@@ -185,7 +319,12 @@ export default function MovieManagement() {
                           <i className="fa-solid fa-question"></i>
                         </span>
                       </div>
-                      <select className="form-control" name="sapChieu">
+                      <select
+                        className="form-control"
+                        name="sapChieu"
+                        required
+                        onChange={handleChangeAddMovie}
+                      >
                         <option>Sắp chiếu</option>
                         <option>Bật</option>
                         <option>Tắt</option>
@@ -199,7 +338,12 @@ export default function MovieManagement() {
                           <i className="fa-solid fa-pepper-hot"></i>
                         </span>
                       </div>
-                      <select className="form-control" name="hot">
+                      <select
+                        className="form-control"
+                        name="doHot"
+                        required
+                        onChange={handleChangeAddMovie}
+                      >
                         <option>Hot</option>
                         <option>Bật</option>
                         <option>Tắt</option>
@@ -213,7 +357,12 @@ export default function MovieManagement() {
                           <i className="fa-solid fa-star"></i>
                         </span>
                       </div>
-                      <select className="form-control" name="hot">
+                      <select
+                        className="form-control"
+                        name="danhGiaSao"
+                        required
+                        onChange={handleChangeAddMovie}
+                      >
                         <option>Đánh giá sao</option>
                         <option>1 sao</option>
                         <option>2 sao</option>
@@ -234,22 +383,162 @@ export default function MovieManagement() {
                         type="text"
                         className="form-control input-sm"
                         placeholder="Link hình ảnh"
+                        required
+                        onChange={handleChangeAddMovie}
+                        name="linkHinhAnh"
                       />
                     </div>
                   </div>
+                  <div className="text-right">
+                    <button
+                      type="submit"
+                      className="btn btn-success"
+                      disabled={!formRef.current?.checkValidity()}
+                    >
+                      Thêm
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-warning mx-2"
+                      onClick={() =>
+                        setState({
+                          values: DEFAULT_VALUES_ADD_MOVIE,
+                          errors: DEFAULT_ERRROS_ADD_MOVIE,
+                        })
+                      }
+                    >
+                      Reset
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      data-dismiss="modal"
+                    >
+                      Đóng
+                    </button>
+                  </div>
                 </form>
               </div>
-              <div className="modal-footer" id="modal-footer">
-                <button type="button" className="btn btn-success">
-                  Thêm
+            </div>
+          </div>
+        </div>
+
+        {/* TẠO LỊCH CHIẾU */}
+        <div className="modal fade" id="myModal2">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h4 className="modal-title" id="modal-title">
+                  Tạo lịch chiếu 
+                </h4>
+                <button type="button" className="close" data-dismiss="modal">
+                  &times;
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  data-dismiss="modal"
+              </div>
+              <div className="modal-body">
+                <form
+                  role="form"
+                  ref={formRef}
+                  noValidate
+                  onSubmit={handleSubmit}
                 >
-                  Đóng
-                </button>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa-solid fa-clapperboard"></i>
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        name="maPhim"
+                        className="form-control input-sm"
+                        placeholder="Mã phim"
+                        required
+                        onChange={handleChangeShowTime}
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa-solid fa-bars"></i>
+                        </span>
+                      </div>
+                      <input
+                        name="ngayChieuGioChieu"
+                        type="date"
+                        className="form-control input-sm"
+                        placeholder="Ngày chiếu giờ chiếu"
+                        required
+                        onChange={handleChangeShowTime}
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa-solid fa-trailer"></i>
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        name="maRap"
+                        className="form-control input-sm"
+                        placeholder="Mã rạp"
+                        required
+                        onChange={handleChangeShowTime}
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa-solid fa-calendar"></i>
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        name="giaVe"
+                        className="form-control "
+                        placeholder="Giá vé"
+                        required
+                        onChange={handleChangeShowTime}
+                      />
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <button
+                      type="submit"
+                      className="btn btn-success"
+                      disabled={!formRef.current?.checkValidity()}
+                    >
+                      Tạo
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-warning mx-2"
+                      onClick={() =>
+                        setState({
+                          values: DEFAULT_VALUES_SHOW_TIME,
+                          errors: DEFAULT_ERRROS_SHOW_TIME,
+                        })
+                      }
+                    >
+                      Reset
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      data-dismiss="modal"
+                    >
+                      Đóng
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

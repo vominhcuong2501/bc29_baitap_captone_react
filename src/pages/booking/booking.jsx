@@ -59,7 +59,7 @@ export default function Booking() {
     navigate("/");
   };
 
-  const styleBg1 = {
+  const styleBgBooking = {
     backgroundImage: `url(./../rapphim.jpg)`,
     backgroundSize: "cover",
     backgroundAttachment: "fixed",
@@ -72,10 +72,10 @@ export default function Booking() {
   return roomList ? (
     <div
       className="container-fluid py-3"
-      style={styleBg1}
+      style={styleBgBooking}
     >
       <div className="row m-5 text-center">
-        <div className="col-md-9 col-lg-8 ">
+        <div className="col-12 col-lg-8 ">
           <div className="booking-top">
             <div className="screen mt-5 mx-auto">
               <p
@@ -117,7 +117,7 @@ export default function Booking() {
             <span>Ghế đang đặt</span>
           </div>
         </div>
-        <div className="col-md-3 col-lg-4  ">
+        <div className="col-12 col-lg-4  ">
           <h1 className="text-light mb-3" style={{fontWeight: 'bold'}}>Thông tin đặt vé</h1>
           <table
             className="table p-5 text-light"

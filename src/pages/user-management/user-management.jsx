@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import {
   fetchAddUserApi,
   fetchDeleteUserApi,
-  fetchEditUserApi,
+  fetchEditAdminApi,
+  fetchSearchUserApi,
   fetchUserListApi,
 } from "../../services/user";
 let DEFAULT_VALUES = {
@@ -30,11 +31,10 @@ export default function UserManagement() {
   // chuyển trang
   const navigate = useNavigate();
 
-  // gửi thông tin lên reducer
-  const dispatch = useDispatch();
-
-  // đặt state
+  // đặt state render
   const [userList, setUserList] = useState([]);
+
+  // đặt state nhập dữ liệu
   const [state, setState] = useState({
     values: DEFAULT_VALUES,
     errors: DEFAULT_ERRROS,
@@ -87,6 +87,7 @@ export default function UserManagement() {
     console.log(selectedUser.selected);
   };
 
+  // setState khi thay đổi dữ liệu
   useEffect(() => {
     if (selectedUser.selected) {
       setState((state) => ({
@@ -95,6 +96,41 @@ export default function UserManagement() {
       }));
     }
   }, [selectedUser.selected]);
+
+  // ấn thêm người dùng
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    // check validate
+    if (!event.target.checkValidity()) {
+      return;
+    }
+    try {
+      if (selectedUser.selected) {
+        // sửa thông tin người dùng
+        await fetchEditAdminApi(state.values);
+        alert("Cập nhật người dùng thành công !!!");
+        navigate("/admin");
+      } else {
+        // thêm người dùng
+        await fetchAddUserApi(state.values);
+        alert("Thêm người dùng thành công !!!");
+        navigate("/admin");
+      }
+    } catch (errors) {
+      alert(errors.response.data.content);
+    }
+  };
+
+  // xóa người dùng, taiKhoan đã đặt vé không xóa được
+  const fetchDeleteUser = async (taiKhoan) => {
+    try {
+      await fetchDeleteUserApi(taiKhoan);
+      alert("Bạn xóa người dùng thành công !!!");
+      navigate("/admin");
+    } catch (errors) {
+      alert(errors.response.data.content);
+    }
+  };
 
   // render nội dung
   const renderContent = () => {
@@ -127,266 +163,248 @@ export default function UserManagement() {
     });
   };
 
-  // ấn thêm người dùng
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    // check validate
-    if (!event.target.checkValidity()) {
-      return;
-    }
-    try {
-      if (selectedUser.selected) {
-        // sửa thông tin người dùng
-        await fetchEditUserApi(state.values);
-        alert("Cập nhật người dùng thành công !!!");
-        navigate("/admin");
-      } else {
-        // thêm người dùng
-        await fetchAddUserApi(state.values);
-        alert("Thêm người dùng thành công !!!");
-        navigate("/admin");
-      }
-    } catch (errors) {
-      alert(errors.response.data.content);
-    }
-
-    setState({
-      values: DEFAULT_VALUES,
-      errors: DEFAULT_ERRROS
-    })
-  };
-
-  // xóa người dùng, taiKhoan đã đặt vé không xóa được
-  const fetchDeleteUser = async (taiKhoan) => {
-    await fetchDeleteUserApi(taiKhoan);
-    alert("Bạn xóa người dùng thành công !!!");
-    navigate("/admin");
-  };
-
   const { taiKhoan, hoTen, soDt, email, maLoaiNguoiDung, matKhau, maNhom } =
     state.values;
 
   return (
-    <div className="bg-light px-5 py-3" style={{ borderRadius: "20px" }}>
-      <h2 style={{ color: "#007bff" }}>Quản lý người dùng</h2>
-      <div className="row my-3">
-        <div className="col-6">
-          <input
-            className="form-control w-50 mr-sm-2"
-            type="text"
-            placeholder="Search"
-          />
+    <div className="container-fluid">
+      <div className="bg-light px-5 py-3" style={{ borderRadius: "20px" }}>
+        <h2 style={{ color: "#007bff" }}>Quản lý người dùng</h2>
+        <div className="row my-3">
+          <div className="col-6">
+            <input
+              className="form-control w-50 mr-sm-2"
+              type="text"
+              placeholder="Search"
+            />
+          </div>
+          <div className="col-6 text-right">
+            <button
+              className="btn btn-primary"
+              data-toggle="modal"
+              data-target="#myModal1"
+            >
+              Thêm người dùng
+            </button>
+          </div>
         </div>
-        <div className="col-6 text-right">
-          <button
-            className="btn btn-primary"
-            data-toggle="modal"
-            data-target="#myModal1"
-          >
-            Thêm người dùng
-          </button>
-        </div>
-      </div>
-      <table className="table table-bordered">
-        <thead>
-          <tr style={{ color: "#007bff", fontSize: 20 }}>
-            <th>Tài khoản</th>
-            <th>Họ tên</th>
-            <th>Email</th>
-            <th>Số điện thoại</th>
-            <th>Loại </th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>{renderContent()}</tbody>
-      </table>
-      <div className="modal fade" id="myModal1">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h4 className="modal-title" id="modal-title">
-                Thêm người dùng
-              </h4>
-              <button type="button" className="close" data-dismiss="modal">
-                &times;
-              </button>
-            </div>
-            <div className="modal-body">
-              <form ref={formRef} noValidate onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        <i className="fa-solid fa-user"></i>
-                      </span>
+        <table className="table table-bordered">
+          <thead>
+            <tr style={{ color: "#007bff", fontSize: 20 }}>
+              <th>Tài khoản</th>
+              <th>Họ tên</th>
+              <th>Email</th>
+              <th>Số điện thoại</th>
+              <th>Loại </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>{renderContent()}</tbody>
+        </table>
+        <div className="modal fade" id="myModal1">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h4 className="modal-title" id="modal-title">
+                  Thêm người dùng
+                </h4>
+                <button type="button" className="close" data-dismiss="modal">
+                  &times;
+                </button>
+              </div>
+              <div className="modal-body">
+                <form ref={formRef} noValidate onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa-solid fa-user"></i>
+                        </span>
+                      </div>
+                      <input
+                        required
+                        type="text"
+                        className="form-control input-sm"
+                        placeholder="Tài khoản"
+                        name="taiKhoan"
+                        onChange={handleChange}
+                        title="(*) Tài khoản"
+                        value={taiKhoan}
+                      />
                     </div>
-                    <input
-                      required
-                      type="text"
-                      className="form-control input-sm"
-                      placeholder="Tài khoản"
-                      name="taiKhoan"
-                      onChange={handleChange}
-                      title="(*) Tài khoản"
-                      value={taiKhoan}
-                    />
+                    {state.errors.taiKhoan && (
+                      <span className="text-danger">
+                        {state.errors.taiKhoan}
+                      </span>
+                    )}
                   </div>
-                  {state.errors.taiKhoan && (
-                    <span className="text-danger">{state.errors.taiKhoan}</span>
-                  )}
-                </div>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        <i className="fa fa-address-book" />
-                      </span>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa fa-address-book" />
+                        </span>
+                      </div>
+                      <input
+                        required
+                        type="text"
+                        className="form-control input-sm"
+                        placeholder="Họ tên"
+                        name="hoTen"
+                        onChange={handleChange}
+                        title="(*) Họ tên"
+                        value={hoTen}
+                      />
                     </div>
-                    <input
-                      required
-                      type="text"
-                      className="form-control input-sm"
-                      placeholder="Họ tên"
-                      name="hoTen"
-                      onChange={handleChange}
-                      title="(*) Họ tên"
-                      value={hoTen}
-                    />
+                    {state.errors.hoTen && (
+                      <span className="text-danger">{state.errors.hoTen}</span>
+                    )}
                   </div>
-                  {state.errors.hoTen && (
-                    <span className="text-danger">{state.errors.hoTen}</span>
-                  )}
-                </div>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        <i className="fa fa-envelope" />
-                      </span>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa fa-envelope" />
+                        </span>
+                      </div>
+                      <input
+                        required
+                        type="email"
+                        className="form-control input-sm"
+                        placeholder="Email"
+                        pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                        name="email"
+                        onChange={handleChange}
+                        title="(*) Email"
+                        value={email}
+                      />
                     </div>
-                    <input
-                      required
-                      type="email"
-                      className="form-control input-sm"
-                      placeholder="Email"
-                      pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                      name="email"
-                      onChange={handleChange}
-                      title="(*) Email"
-                      value={email}
-                    />
+                    {state.errors.email && (
+                      <span className="text-danger">{state.errors.email}</span>
+                    )}
                   </div>
-                  {state.errors.email && (
-                    <span className="text-danger">{state.errors.email}</span>
-                  )}
-                </div>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        <i className="fa fa-key" />
-                      </span>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa fa-key" />
+                        </span>
+                      </div>
+                      <input
+                        required
+                        type="text"
+                        className="form-control"
+                        placeholder="Mật khẩu"
+                        name="matKhau"
+                        onChange={handleChange}
+                        title="(*) Mật khẩu"
+                        value={matKhau}
+                      />
                     </div>
-                    <input
-                      required
-                      type="text"
-                      className="form-control"
-                      placeholder="Mật khẩu"
-                      name="matKhau"
-                      onChange={handleChange}
-                      title="(*) Mật khẩu"
-                      value={matKhau}
-                    />
+                    {state.errors.matKhau && (
+                      <span className="text-danger">
+                        {state.errors.matKhau}
+                      </span>
+                    )}
                   </div>
-                  {state.errors.matKhau && (
-                    <span className="text-danger">{state.errors.matKhau}</span>
-                  )}
-                </div>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        <i className="fa-solid fa-phone"></i>
-                      </span>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa-solid fa-phone"></i>
+                        </span>
+                      </div>
+                      <input
+                        required
+                        type="text"
+                        className="form-control"
+                        placeholder="Số điện thoại"
+                        name="soDt"
+                        onChange={handleChange}
+                        title="(*) Số điện thoại"
+                        value={soDt}
+                      />
                     </div>
-                    <input
-                      required
-                      type="text"
-                      className="form-control"
-                      placeholder="Số điện thoại"
-                      name="soDt"
-                      onChange={handleChange}
-                      title="(*) Số điện thoại"
-                      value={soDt}
-                    />
+                    {state.errors.soDt && (
+                      <span className="text-danger">{state.errors.soDt}</span>
+                    )}
                   </div>
-                  {state.errors.soDt && (
-                    <span className="text-danger">{state.errors.soDt}</span>
-                  )}
-                </div>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        <i className="fa fa-briefcase" />
-                      </span>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa fa-briefcase" />
+                        </span>
+                      </div>
+                      <input
+                        required
+                        type="text"
+                        className="form-control"
+                        placeholder="Mã nhóm"
+                        name="maNhom"
+                        onChange={handleChange}
+                        title="(*) Mã nhóm"
+                        value={maNhom}
+                      />
                     </div>
-                    <input
-                      required
-                      type="text"
-                      className="form-control"
-                      placeholder="Mã nhóm"
-                      name="maNhom"
-                      onChange={handleChange}
-                      title="(*) Mã nhóm"
-                      value={maNhom}
-                    />
+                    {state.errors.maNhom && (
+                      <span className="text-danger">{state.errors.maNhom}</span>
+                    )}
                   </div>
-                  {state.errors.maNhom && (
-                    <span className="text-danger">{state.errors.maNhom}</span>
-                  )}
-                </div>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        <i className="fa fa-briefcase" />
-                      </span>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa fa-briefcase" />
+                        </span>
+                      </div>
+                      <select
+                        name="maLoaiNguoiDung"
+                        required
+                        className="form-control"
+                        onChange={handleChange}
+                        title="(*) Loại người dùng"
+                        value={maLoaiNguoiDung}
+                      >
+                        <option>Chọn loại người dùng</option>
+                        <option value="QuanTri">Quản trị</option>
+                        <option value="KhachHang">Khách hàng</option>
+                      </select>
                     </div>
-                    <select
-                      name="maLoaiNguoiDung"
-                      required
-                      className="form-control"
-                      onChange={handleChange}
-                      title="(*) Loại người dùng"
-                      value={maLoaiNguoiDung}
+                    {state.errors.maNhom && (
+                      <span className="text-danger">{state.errors.maNhom}</span>
+                    )}
+                  </div>
+                  <div className="modal-footer" id="modal-footer">
+                    <button
+                      type="submit"
+                      className="btn btn-success"
+                      disabled={!formRef.current?.checkValidity()}
                     >
-                      <option>Chọn loại người dùng</option>
-                      <option value="QuanTri">Quản trị</option>
-                      <option value="KhachHang">Khách hàng</option>
-                    </select>
+                      Thêm
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-warning"
+                      onClick={() =>
+                        setState({
+                          values: DEFAULT_VALUES,
+                          errors: DEFAULT_ERRROS,
+                        })
+                      }
+                    >
+                      Reset
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      data-dismiss="modal"
+                    >
+                      Đóng
+                    </button>
                   </div>
-                  {state.errors.maNhom && (
-                    <span className="text-danger">{state.errors.maNhom}</span>
-                  )}
-                </div>
-                <div className="modal-footer" id="modal-footer">
-                  <button
-                    type="submit"
-                    className="btn btn-success"
-                    disabled={!formRef.current?.checkValidity()}
-                  >
-                    Thêm
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    data-dismiss="modal"
-                  >
-                    Đóng
-                  </button>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>

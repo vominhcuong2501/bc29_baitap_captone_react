@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./header.scss";
 import { USER_INFO_KEY } from "../../constans/common";
 import { setUserAction } from "../../store/actions/user.action";
-import { notification } from "antd";
+import {getInfomationApi} from "../../services/user"
 
 export default function Header() {
   // gửi thông tin
@@ -15,6 +15,9 @@ export default function Header() {
 
   // lấy dữ liệu từ reducer
   const { userInfo } = useSelector((state) => state.userReducer);
+
+  // đặt state
+  const [infoUser, setInfoUser] = useState()
 
   // btn đăng xuất
   const handleLogout = () => {
@@ -92,7 +95,7 @@ export default function Header() {
               ) : (
                 <div className="d-flex">
                   <NavLink
-                    to="/"
+                    to="/profile"
                     style={{
                       fontWeight: "bold",
                       fontSize: "20px",
@@ -100,7 +103,7 @@ export default function Header() {
                       textDecoration: "none",
                     }}
                   >
-                    <span className="mr-2 text-bottom" title="Trang cá nhân">
+                    <span className="mr-2 text-bottom" title="Trang cá nhân" >
                       Hello ! {userInfo.hoTen}
                     </span>
                   </NavLink>

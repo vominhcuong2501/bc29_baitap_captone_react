@@ -13,6 +13,7 @@ import AuthGuard from "../pages/guards/auth.guard";
 import MovieManagement from "../pages/movie-management/movie-management";
 import UserManagement from "../pages/user-management/user-management";
 import AdminGuard from "../pages/guards/admin.guard";
+import FormProfile from "../pages/profile/profile";
 
 export default function Router() {
   const routing = useRoutes([
@@ -44,6 +45,10 @@ export default function Router() {
             {
               path: "/booking/:maLichChieu",
               element: <Booking />,
+            },
+            {
+              path: "/profile",
+              element: <FormProfile />,
             },
           ],
         },
