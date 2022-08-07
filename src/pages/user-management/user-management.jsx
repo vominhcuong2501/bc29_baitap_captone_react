@@ -5,6 +5,7 @@ import {
   fetchAddUserApi,
   fetchDeleteUserApi,
   fetchEditAdminApi,
+  fetchInfomationApi,
   fetchSearchUserApi,
   fetchUserListApi,
 } from "../../services/user";
@@ -12,7 +13,7 @@ let DEFAULT_VALUES = {
   taiKhoan: "",
   matKhau: "",
   email: "",
-  soDt: "",
+  soDT: "",
   maNhom: "",
   maLoaiNguoiDung: "",
   hoTen: "",
@@ -21,7 +22,7 @@ let DEFAULT_ERRROS = {
   taiKhoan: "",
   matKhau: "",
   email: "",
-  soDt: "",
+  soDT: "",
   maNhom: "",
   maLoaiNguoiDung: "",
   hoTen: "",
@@ -40,12 +41,12 @@ export default function UserManagement() {
     errors: DEFAULT_ERRROS,
   });
 
-  // load lần đầu dể lấy dữ liệu
+  // load lần đầu dể lấy danh sách
   useEffect(() => {
     fetchUserList();
   }, []);
 
-  // call api
+  // call api lấy danh sách
   const fetchUserList = async () => {
     const result = await fetchUserListApi();
     setUserList(result.data.content);
@@ -77,15 +78,7 @@ export default function UserManagement() {
   };
 
   // đặt state cho user dc chọn
-  const [selectedUser, setSelectedUser] = useState({ selected: null });
-
-  // nhấn nút hiện thi thông tin cần sửa
-  const handleSelectedUser = (user) => {
-    setSelectedUser({
-      selected: user,
-    });
-    console.log(selectedUser.selected);
-  };
+  const [selectedUser, setSelectedUser] = useState({ selected: "" });
 
   // setState khi thay đổi dữ liệu
   useEffect(() => {
@@ -96,6 +89,15 @@ export default function UserManagement() {
       }));
     }
   }, [selectedUser.selected]);
+
+  // nhấn nút hiện thi thông tin cần sửa
+  const handleSelectedUser = async (taiKhoan) => {
+    const result = await fetchInfomationApi(taiKhoan)
+    setSelectedUser({
+      selected: result.data.content,
+    });
+    console.log(selectedUser.selected);
+  };
 
   // ấn thêm người dùng
   const handleSubmit = async (event) => {
@@ -109,11 +111,13 @@ export default function UserManagement() {
         // sửa thông tin người dùng
         await fetchEditAdminApi(state.values);
         alert("Cập nhật người dùng thành công !!!");
+        document.getElementById("closeModal").click();
         navigate("/admin");
       } else {
         // thêm người dùng
         await fetchAddUserApi(state.values);
         alert("Thêm người dùng thành công !!!");
+        document.getElementById("closeModal").click();
         navigate("/admin");
       }
     } catch (errors) {
@@ -144,7 +148,7 @@ export default function UserManagement() {
           <td>{ele.maLoaiNguoiDung}</td>
           <td>
             <button
-              onClick={() => handleSelectedUser(ele)}
+              onClick={() => handleSelectedUser(ele.taiKhoan)}
               className="btn btn-warning mr-1"
               data-toggle="modal"
               data-target="#myModal1"
@@ -163,7 +167,7 @@ export default function UserManagement() {
     });
   };
 
-  const { taiKhoan, hoTen, soDt, email, maLoaiNguoiDung, matKhau, maNhom } =
+  const { taiKhoan, hoTen, soDT, email, maLoaiNguoiDung, matKhau, maNhom } =
     state.values;
 
   return (
@@ -319,14 +323,14 @@ export default function UserManagement() {
                         type="text"
                         className="form-control"
                         placeholder="Số điện thoại"
-                        name="soDt"
+                        name="soDT"
                         onChange={handleChange}
                         title="(*) Số điện thoại"
-                        value={soDt}
+                        value={soDT}
                       />
                     </div>
-                    {state.errors.soDt && (
-                      <span className="text-danger">{state.errors.soDt}</span>
+                    {state.errors.soDT && (
+                      <span className="text-danger">{state.errors.soDT}</span>
                     )}
                   </div>
                   <div className="form-group">
@@ -371,8 +375,10 @@ export default function UserManagement() {
                         <option value="KhachHang">Khách hàng</option>
                       </select>
                     </div>
-                    {state.errors.maNhom && (
-                      <span className="text-danger">{state.errors.maNhom}</span>
+                    {state.errors.maLoaiNguoiDung && (
+                      <span className="text-danger">
+                        {state.errors.maLoaiNguoiDung}
+                      </span>
                     )}
                   </div>
                   <div className="modal-footer" id="modal-footer">
@@ -396,6 +402,7 @@ export default function UserManagement() {
                       Reset
                     </button>
                     <button
+                      id="closeModal"
                       type="button"
                       className="btn btn-danger"
                       data-dismiss="modal"

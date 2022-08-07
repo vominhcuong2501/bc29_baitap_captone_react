@@ -3,6 +3,7 @@ import { fetchMovieListApi } from "../../services/movie";
 import { useNavigate } from "react-router-dom";
 import "./movie-list.scss";
 import { Button } from "antd";
+import { Carousel } from "antd";
 
 // module xử lý chức năng
 export default function MovieList() {
@@ -27,10 +28,7 @@ export default function MovieList() {
   const renderMovieList = () => {
     return movieList.map((ele, index) => {
       return (
-        <div
-          className="col-12 col-sm-6 col-md-4 col-lg-3 film-item"
-          key={ele.maPhim}
-        >
+        <div className=" film-item px-3" key={ele.maPhim}>
           <div
             className="card movie-card"
             style={{ marginBottom: 20, overflow: "hidden" }}
@@ -71,10 +69,14 @@ export default function MovieList() {
     width: "100%",
     height: "100%",
   };
+
+
   return (
     <div style={styleBgMovieList}>
-      <div className="container py-5">
-        <div className="row">{renderMovieList()}</div>
+      <div className="container py-5 mx-auto" id="carouselId" >
+        <Carousel autoplay slidesToShow={4} slidesToScroll={1} arrows dots={false} >
+          {renderMovieList()}
+        </Carousel>
       </div>
     </div>
   );

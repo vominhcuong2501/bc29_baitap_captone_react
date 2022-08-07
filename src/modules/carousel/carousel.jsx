@@ -34,9 +34,5 @@ export default function Carousels() {
     });
   };
 
-
-  const onChange = (currentSlide) => {
-    // console.log(currentSlide);
-  };
-  return <Carousel autoplay afterChange={onChange}>{renderBanner()}</Carousel>;
+  return <Carousel autoplay>{renderBanner()}</Carousel>;
 }

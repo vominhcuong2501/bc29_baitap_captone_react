@@ -227,8 +227,8 @@ export default function FormProfile(props) {
                       value={soDT}
                     />
                   </div>
-                  {state.errors.soDt && (
-                    <span className="text-danger">{state.errors.soDt}</span>
+                  {state.errors.soDT && (
+                    <span className="text-danger">{state.errors.soDT}</span>
                   )}
                 </div>
                 <div className="form-group">

@@ -7,7 +7,7 @@ let DEFAULT_VALUES = {
   hoTen: "",
   email: "",
   matKhau: "",
-  soDt: "",
+  soDT: "",
   maNhom: "",
 };
 let DEFAULT_ERRROS = {
@@ -15,7 +15,7 @@ let DEFAULT_ERRROS = {
   hoTen: "",
   email: "",
   matKhau: "",
-  soDt: "",
+  soDT: "",
   maNhom: "",
 };
 
@@ -180,13 +180,13 @@ export default function FormRegister() {
                       type="text"
                       className="form-control"
                       placeholder="Số điện thoại"
-                      name="soDt"
+                      name="soDT"
                       onChange={handleChange}
                       title="(*) Số điện thoại"
                     />
                   </div>
-                  {state.errors.soDt && (
-                    <span className="text-danger">{state.errors.soDt}</span>
+                  {state.errors.soDT && (
+                    <span className="text-danger">{state.errors.soDT}</span>
                   )}
                 </div>
                 <div className="form-group">
