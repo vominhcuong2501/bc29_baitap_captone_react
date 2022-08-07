@@ -9,7 +9,7 @@ export default function HomeLayout() {
     <div
       style={{
         fontFamily: "Times New Roman, Times, serif",
-        backgroundColor: 'black'
+        backgroundColor: 'white'
       }}
     >
       <div className="container-fluid p-0">
