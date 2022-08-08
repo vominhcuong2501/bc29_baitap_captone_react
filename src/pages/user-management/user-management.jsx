@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useAsync } from "../../hooks/useAsync";
 import {
   fetchAddUserApi,
   fetchDeleteUserApi,
@@ -32,25 +33,32 @@ export default function UserManagement() {
   // chuyển trang
   const navigate = useNavigate();
 
-  // đặt state render
-  const [userList, setUserList] = useState([]);
-
   // đặt state nhập dữ liệu
   const [state, setState] = useState({
     values: DEFAULT_VALUES,
     errors: DEFAULT_ERRROS,
   });
 
-  // load lần đầu dể lấy danh sách
-  useEffect(() => {
-    fetchUserList();
-  }, []);
+  // cách 1:
+  // // đặt state render
+  // const [userList, setUserList] = useState([]);
 
-  // call api lấy danh sách
-  const fetchUserList = async () => {
-    const result = await fetchUserListApi();
-    setUserList(result.data.content);
-  };
+  // // load lần đầu dể lấy danh sách
+  // useEffect(() => {
+  //   fetchUserList();
+  // }, []);
+
+  // // call api lấy danh sách
+  // const fetchUserList = async () => {
+  //   const result = await fetchUserListApi();
+  //   setUserList(result.data.content);
+  // };
+
+  // cách 2: dùng useAsync tự tạo, lấy danh sách người dùng
+  const { state: userList = [] } = useAsync({
+    dependencies: [],
+    service: () => fetchUserListApi(),
+  });
 
   // check validate
   const formRef = useRef();
@@ -92,11 +100,10 @@ export default function UserManagement() {
 
   // nhấn nút hiện thi thông tin cần sửa
   const handleSelectedUser = async (taiKhoan) => {
-    const result = await fetchInfomationApi(taiKhoan)
+    const result = await fetchInfomationApi(taiKhoan);
     setSelectedUser({
       selected: result.data.content,
     });
-    console.log(selectedUser.selected);
   };
 
   // ấn thêm người dùng

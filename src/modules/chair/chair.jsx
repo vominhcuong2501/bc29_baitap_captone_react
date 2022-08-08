@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { LoaiGhe } from "../../enums/common";
 import "./chair.scss";
 
 export default function Chair(props) {
@@ -9,7 +10,7 @@ export default function Chair(props) {
     let defaultClass = " ghe";
 
     // ghế vip
-    if (props.item.loaiGhe === "Vip") {
+    if (props.item.loaiGhe === LoaiGhe.Vip) {
       defaultClass += " gheVip";
     }
     // ghế mình đang chọn

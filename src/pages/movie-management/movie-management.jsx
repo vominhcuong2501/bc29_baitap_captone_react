@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchDeleteMovieApi, fetchMovieListApi } from "../../services/movie";
+import { useAsync } from "../../hooks/useAsync";
+import { fetchAddShowTimeApi } from "../../services/booking";
 
-let DEFAULT_VALUES_ADD_MOVIE = {
+let DEFAULT_VALUES = {
   tenPhim: "",
   moTa: "",
   trailer: "",
@@ -14,7 +16,7 @@ let DEFAULT_VALUES_ADD_MOVIE = {
   linkHinhAnh: "",
 };
 
-let DEFAULT_ERRROS_ADD_MOVIE = {
+let DEFAULT_ERRROS = {
   tenPhim: "",
   moTa: "",
   trailer: "",
@@ -25,66 +27,49 @@ let DEFAULT_ERRROS_ADD_MOVIE = {
   linkHinhAnh: "",
 };
 
-let DEFAULT_VALUES_SHOW_TIME = {
-  tenPhim: "",
-  moTa: "",
-  trailer: "",
-  ngayKhoiChieu: "",
-  dangChieu: "Đang chiếu",
-  sapChieu: "Sắp chiếu",
-  doHot: "Hot",
-  danhGiaSao: "Đánh giá sao",
-  linkHinhAnh: "",
-};
 
-let DEFAULT_ERRROS_SHOW_TIME = {
-  tenPhim: "",
-  moTa: "",
-  trailer: "",
-  dangChieu: "Đang chiếu",
-  sapChieu: "Sắp chiếu",
-  doHot: "Hot",
-  danhGiaSao: "Đánh giá sao",
-  linkHinhAnh: "",
-};
 
 export default function MovieManagement() {
+
+
   // cuyển trang
   const navigate = useNavigate();
 
-  // đặt state render
-  const [filmList, setFilmList] = useState([]);
   // đặt state add movie
   const [state, setState] = useState({
-    values: DEFAULT_VALUES_ADD_MOVIE,
-    errors: DEFAULT_ERRROS_ADD_MOVIE,
+    values: DEFAULT_VALUES,
+    errors: DEFAULT_ERRROS,
   });
-  // đặt state show-time
-  const [showTime, setShowTime] = useState({
-    valuesShowTime: DEFAULT_VALUES_SHOW_TIME,
-    errorsShowTime: DEFAULT_ERRROS_SHOW_TIME
-  })
 
   // check validate
   const formRef = useRef();
 
-  // gọi hàm chạy lần đầu lấy dữ liệu để render
-  useEffect(() => {
-    fetchFilmList();
-  }, []);
+  // cách 1:
+  // // đặt state render
+  // const [filmList, setFilmList] = useState([]);
 
-  // call api lấy danh sách
-  const fetchFilmList = async () => {
-    const result = await fetchMovieListApi();
-    setFilmList(result.data.content);
-    console.log(result.data.content);
-  };
+  // // gọi hàm chạy lần đầu lấy dữ liệu để render
+  // useEffect(() => {
+  //   fetchFilmList();
+  // }, []);
+
+  // // call api lấy danh sách
+  // const fetchFilmList = async () => {
+  //   const result = await fetchMovieListApi();
+  //   setFilmList(result.data.content);
+  // };
+
+  // cách 2: dùng useAsync tự tạo, để lấy danh sách film về
+  const { state: filmList = [] } = useAsync({
+    dependencies: [],
+    service: () => fetchMovieListApi(),
+  });
 
   // delete movie
   const fetchDeleteMovie = async (maPhim) => {
     await fetchDeleteMovieApi(maPhim);
     alert("Bạn đã xóa thành công!!");
-    navigate("/admin/");
+    navigate("/admin/movie-management");
   };
 
   // render dữ liệu
@@ -109,8 +94,7 @@ export default function MovieManagement() {
             </button>
             <button
               className="btn btn-success"
-              data-toggle="modal"
-              data-target="#myModal2"
+              onClick={() => navigate(`/admin/movie-management/show-time/${ele.maPhim}`)}
             >
               <i className="fa-solid fa-calendar"></i>
             </button>
@@ -121,7 +105,7 @@ export default function MovieManagement() {
   };
 
   // nhập dữ liệu add movie
-  const handleChangeAddMovie = (event) => {
+  const handleChange = (event) => {
     const {
       name,
       value,
@@ -142,28 +126,8 @@ export default function MovieManagement() {
     });
   };
 
-  // nhập dữ liệu show-time
-  const handleChangeShowTime = (event) => {
-    const {
-      name,
-      value,
-      title,
-      validity: { valueMissing, patternMismatch },
-    } = event.target;
-    let message = "";
-    if (patternMismatch) {
-      message = `${title} không đúng kiểu dữ liệu`;
-    }
-    if (valueMissing) {
-      message = `${title} bị rỗng`;
-    }
 
-    setState({
-      valuesShowTime: { ...showTime.valuesShowTime, [name]: value },
-      errorsShowTime: { ...showTime.errorsShowTime, [name]: message },
-    });
-  };
-
+  // submit thêm film
   const handleSubmit = (event) => {
     event.preventDefault();
     // check validate
@@ -238,7 +202,7 @@ export default function MovieManagement() {
                         className="form-control input-sm"
                         placeholder="Tên phim"
                         required
-                        onChange={handleChangeAddMovie}
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -255,7 +219,7 @@ export default function MovieManagement() {
                         className="form-control input-sm"
                         placeholder="Mô tả"
                         required
-                        onChange={handleChangeAddMovie}
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -272,7 +236,7 @@ export default function MovieManagement() {
                         className="form-control input-sm"
                         placeholder="Trailer"
                         required
-                        onChange={handleChangeAddMovie}
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -289,7 +253,7 @@ export default function MovieManagement() {
                         className="form-control "
                         placeholder="Ngày khởi chiếu"
                         required
-                        onChange={handleChangeAddMovie}
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -304,7 +268,7 @@ export default function MovieManagement() {
                         className="form-control"
                         name="dangChieu"
                         required
-                        onChange={handleChangeAddMovie}
+                        onChange={handleChange}
                       >
                         <option>Đang chiếu</option>
                         <option>Bật</option>
@@ -323,7 +287,7 @@ export default function MovieManagement() {
                         className="form-control"
                         name="sapChieu"
                         required
-                        onChange={handleChangeAddMovie}
+                        onChange={handleChange}
                       >
                         <option>Sắp chiếu</option>
                         <option>Bật</option>
@@ -342,7 +306,7 @@ export default function MovieManagement() {
                         className="form-control"
                         name="doHot"
                         required
-                        onChange={handleChangeAddMovie}
+                        onChange={handleChange}
                       >
                         <option>Hot</option>
                         <option>Bật</option>
@@ -361,7 +325,7 @@ export default function MovieManagement() {
                         className="form-control"
                         name="danhGiaSao"
                         required
-                        onChange={handleChangeAddMovie}
+                        onChange={handleChange}
                       >
                         <option>Đánh giá sao</option>
                         <option>1 sao</option>
@@ -384,7 +348,7 @@ export default function MovieManagement() {
                         className="form-control input-sm"
                         placeholder="Link hình ảnh"
                         required
-                        onChange={handleChangeAddMovie}
+                        onChange={handleChange}
                         name="linkHinhAnh"
                       />
                     </div>
@@ -402,129 +366,8 @@ export default function MovieManagement() {
                       className="btn btn-warning mx-2"
                       onClick={() =>
                         setState({
-                          values: DEFAULT_VALUES_ADD_MOVIE,
-                          errors: DEFAULT_ERRROS_ADD_MOVIE,
-                        })
-                      }
-                    >
-                      Reset
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      data-dismiss="modal"
-                    >
-                      Đóng
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* TẠO LỊCH CHIẾU */}
-        <div className="modal fade" id="myModal2">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h4 className="modal-title" id="modal-title">
-                  Tạo lịch chiếu 
-                </h4>
-                <button type="button" className="close" data-dismiss="modal">
-                  &times;
-                </button>
-              </div>
-              <div className="modal-body">
-                <form
-                  role="form"
-                  ref={formRef}
-                  noValidate
-                  onSubmit={handleSubmit}
-                >
-                  <div className="form-group">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">
-                          <i className="fa-solid fa-clapperboard"></i>
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        name="maPhim"
-                        className="form-control input-sm"
-                        placeholder="Mã phim"
-                        required
-                        onChange={handleChangeShowTime}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">
-                          <i className="fa-solid fa-bars"></i>
-                        </span>
-                      </div>
-                      <input
-                        name="ngayChieuGioChieu"
-                        type="date"
-                        className="form-control input-sm"
-                        placeholder="Ngày chiếu giờ chiếu"
-                        required
-                        onChange={handleChangeShowTime}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">
-                          <i className="fa-solid fa-trailer"></i>
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        name="maRap"
-                        className="form-control input-sm"
-                        placeholder="Mã rạp"
-                        required
-                        onChange={handleChangeShowTime}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">
-                          <i className="fa-solid fa-calendar"></i>
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        name="giaVe"
-                        className="form-control "
-                        placeholder="Giá vé"
-                        required
-                        onChange={handleChangeShowTime}
-                      />
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <button
-                      type="submit"
-                      className="btn btn-success"
-                      disabled={!formRef.current?.checkValidity()}
-                    >
-                      Tạo
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-warning mx-2"
-                      onClick={() =>
-                        setState({
-                          values: DEFAULT_VALUES_SHOW_TIME,
-                          errors: DEFAULT_ERRROS_SHOW_TIME,
+                          values: DEFAULT_VALUES,
+                          errors: DEFAULT_ERRROS,
                         })
                       }
                     >

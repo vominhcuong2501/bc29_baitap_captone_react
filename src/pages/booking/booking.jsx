@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAsync } from "../../hooks/useAsync";
 import Chair from "../../modules/chair/chair";
 import {
   fetchBookingTicketApi,
@@ -15,20 +16,25 @@ export default function Booking() {
   const params = useParams();
 
   // đặt state
-  const [roomList, setRoomList] = useState();
+  // const [roomList, setRoomList] = useState();
   const [danhSachGhe, setDanhSachGhe] = useState([]);
 
-  // gọi hàm để call api
-  useEffect(() => {
-    fetchRoomList();
-  }, []);
+  // // gọi hàm để call api
+  // useEffect(() => {
+  //   fetchRoomList();
+  // }, []);
 
-  //hàm call api
-  const fetchRoomList = async () => {
-    const result = await fetchRoomListApi(params.maLichChieu);
-    console.log(result.data.content);
-    setRoomList(result.data.content);
-  };
+  // //hàm call api
+  // const fetchRoomList = async () => {
+  //   const result = await fetchRoomListApi(params.maLichChieu);
+  //   setRoomList(result.data.content);
+  // };
+
+  //cách 2: dùng useAsync tự tạo, lấy danh sách phòng vé về
+  const {state: roomList = []} = useAsync({
+    dependencies: [],
+    service: () => fetchRoomListApi(params.maLichChieu)
+  })
 
   // thao tác click kiểm tra ghế dc chọn đã có trong mảng chưa
   const handleSelect = (selecTedChair) => {
@@ -69,7 +75,7 @@ export default function Booking() {
   };
 
   // nếu roomList tồn tại xuất nội dung còn không thì chạy loading
-  return roomList ? (
+  return (
     <div
       className="container-fluid py-3"
       style={styleBgBooking}
@@ -127,30 +133,30 @@ export default function Booking() {
               <tr className="my-2 text-center">
                 <th className="text-left">Tên phim:</th>
                 <th className="text-right text-warning" style={{ fontSize: 20 }}>
-                  <b>{roomList.thongTinPhim.tenPhim}</b>
+                  <b>{roomList?.thongTinPhim?.tenPhim}</b>
                 </th>
               </tr>
               <tr>
                 <td className="text-left">Tên rạp</td>
                 <td className="text-right text-warning">
-                  {roomList.thongTinPhim.tenCumRap}
+                  {roomList?.thongTinPhim?.tenCumRap}
                 </td>
               </tr>
               <tr>
                 <td className="text-left">Địa chỉ:</td>
-                <td className="text-right text-warning">{roomList.thongTinPhim.diaChi}</td>
+                <td className="text-right text-warning">{roomList?.thongTinPhim?.diaChi}</td>
               </tr>
               <tr>
                 <td className="text-left">Ngày - giờ chiếu:</td>
                 <td className="text-right text-warning">
-                  {roomList.thongTinPhim.ngayChieu} -{" "}
-                  <b>{roomList.thongTinPhim.gioChieu}</b>
+                  {roomList?.thongTinPhim?.ngayChieu} -{" "}
+                  <b>{roomList?.thongTinPhim?.gioChieu}</b>
                 </td>
               </tr>
               <tr>
                 <td className="text-left">Rạp</td>
                 <td className="text-right text-warning">
-                  <b>{roomList.thongTinPhim.tenRap}</b>
+                  <b>{roomList?.thongTinPhim?.tenRap}</b>
                 </td>
               </tr>
               <tr>
@@ -201,22 +207,5 @@ export default function Booking() {
         </div>
       </div>
     </div>
-  ) : (
-    <div
-      style={{
-        backgroundColor: "rgba(255, 255, 255, 0.5)",
-        position: "fixed",
-        width: "100%",
-        height: "100%",
-        top: 0,
-        left: 0,
-        zIndex: 1,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <img src="../loading.gif" />
-    </div>
-  );
+  )
 }

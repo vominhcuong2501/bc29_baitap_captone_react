@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { fetchEditUserApi, fetchInfomationApi } from "../../services/user";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import { useAsync } from "../../hooks/useAsync";
 
 export default function FormProfile(props) {
   // chuyển trang
@@ -55,20 +56,27 @@ export default function FormProfile(props) {
     });
   };
 
-  // đặt state
-  const [infoUser, setInfoUser] = useState();
+  // cách 1:
+  // // đặt state
+  // const [infoUser, setInfoUser] = useState();
 
-  // gọi hàm lấy thông tin tài khoản
-  useEffect(() => {
-    fetchInfomation();
-  }, []);
+  // // gọi hàm lấy thông tin tài khoản
+  // useEffect(() => {
+  //   fetchInfomation();
+  // }, []);
 
-  // call api lấy thông tin tài khoản
-  const fetchInfomation = async () => {
-    const result = await fetchInfomationApi(userInfo.taiKhoan);
-    setInfoUser(result.data.content);
-    console.log(result.data.content);
-  };
+  // // call api lấy thông tin tài khoản
+  // const fetchInfomation = async () => {
+  //   const result = await fetchInfomationApi(userInfo.taiKhoan);
+  //   setInfoUser(result.data.content);
+  //   console.log(result.data.content);
+  // };
+
+  // cách 2: dùng useAsync tự tạo, lấy thông tin về
+  const { state: infoUser } = useAsync({
+    dependencies: [],
+    service: () => fetchInfomationApi(userInfo.taiKhoan),
+  });
 
   // gọi hàm gửi thông tin tài khoản đã cập nhật
   useEffect(() => {
@@ -273,7 +281,7 @@ export default function FormProfile(props) {
           >
             Lịch sử đặt vé
           </div>
-          {infoUser?.thongTinDatVe.map((ele) => {
+          {infoUser?.thongTinDatVe?.map((ele) => {
             return (
               <div className="card" key={ele.maVe}>
                 <div className="row mt-2">
@@ -312,15 +320,9 @@ export default function FormProfile(props) {
                     <p className="card-text m-0">
                       {ele.danhSachGhe.map((ele, index) => {
                         return (
-                          <div key={index}>
-                            Địa chỉ:{" "}
-                            <span className="text-primary">
-                              {ele.tenHeThongRap}
-                            </span>{" "}
-                            - <span className="text-primary">{ele.tenRap}</span>{" "}
-                            - Số ghế:{" "}
-                            <span className="text-primary">{ele.tenGhe}</span>
-                          </div>
+                          <span key={index}>
+                            Địa chỉ:{ele.tenHeThongRap} - {ele.tenRap} - Số ghế:{ele.tenGhe}
+                          </span>
                         );
                       })}
                     </p>

@@ -35,7 +35,6 @@ export default function FormLogin() {
     event.preventDefault();
     try {
       const result = await loginApi(state);
-      console.log(result.data.content);
 
       // 1. lưu local store
       localStorage.setItem(USER_INFO_KEY, JSON.stringify(result.data.content));

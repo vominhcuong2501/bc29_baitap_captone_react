@@ -16,3 +16,12 @@ export const fetchBookingTicketApi = (data) => {
     data
   })
 }
+
+// tạo lịch chiếu
+export const fetchAddShowTimeApi = (data) => {
+  return request({
+    url: `/QuanLyDatVe/TaoLichChieu`,
+    method: "POST",
+    data
+  })
+}

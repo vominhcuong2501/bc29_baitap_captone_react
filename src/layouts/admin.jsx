@@ -63,6 +63,19 @@ const items = [
     key: "movie-management",
     icon: <DesktopOutlined />,
   },
+  {
+    label: (
+      <Link
+        style={{ textDecoration: "none" }}
+        to="/admin/movie-management/show-time"
+        rel="noopener noreferrer"
+      >
+        Show-times
+      </Link>
+    ),
+    key: "show-times",
+    icon: <FileOutlined />,
+  },
 ];
 
 export default function AdminLayout() {

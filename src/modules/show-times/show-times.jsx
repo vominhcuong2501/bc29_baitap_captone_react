@@ -1,26 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { fetchMovieShowTimesApi } from "../../services/cinema";
 import { Link, useParams } from "react-router-dom";
-import moment from "moment";
+import { format } from "../../utils/common";
+import {useAsync} from "../../hooks/useAsync"
 
 export default function ShowTimes() {
   // dùng để lấy địa chỉ url
   let params = useParams();
 
-  // đặt state
-  const [movieShowTimes, setMovieShowTimes] = useState([]);
+  // cách 1:
+  // // đặt state
+  // const [movieShowTimes, setMovieShowTimes] = useState([]);
 
-  // gọi hàm khi khởi động trang
-  useEffect(() => {
-    fetcMovieShowTimes();
-  }, []);
+  // // gọi hàm khi khởi động trang
+  // useEffect(() => {
+  //   fetcMovieShowTimes();
+  // }, []);
 
-  // call api
-  const fetcMovieShowTimes = async () => {
-    const result = await fetchMovieShowTimesApi(params.movieId);
-    setMovieShowTimes(result.data.content);
-    console.log(result.data.content);
-  };
+  // // call api
+  // const fetcMovieShowTimes = async () => {
+  //   const result = await fetchMovieShowTimesApi(params.movieId);
+  //   setMovieShowTimes(result.data.content);
+  //   console.log(result.data.content);
+  // };
+
+
+  // cách 2: dùng useAsync tự tạo, lấy lịch chiếu film
+  const {state: movieShowTimes = []} = useAsync({
+    dependencies: [],
+    service: () => fetchMovieShowTimesApi(params.movieId)
+  })
 
   //render logo hệ thống rạp
   const renderTabs = () => {
@@ -66,7 +75,7 @@ export default function ShowTimes() {
                           className="col-12 col-md-6 text-light"
                           key={ele.maLichChieu}
                         >
-                          <p className="text-light mb-0 mt-3">Thời gian: <span className="text-warning">{moment(ele.ngayChieuGioChieu).format("LLL")}</span></p>
+                          <p className="text-light mb-0 mt-3">Thời gian: <span className="text-warning">{format(ele.ngayChieuGioChieu)}</span></p>
                           
                           <div>
                             <Link

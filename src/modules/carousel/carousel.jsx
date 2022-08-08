@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { fetchBannerApi } from "../../services/movie";
 import { Carousel } from 'antd';
+import { useAsync } from "../../hooks/useAsync";
 
 
 
 export default function Carousels() {
-  // đặt state
-  let [bannerList, setBannerList] = useState([]);
+  // cách 1 :
+  // // đặt state
+  // let [bannerList, setBannerList] = useState([]);
 
-  // gọi hàm khi khởi động trang
-  useEffect(() => {
-    fetchBannerList();
-  }, []);
+  // // gọi hàm khi khởi động trang
+  // useEffect(() => {
+  //   fetchBannerList();
+  // }, []);
 
-  // cal api
-  const fetchBannerList = async () => {
-    const result = await fetchBannerApi();
-    setBannerList(result.data.content);
-  };
+  // // cal api
+  // const fetchBannerList = async () => {
+  //   const result = await fetchBannerApi();
+  //   setBannerList(result.data.content);
+  // };
+
+  // cách 2: dùng useAsync tự tạo, lấy danh sách banner về
+  const {state: bannerList = []} = useAsync({
+    dependencies: [],
+    service: () => fetchBannerApi()
+  })
 
   const renderBanner = () => {
     return bannerList.map((ele, index) => {

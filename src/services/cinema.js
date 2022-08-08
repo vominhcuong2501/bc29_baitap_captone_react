@@ -7,3 +7,19 @@ export const fetchMovieShowTimesApi = (movieId) => {
         method: 'GET'
     })
 }
+
+// lấy thông tin hệ thống rap
+export const fetchHeThongRapApi = (maHeThongRap) => {
+    return request({
+        url: `/QuanLyRap/LayThongTinHeThongRap?maHeThongRap=${maHeThongRap}`,
+        method: "GET"
+    })
+}
+
+// lấy thông tin rap theo hệ thống
+export const fetchCumRapApi = (maHeThongRap) => {
+    return request({
+        url: `/QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${maHeThongRap}`,
+        method: "GET"
+    })
+}

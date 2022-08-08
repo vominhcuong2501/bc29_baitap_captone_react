@@ -1,28 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { fetchMovieListApi } from "../../services/movie";
 import { useNavigate } from "react-router-dom";
 import "./movie-list.scss";
 import { Button } from "antd";
 import { Carousel } from "antd";
+// import { LoadingContext } from "../../contexts/loading.context";
+import { useAsync } from "../../hooks/useAsync";
 
 // module xử lý chức năng
 export default function MovieList() {
   // chuyển trang
   const navigate = useNavigate();
 
-  // đặt state
-  let [movieList, setMovieList] = useState([]);
+  // cách 1:
+  // // đặt state từ useContext
+  // const [loadingState, setLoadingState] = useContext(LoadingContext);
 
-  // goi hàm khi khởi động trang
-  useEffect(() => {
-    fetchMovieList();
-  }, []);
+  // // đặt state
+  // let [movieList, setMovieList] = useState([]);
 
-  // call api
-  const fetchMovieList = async () => {
-    const result = await fetchMovieListApi();
-    setMovieList(result.data.content);
-  };
+  // // goi hàm khi khởi động trang
+  // useEffect(() => {
+  //   fetchMovieList();
+  // }, []);
+
+  // // call api
+  // const fetchMovieList = async () => {
+  //   setLoadingState({ isLoading: true });
+  //   const result = await fetchMovieListApi();
+  //   setLoadingState({ isLoading: false });
+  //   setMovieList(result.data.content);
+  // };
+
+  // cách 2: dùng useAsync tự tạo, lấy danh sách film
+  const {state: movieList = []} = useAsync({
+    dependencies: [],
+    service: () => fetchMovieListApi()
+  })
 
   // render dữ liệu
   const renderMovieList = () => {
@@ -70,11 +84,16 @@ export default function MovieList() {
     height: "100%",
   };
 
-
   return (
     <div style={styleBgMovieList}>
-      <div className="container py-5 mx-auto" id="carouselId" >
-        <Carousel autoplay slidesToShow={4} slidesToScroll={1} arrows dots={false} >
+      <div className="container py-5 mx-auto" id="carouselId">
+        <Carousel
+          autoplay
+          slidesToShow={4}
+          slidesToScroll={1}
+          arrows
+          dots={false}
+        >
           {renderMovieList()}
         </Carousel>
       </div>
