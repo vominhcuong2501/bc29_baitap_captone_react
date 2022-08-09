@@ -45,7 +45,7 @@ export const fetchDeleteUserApi = (data) => {
 };
 
 // sừa thông tin dành cho admin
-export const fetchEditAdminApi = (data) => {
+export const fetchUpdateAdminApi = (data) => {
   return request({
     url: `/QuanLyNguoiDung/CapNhatThongTinNguoiDung`,
     method: 'POST',

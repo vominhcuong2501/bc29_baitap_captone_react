@@ -56,8 +56,8 @@ export default function MovieList() {
             <div className="overlay">
               <div className="card-body film-text">
                 <h5
-                  className="card-title text-dark"
-                  style={{ fontWeight: "bold" }}
+                  className="card-title text-danger"
+                  style={{ fontWeight: "bold", fontSize: '20px' }}
                 >
                   {ele.tenPhim}
                 </h5>

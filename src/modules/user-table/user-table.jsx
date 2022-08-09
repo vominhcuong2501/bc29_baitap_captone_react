@@ -1,45 +1,38 @@
 import React from "react";
 import { Button, notification, Space, Table } from "antd";
 import { useAsync } from "hooks/useAsync";
-import { fetchDeleteMovieApi, fetchMovieListApi } from "services/movie";
 import { useNavigate } from "react-router-dom";
-import { format } from "utils/common";
-import "./movie-table.scss";
+import "./user-table.scss";
+import { fetchDeleteUserApi, fetchUserListApi } from "services/user";
 
-export default function MovieTable() {
+export default function UserTable() {
   const navigate = useNavigate();
 
   const columns = [
     {
-      title: "Mã phim",
-      dataIndex: "maPhim",
-      key: "maPhim",
+      title: "Tài khoản",
+      dataIndex: "taiKhoan",
+      key: "taiKhoan",
     },
     {
-      title: "Hình ảnh",
-      dataIndex: "hinhAnh",
-      key: "hinhAnh",
-      render: (text) => {
-        return <img src={text} alt={text} width={100} height={70} />;
-      },
+      title: "Họ tên",
+      dataIndex: "hoTen",
+      key: "hoTen",
     },
     {
-      title: "Tên phim",
-      dataIndex: "tenPhim",
-      key: "tenPhim",
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
     },
     {
-      title: "Ngày khởi chiếu",
-      dataIndex: "ngayKhoiChieu",
-      key: "ngayKhoiChieu",
-      render: (text) => {
-        return <span>{format(text)}</span>;
-      },
+      title: "Số ĐT",
+      dataIndex: "soDT",
+      key: "soDT",
     },
     {
-      title: "Đánh giá",
-      dataIndex: "danhGia",
-      key: "danhGia",
+      title: "Loại ND",
+      dataIndex: "maLoaiNguoiDung",
+      key: "maLoaiNguoiDung",
     },
     {
       title: "Action",
@@ -49,12 +42,15 @@ export default function MovieTable() {
           <Button
             type="primary"
             onClick={() =>
-              navigate(`/admin/movie-management/${record.maPhim}/update-movie`)
+              navigate(`/admin/user-management/${record.taiKhoan}/update-user`)
             }
           >
             <i className="fa-solid fa-pen-to-square"></i>
           </Button>
-          <Button type="danger" onClick={() => fetchDeleteMovie(record.maPhim)}>
+          <Button
+            type="danger"
+            onClick={() => fetchDeleteUser(record.taiKhoan)}
+          >
             <i className="fa-solid fa-trash"></i>
           </Button>
         </Space>
@@ -64,13 +60,13 @@ export default function MovieTable() {
 
   // lấy danh sách phim
   const { state: data = [] } = useAsync({
-    service: () => fetchMovieListApi(),
+    service: () => fetchUserListApi(),
   });
 
   // xóa phim
-  const fetchDeleteMovie = async (taiKhoan) => {
+  const fetchDeleteUser = async (taiKhoan) => {
     try {
-      await fetchDeleteMovieApi(taiKhoan);
+      await fetchDeleteUserApi(taiKhoan);
       notification.success({
         description: "Thành công !!!",
       });
@@ -87,16 +83,16 @@ export default function MovieTable() {
       <div className="text-right mb-3">
         <Button
           type="primary"
-          onClick={() => navigate("/admin/movie-management/create-movie")}
+          onClick={() => navigate("/admin/user-management/create-user")}
         >
-          CREATE MOVIE
+          ADD USER
         </Button>
       </div>
       <Table
         className="table"
         columns={columns}
         dataSource={data}
-        rowKey="maPhim"
+        rowKey="taiKhoan"
         style={{
           fontFamily: "Times New Roman', Times, serif",
         }}

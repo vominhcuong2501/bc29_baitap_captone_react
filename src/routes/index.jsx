@@ -1,4 +1,6 @@
+import CreateUser from "pages/create-user/create-user";
 import MovieUpdate from "pages/movie-update/movie-update";
+import UpdateUser from "pages/update-user/update-user";
 import React, { lazy } from "react";
 import { useRoutes } from "react-router-dom";
 // import HomeLayout from "../layouts/home";
@@ -32,7 +34,7 @@ const AuthGuard = lazy(() => import("pages/guards/auth.guard"));
 const MovieManagement = lazy(() => import("pages/movie-management/movie-management"));
 const UserManagement = lazy(() => import("pages/user-management/user-management"));
 const AdminGuard = lazy(() => import("pages/guards/admin.guard"));
-const FormProfile = lazy(() => import("pages/profile/profile"));
+const FormProfile = lazy(() => import("modules/profile/profile"));
 const MovieCreate = lazy(() => import("pages/movie-create/movie-create"));
 
 
@@ -124,6 +126,14 @@ export default function Router() {
             {
               path: "/admin/user-management",
               element: <UserManagement />,
+            },
+            {
+              path: "/admin/user-management/create-user",
+              element: <CreateUser />,
+            },
+            {
+              path: "/admin/user-management/:taiKhoan/update-user",
+              element: <UpdateUser />,
             },
           ],
         },

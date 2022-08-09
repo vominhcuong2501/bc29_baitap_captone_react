@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
-  Cascader,
   DatePicker,
   Form,
   Image,
@@ -9,9 +8,7 @@ import {
   InputNumber,
   notification,
   Radio,
-  Select,
   Switch,
-  TreeSelect,
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { GROUP_ID } from "constans/common";
@@ -88,17 +85,29 @@ export default function MovieForm() {
 
     // submit
     if (params.movieId) {
-      await fetchUpdateMovieApi(formData);
-      notification.success({
-        description: "Thành công !!!",
-      });
-      navigate("/admin/movie-management");
+      try {
+        await fetchUpdateMovieApi(formData);
+        notification.success({
+          description: "Thành công !!!",
+        });
+        navigate("/admin");
+      } catch (errors) {
+        notification.warning({
+          message: errors.response.data.content,
+        });
+      }
     } else {
-      await fetchAddMovieUploadImageApi(formData);
-      notification.success({
-        description: "Thành công !!!",
-      });
-      navigate("/admin/movie-management");
+      try {
+        await fetchAddMovieUploadImageApi(formData);
+        notification.success({
+          description: "Thành công !!!",
+        });
+        navigate("/admin");
+      } catch (errors) {
+        notification.warning({
+          message: errors.response.data.content,
+        });
+      }
     }
   };
 
