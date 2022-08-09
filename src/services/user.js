@@ -1,3 +1,4 @@
+import { GROUP_ID } from "constans/common";
 import { request } from "../configs/axios";
 
 // đăng nhập
@@ -21,7 +22,7 @@ export const registerApi = (data) => {
 // lấy danh sách người dùng
 export const fetchUserListApi = () => {
   return request({
-    url: `/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP02`,
+    url: `/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=${GROUP_ID}`,
     method: "GET",
   });
 };
@@ -72,7 +73,7 @@ export const fetchEditUserApi = (data) => {
 // tìm kiếm người dùng
 export const fetchSearchUserApi = (keyword) => {
   return request({
-    url: `/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=GP02&tuKhoa=${keyword}`,
+    url: `/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=${GROUP_ID}&tuKhoa=${keyword}`,
     method: 'POST'
   })
 }

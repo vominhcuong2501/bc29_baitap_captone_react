@@ -9,3 +9,7 @@ export const BASE_URL = "https://movienew.cybersoft.edu.vn/api";
 
 // key localstore
 export const USER_INFO_KEY = "USER_INFO_KEY";
+
+
+// key lấy group api
+export const GROUP_ID = "GP02"
