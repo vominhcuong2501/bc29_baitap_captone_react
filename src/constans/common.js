@@ -13,3 +13,9 @@ export const USER_INFO_KEY = "USER_INFO_KEY";
 
 // key lấy group api
 export const GROUP_ID = "GP02"
+
+// maHeThongRap
+export const maHeThongRap = [
+  "BHDStar", "CGV", 'LotteCinima', 'MegaGS', 'Galaxy', 'CineStar'
+]
+

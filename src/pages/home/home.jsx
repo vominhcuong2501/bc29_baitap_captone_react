@@ -1,3 +1,4 @@
+import CumRap from "modules/cum-rap/cum-rap";
 import React from "react";
 import Carousels from "../../modules/carousel/carousel";
 import MovieList from "../../modules/movie-list/movie-list";
@@ -9,6 +10,7 @@ export default function Home() {
     <div>
       <Carousels />
       <MovieList />
+      <CumRap />
     </div>
   );
 }

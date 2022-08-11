@@ -76,9 +76,9 @@ export default function Header() {
               </a>
             </li>
             <li className="nav-item ">
-              <a className="nav-link px-lg-4 px-2" href="#">
+              <NavLink className="nav-link px-lg-4 px-2" to="/cum-rap">
                 CỤM RẠP
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item ">
               {!userInfo ? (

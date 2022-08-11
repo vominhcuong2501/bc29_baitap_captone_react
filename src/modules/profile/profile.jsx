@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchEditUserApi, fetchInfomationApi } from "../../services/user";
 import { useSelector } from "react-redux";
@@ -285,7 +285,7 @@ export default function FormProfile(props) {
             return (
               <div className="card" key={ele.maVe}>
                 <div className="row mt-2">
-                  <div className="col-3">
+                  <div className="col-lg-3 col-12">
                     <img
                       src={ele.hinhAnh}
                       alt={ele.hinhAnh}
@@ -294,11 +294,11 @@ export default function FormProfile(props) {
                       className="ml-3"
                     />
                   </div>
-                  <div className="col-9 card-body p-0">
-                    <h2 className="card-title" style={{ fontWeight: "bold" }}>
+                  <div className="col-lg-9 col-12 card-body px-5 py-lg-0 py-3">
+                    <h3 className="card-title" style={{ fontWeight: "bold" }}>
                       Tên phim:{" "}
                       <span className=" text-warning">{ele.tenPhim}</span>
-                    </h2>
+                    </h3>
                     <p className="card-text m-0">
                       Ngày đặt:{" "}
                       <span className="text-primary">
@@ -320,9 +320,19 @@ export default function FormProfile(props) {
                     <p className="card-text m-0">
                       {ele.danhSachGhe.map((ele, index) => {
                         return (
-                          <span key={index}>
-                            Địa chỉ:{ele.tenHeThongRap} - {ele.tenRap} - Số ghế:{ele.tenGhe}
-                          </span>
+                          <Fragment key={index}>
+                          {index === 0 && (<span>Địa chỉ:{ele.tenHeThongRap} - {ele.tenRap}</span>)}
+                        </Fragment>
+                        );
+                      })}
+                    </p>
+                    <p className="card-text m-0">
+                      Số ghế: 
+                      {ele.danhSachGhe.map((ele, index) => {
+                        return (
+                          <span className="mx-1" key={index} >
+                          {ele.tenGhe}, 
+                        </span>
                         );
                       })}
                     </p>

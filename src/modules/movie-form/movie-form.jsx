@@ -33,11 +33,9 @@ export default function MovieForm() {
     setComponentSize(e.target.value);
   };
 
-  // custom hook của form antd
-  const [form] = Form.useForm();
-
-  // đặt state gán cho handleChangeImage
+  // đặt state gán cho form
   const [image, setImage] = useState();
+  console.log(image);
 
   // đặt state gửi lên back-end
   const [file, setFile] = useState();
@@ -55,12 +53,16 @@ export default function MovieForm() {
   };
 
   //render dữ liệu khi edit
-  const { state: movieDetail = [] } = useAsync({
+  const { state: movieDetail} = useAsync({
     service: () => fetchMovieDetailApi(params.movieId),
     dependencies: [params.movieId],
     condition: !!params.movieId,
   });
 
+  // custom hook của form antd dùng để set dữ liệu
+  const [form] = Form.useForm();
+
+  // xét nếu movieDetail tồn tại thì set dữ liệu vô form
   useEffect(() => {
     if (movieDetail) {
       form.setFieldsValue({
@@ -75,14 +77,14 @@ export default function MovieForm() {
   const handleSave = async (values) => {
     // gửi dữ liệu lên beck-end
     values.ngayKhoiChieu = values.ngayKhoiChieu.format("DD/MM/YYYY"); // nếu đối tượng là moment mới dùng được (chuyển đổi dữ liệu)
-    values.maNhom = GROUP_ID;
-    const formData = new FormData();
-    file && formData.append("File", file, file.name);
+    values.maNhom = GROUP_ID; // set cứng maNhom
+    const formData = new FormData(); // tạo đối tượng add dữ liệu
+    file && formData.append("File", file, file.name); // nếu file tồn tại thì gửi
     for (let key in values) {
       formData.append(key, values[key]);
     }
+    // nếu có movieId thì mới gửi maPhim
     params.movieId && formData.append("maPhim", params.movieId);
-
     // submit
     if (params.movieId) {
       try {
@@ -113,6 +115,7 @@ export default function MovieForm() {
 
   return (
     <Form
+    // form là khi edit render ra dữ liệu
       form={form}
       labelCol={{
         span: 4,

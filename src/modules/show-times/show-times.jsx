@@ -30,6 +30,7 @@ export default function ShowTimes() {
     dependencies: [],
     service: () => fetchMovieShowTimesApi(params.movieId)
   })
+  console.log(movieShowTimes);
 
   //render logo hệ thống rạp
   const renderTabs = () => {
@@ -44,6 +45,7 @@ export default function ShowTimes() {
           aria-selected="true"
         >
           <img src={ele.logo} alt={ele.tenHeThongRap} width={70} height={70} />
+          <span className="ml-3">{ele.tenHeThongRap}</span>
         </a>
       );
     });

@@ -33,16 +33,16 @@ export default function MovieList() {
   // };
 
   // cách 2: dùng useAsync tự tạo, lấy danh sách film
-  const {state: movieList = []} = useAsync({
+  const { state: movieList = [] } = useAsync({
     dependencies: [],
-    service: () => fetchMovieListApi()
-  })
+    service: () => fetchMovieListApi(),
+  });
 
   // render dữ liệu
   const renderMovieList = () => {
     return movieList.map((ele, index) => {
       return (
-        <div className=" film-item px-3" key={ele.maPhim}>
+        <div className="film-item px-3" key={ele.maPhim}>
           <div
             className="card movie-card"
             style={{ marginBottom: 20, overflow: "hidden" }}
@@ -57,7 +57,7 @@ export default function MovieList() {
               <div className="card-body film-text">
                 <h5
                   className="card-title text-danger"
-                  style={{ fontWeight: "bold", fontSize: '20px' }}
+                  style={{ fontWeight: "bold", fontSize: "20px" }}
                 >
                   {ele.tenPhim}
                 </h5>

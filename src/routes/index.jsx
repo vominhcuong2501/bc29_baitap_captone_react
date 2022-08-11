@@ -1,6 +1,5 @@
-import CreateUser from "pages/create-user/create-user";
-import MovieUpdate from "pages/movie-update/movie-update";
-import UpdateUser from "pages/update-user/update-user";
+
+import CumRap from "modules/cum-rap/cum-rap";
 import React, { lazy } from "react";
 import { useRoutes } from "react-router-dom";
 // import HomeLayout from "../layouts/home";
@@ -27,16 +26,19 @@ const Home = lazy(() => import("pages/home/home"));
 const MovieDetail = lazy(() => import("pages/movie-detail/movie-detail"));
 const FormLogin = lazy(() => import("pages/formLogin/formLogin"));
 const FormRegister = lazy(() => import("pages/formRegister/formRegister"));
-const Booking = lazy(() => import("pages/booking/booking"));
+const Booking = lazy(() => import("../modules/booking/booking"));
 const AdminLayout = lazy(() => import("../layouts/admin"));
 const NoAuthGuard = lazy(() => import("pages/guards/noAuth.guard"));
 const AuthGuard = lazy(() => import("pages/guards/auth.guard"));
 const MovieManagement = lazy(() => import("pages/movie-management/movie-management"));
 const UserManagement = lazy(() => import("pages/user-management/user-management"));
 const AdminGuard = lazy(() => import("pages/guards/admin.guard"));
-const FormProfile = lazy(() => import("modules/profile/profile"));
+const FormProfile = lazy(() => import("../modules/profile/profile"));
 const MovieCreate = lazy(() => import("pages/movie-create/movie-create"));
-
+const MovieShowTime = lazy (() => import("../modules/movie-show-time/movie-show-time"));
+const CreateUser = lazy (() => import("pages/create-user/create-user"));
+const MovieUpdate = lazy (() => import("pages/movie-update/movie-update"));
+const UpdateUser = lazy (() => import("pages/update-user/update-user"));
 
 export default function Router() {
   const routing = useRoutes([
@@ -55,6 +57,11 @@ export default function Router() {
           path: "/movie",
           element: <MovieList />,
         },
+        // trang cụm rạp
+        {
+          path: "/cum-rap",
+          element: <CumRap />,
+        },
         // trang phim chi tiết
         {
           path: "/movie/:movieId",
@@ -65,10 +72,12 @@ export default function Router() {
           path: "/",
           element: <AuthGuard />,
           children: [
+            // trang đặt vé
             {
               path: "/booking/:maLichChieu",
               element: <Booking />,
             },
+            // trang cá nhân
             {
               path: "/profile",
               element: <FormProfile />,
@@ -80,10 +89,12 @@ export default function Router() {
           path: "/",
           element: <NoAuthGuard />,
           children: [
+            // trang đăng nhập
             {
               path: "/login",
               element: <FormLogin />,
             },
+            // trang đăng ký
             {
               path: "/register",
               element: <FormRegister />,
@@ -117,20 +128,22 @@ export default function Router() {
               path: "/admin/movie-management/:movieId/update-movie",
               element: <MovieUpdate />,
             },
-            // {
-            //   path: "/admin/movie-management/show-time/:movieId",
-            //   element: <MovieShowtime />
-            // },
-
+            // show-time
+            {
+              path: "/admin/movie-management/show-time/:movieId",
+              element: <MovieShowTime />
+            },
             // trang quản lý người dùng
             {
               path: "/admin/user-management",
               element: <UserManagement />,
             },
+            // create-user
             {
               path: "/admin/user-management/create-user",
               element: <CreateUser />,
             },
+            // update-user
             {
               path: "/admin/user-management/:taiKhoan/update-user",
               element: <UpdateUser />,

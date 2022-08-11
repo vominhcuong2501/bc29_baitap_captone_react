@@ -46,17 +46,34 @@ export default function MovieTable() {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Button
-            type="primary"
+          <a
+            title="Update movie"
+            className="text-warning"
+            style={{ fontSize: 20 }}
             onClick={() =>
               navigate(`/admin/movie-management/${record.maPhim}/update-movie`)
             }
           >
             <i className="fa-solid fa-pen-to-square"></i>
-          </Button>
-          <Button type="danger" onClick={() => fetchDeleteMovie(record.maPhim)}>
+          </a>
+          <a
+            title="Delete movie"
+            className="text-danger"
+            style={{ fontSize: 20 }}
+            onClick={() => fetchDeleteMovie(record.maPhim)}
+          >
             <i className="fa-solid fa-trash"></i>
-          </Button>
+          </a>
+          <a
+            title="Create show-time"
+            className="text-success"
+            style={{ fontSize: 20 }}
+            onClick={() =>
+              navigate(`/admin/movie-management/show-time/${record.maPhim}`)
+            }
+          >
+            <i className="fa-solid fa-calendar-days"></i>
+          </a>
         </Space>
       ),
     },
@@ -77,7 +94,7 @@ export default function MovieTable() {
       navigate("/admin");
     } catch (errors) {
       notification.warning({
-        message: (errors.response.data.content),
+        message: errors.response.data.content,
       });
     }
   };

@@ -39,20 +39,25 @@ export default function UserTable() {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Button
-            type="primary"
+          <a
+          title="Update user"
+          style={{fontSize: 20}}
+
+            className="text-warning"
             onClick={() =>
               navigate(`/admin/user-management/${record.taiKhoan}/update-user`)
             }
           >
             <i className="fa-solid fa-pen-to-square"></i>
-          </Button>
-          <Button
-            type="danger"
+          </a>
+          <a
+          title="Delete user"
+          style={{fontSize: 20}}
+            className="text-danger"
             onClick={() => fetchDeleteUser(record.taiKhoan)}
           >
             <i className="fa-solid fa-trash"></i>
-          </Button>
+          </a>
         </Space>
       ),
     },

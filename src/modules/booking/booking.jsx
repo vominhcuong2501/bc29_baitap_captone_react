@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAsync } from "../../hooks/useAsync";
-import Chair from "../../modules/chair/chair";
+import Chair from "../chair/chair";
 import {
   fetchBookingTicketApi,
   fetchRoomListApi,
