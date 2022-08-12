@@ -23,3 +23,11 @@ export const fetchCumRapApi = (maHeThongRap) => {
         method: "GET"
     })
 }
+
+// lấy thông tin lịch chiếu phim
+export const fetchInfomationShowTimeApi = (maHeThongRap, GROUP_ID) => {
+    return request({
+      url: `/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${maHeThongRap}&maNhom=${GROUP_ID}`,
+      method: 'GET'
+    })
+  }

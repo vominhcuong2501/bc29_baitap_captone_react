@@ -129,8 +129,8 @@
 import { notification } from "antd";
 import { maHeThongRap } from "constans/common";
 import { useAsync } from "hooks/useAsync";
-import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchAddShowTimeApi } from "services/booking";
 import { fetchCumRapApi } from "services/cinema";
 import { fetchMovieDetailApi } from "services/movie";
@@ -175,7 +175,6 @@ export default function MovieShowTime() {
     condition: !!state.maHeThongRap,
   });
 
-  console.log(cumRap);
   // submit
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -196,7 +195,6 @@ export default function MovieShowTime() {
         message: errors.response.data.content,
       });
     }
-    console.log(create);
   };
 
   // render hệ thống rạp

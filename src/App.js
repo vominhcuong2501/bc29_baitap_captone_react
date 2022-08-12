@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { LoadingProvider } from "./contexts/loading.context";
 import Router from "./routes";
+import "./App.css"
 
 function App() {
   // render nội dung đặt tron router

@@ -9,6 +9,7 @@ export default function Home() {
   return (
     <div>
       <Carousels />
+
       <MovieList />
       <CumRap />
     </div>

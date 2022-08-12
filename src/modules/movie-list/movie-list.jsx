@@ -40,7 +40,7 @@ export default function MovieList() {
 
   // render dữ liệu
   const renderMovieList = () => {
-    return movieList.map((ele, index) => {
+    return movieList.map((ele) => {
       return (
         <div className="film-item px-3" key={ele.maPhim}>
           <div
@@ -76,17 +76,36 @@ export default function MovieList() {
   };
 
   const styleBgMovieList = {
-    backgroundImage: `url(./hinhnen.jpg)`,
+    backgroundImage: `url(./lichChieu1.jpg)`,
     backgroundSize: "cover",
     backgroundAttachment: "fixed",
     backgroundPosition: "center",
     width: "100%",
-    height: "100%",
+    height: "100vh",
   };
 
   return (
     <div style={styleBgMovieList}>
-      <div className="container py-5 mx-auto" id="carouselId">
+      <div
+        style={{
+          textAlign: "center",
+          backgroundColor: "white"
+        }}
+      >
+        <h2
+          className="text-center text-warning mt-3"
+          style={{
+            background:
+              "url(https://www.cgv.vn/skin/frontend/cgv/default/images/bg-cgv/h3_movie_selection.gif) no-repeat",
+            display: "inline-block",
+            width: "425px",
+            height: "40px",
+          }}
+        >
+        </h2>
+      </div>
+     
+      <div className="container mx-auto" id="carouselId" style={{paddingTop: "150px"}}>
         <Carousel
           autoplay
           slidesToShow={4}
