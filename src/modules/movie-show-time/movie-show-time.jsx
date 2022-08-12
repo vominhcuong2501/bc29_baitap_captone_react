@@ -169,31 +169,32 @@ export default function MovieShowTime() {
   };
 
   // setCumRAp khi có maHeThongRap
-  const {state: cumRap} = useAsync({
+  const { state: cumRap } = useAsync({
     service: () => fetchCumRapApi(state.maHeThongRap),
     dependencies: [state.maHeThongRap],
-    condition: !!state.maHeThongRap
-  })
+    condition: !!state.maHeThongRap,
+  });
 
+  console.log(cumRap);
   // submit
   const handleSubmit = async (event) => {
     event.preventDefault();
     const create = {
       maPhim: movieDetail.maPhim,
-      ngayKhoiChieu: format(state.ngayKhoiChieu, "dd/MM/yyyy hh:mm:ss"),
+      ngayChieuGioChieu: format(state.ngayChieuGioChieu, "DD/MM/YYYY hh:mm:ss"),
       giaVe: Number(state.giaVe),
-      maRap: Number(state.maRap),
+      maRap: state.maRap,
     };
-    try{
-      await fetchAddShowTimeApi(create)
+    try {
+      await fetchAddShowTimeApi(create);
       notification.success({
-        description: 'Thành công !!!'
-      })
-      navigate("/admin/movie-management")
-    } catch(errors) {
+        description: "Thành công !!!",
+      });
+      navigate("/admin/movie-management");
+    } catch (errors) {
       notification.warning({
-        message: (errors.response.data.content)
-      })
+        message: errors.response.data.content,
+      });
     }
     console.log(create);
   };
@@ -208,17 +209,7 @@ export default function MovieShowTime() {
   // renderCumRap
   const renderCumRap = () => {
     return cumRap?.map((ele, index) => {
-      return (
-        <optgroup key={index} label={ele.tenCumRap}>
-          {ele.danhSachRap.map((ele) => {
-            return (
-              <option key={ele.maRap} value={ele.maRap}>
-                {ele.tenRap}
-              </option>
-            );
-          })}
-        </optgroup>
-      );
+      return <option key={index} value={ele.maCumRap}>{ele.tenCumRap}</option>;
     });
   };
 
@@ -227,7 +218,7 @@ export default function MovieShowTime() {
       <h2>Tạo lịch chiếu - {movieDetail.tenPhim}</h2>
       <div className="row mt-5">
         <div className="col-4">
-          <img src={movieDetail.hinhAnh} alt={movieDetail.hinhAnh} />
+          <img src={movieDetail.hinhAnh} alt={movieDetail.hinhAnh} width={300} height={360} />
         </div>
         <div className="col-8">
           <div className="card p-0">
@@ -281,7 +272,7 @@ export default function MovieShowTime() {
                         className="form-control"
                         placeholder="Ngày khởi chiếu"
                         onChange={handleChange}
-                        name="ngayKhoiChieu"
+                        name="ngayChieuGioChieu"
                       />
                     </div>
                   </div>

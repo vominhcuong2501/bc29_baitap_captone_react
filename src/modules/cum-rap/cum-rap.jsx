@@ -1,5 +1,6 @@
 import { maHeThongRap } from "constans/common";
 import { useAsync } from "hooks/useAsync";
+import _ from "lodash";
 import React, { useEffect, useState } from "react";
 import { fetchCumRapApi, fetchHeThongRapApi } from "services/cinema";
 
