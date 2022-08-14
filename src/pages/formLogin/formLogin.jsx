@@ -17,22 +17,40 @@ export default function FormLogin() {
 
   // đặt state
   const [state, setState] = useState({
-    taiKhoan: "",
-    matKhau: "",
+    values: {
+      taiKhoan: "",
+      matKhau: "",
+    },
+    errors: {
+      taiKhoan: "",
+      matKhau: "",
+    },
   });
 
   // setState khi nhập dữ liệu
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const {
+      name,
+      value,
+      title,
+      validity: { valueMissing },
+    } = event.target;
+    let message = "";
+    if (valueMissing) {
+      message = `${title} bị rỗng`;
+    }
     setState({
-      ...state,
-      [name]: value,
+      values: { ...state.values, [name]: value },
+      errors: { ...state.errors, [name]: message },
     });
   };
 
   // submit
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!event.target.checkValidity()) {
+      return;
+    }
     try {
       const result = await loginApi(state);
 
@@ -77,8 +95,12 @@ export default function FormLogin() {
                         placeholder="Tài khoản"
                         onChange={handleChange}
                         name="taiKhoan"
+                        title="(*) Tài khoản"
                       />
                     </div>
+                    {state.errors.taiKhoan && (
+                    <span className="text-danger">{state.errors.taiKhoan}</span>
+                  )}
                   </div>
                   <div className="form-group col-12 my-3">
                     <div className="input-group">
@@ -89,13 +111,17 @@ export default function FormLogin() {
                       </div>
                       <input
                         required
-                        type="text"
+                        type="password"
                         className="form-control"
                         placeholder="Mật khẩu"
                         name="matKhau"
                         onChange={handleChange}
+                        title="(*) Mật khẩu"
                       />
                     </div>
+                    {state.errors.matKhau && (
+                    <span className="text-danger">{state.errors.matKhau}</span>
+                  )}
                   </div>
                 </div>
                 <p>
@@ -108,7 +134,9 @@ export default function FormLogin() {
                   </Link>
                 </p>
                 <div className="text-right">
-                  <button type="submit" className="btn btn-warning mr-2">
+                  <button
+                    disabled={!formRef.current?.checkValidity()}
+                  type="submit" className="btn btn-warning mr-2">
                     Đăng nhập
                   </button>
                 </div>

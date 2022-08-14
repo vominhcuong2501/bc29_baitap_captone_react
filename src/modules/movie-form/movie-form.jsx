@@ -53,7 +53,7 @@ export default function MovieForm() {
   };
 
   //render dữ liệu khi edit
-  const { state: movieDetail} = useAsync({
+  const { state: movieDetail } = useAsync({
     service: () => fetchMovieDetailApi(params.movieId),
     dependencies: [params.movieId],
     condition: !!params.movieId,
@@ -115,7 +115,7 @@ export default function MovieForm() {
 
   return (
     <Form
-    // form là khi edit render ra dữ liệu
+      // form là khi edit render ra dữ liệu
       form={form}
       labelCol={{
         span: 4,
@@ -145,16 +145,51 @@ export default function MovieForm() {
           <Radio.Button value="large">Large</Radio.Button>
         </Radio.Group>
       </Form.Item>
-      <Form.Item label="Tên phim" name="tenPhim">
+      <Form.Item
+        label="Tên phim"
+        name="tenPhim"
+        validateTrigger={["onChange"]}
+        rules={[
+          { required: true, message: "Tên phim không được bỏ trống" },
+          {
+            pattern:
+              "^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
+              "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
+              "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$",
+            message: "Tên phim không đúng định dạng",
+          },
+        ]}
+      >
         <Input />
       </Form.Item>
       <Form.Item label="Trailer" name="trailer">
         <Input />
       </Form.Item>
-      <Form.Item label="Mô tả" name="moTa">
+      <Form.Item
+        label="Mô tả"
+        name="moTa"
+        validateTrigger={["onChange"]}
+        rules={[
+          { required: true, message: "Mô tả không được bỏ trống" },
+          {
+            pattern:
+              "^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
+              "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
+              "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$",
+            message: "Mô tả không đúng định dạng",
+          },
+        ]}
+      >
         <Input />
       </Form.Item>
-      <Form.Item label="Ngày khởi chiếu" name="ngayKhoiChieu">
+      <Form.Item
+        label="Ngày khởi chiếu"
+        name="ngayKhoiChieu"
+        validateTrigger={["onChange"]}
+        rules={[
+          { required: true, message: "Ngày khởi chiếu không được bỏ trống" },
+        ]}
+      >
         <DatePicker />
       </Form.Item>
       <Form.Item label="Đang chiếu" valuePropName="checked" name="dangChieu">
@@ -166,10 +201,25 @@ export default function MovieForm() {
       <Form.Item label="Hot" valuePropName="checked" name="hot">
         <Switch />
       </Form.Item>
-      <Form.Item label="Số sao" name="danhGia">
+      <Form.Item
+        label="Số sao"
+        name="danhGia"
+        validateTrigger={["onChange"]}
+        rules={[
+          { required: true, message: "Số sao không được bỏ trống" },
+          {
+            pattern: /^[0-9]+$/,
+            message: "Số sao không đúng định dạng",
+          },
+        ]}
+      >
         <InputNumber />
       </Form.Item>
-      <Form.Item label="Hình ảnh">
+      <Form.Item
+        label="Hình ảnh"
+        validateTrigger={["onChange"]}
+        rules={[{ required: true, message: "Hình ảnh không được bỏ trống" }]}
+      >
         <Input type="file" onChange={handleChangeImage} />
       </Form.Item>
       <Image src={image} />

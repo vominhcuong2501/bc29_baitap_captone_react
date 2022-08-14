@@ -66,7 +66,7 @@ export default function Header() {
               </NavLink>
             </li>
             <li className="nav-item ">
-              <NavLink className="nav-link px-lg-4 px-2" to="/movie">
+              <NavLink className="nav-link px-lg-4 px-2" to="/movie-1">
                 PHIM
               </NavLink>
             </li>

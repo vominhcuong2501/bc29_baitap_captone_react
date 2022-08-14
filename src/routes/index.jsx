@@ -1,5 +1,6 @@
 
 import CumRap from "modules/cum-rap/cum-rap";
+import MovieList1 from "modules/movie-list/movie-list-1";
 import React, { lazy } from "react";
 import { useRoutes } from "react-router-dom";
 // import HomeLayout from "../layouts/home";
@@ -56,6 +57,10 @@ export default function Router() {
         {
           path: "/movie",
           element: <MovieList />,
+        },
+        {
+          path: "/movie-1",
+          element: <MovieList1 />,
         },
         // trang cụm rạp
         {

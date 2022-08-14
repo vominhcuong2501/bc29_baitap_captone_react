@@ -4,33 +4,12 @@ import { useNavigate } from "react-router-dom";
 import "./movie-list.scss";
 import { Button } from "antd";
 import { Carousel } from "antd";
-// import { LoadingContext } from "../../contexts/loading.context";
 import { useAsync } from "../../hooks/useAsync";
 
 // module xử lý chức năng
-export default function MovieList() {
+export default function MovieList1() {
   // chuyển trang
   const navigate = useNavigate();
-
-  // cách 1:
-  // // đặt state từ useContext
-  // const [loadingState, setLoadingState] = useContext(LoadingContext);
-
-  // // đặt state
-  // let [movieList, setMovieList] = useState([]);
-
-  // // goi hàm khi khởi động trang
-  // useEffect(() => {
-  //   fetchMovieList();
-  // }, []);
-
-  // // call api
-  // const fetchMovieList = async () => {
-  //   setLoadingState({ isLoading: true });
-  //   const result = await fetchMovieListApi();
-  //   setLoadingState({ isLoading: false });
-  //   setMovieList(result.data.content);
-  // };
 
   // cách 2: dùng useAsync tự tạo, lấy danh sách film
   const { state: movieList = [] } = useAsync({
@@ -42,7 +21,10 @@ export default function MovieList() {
   const renderMovieList = () => {
     return movieList.map((ele) => {
       return (
-        <div className="film-item px-3" key={ele.maPhim}>
+        <div
+          className="col-lg-3 col-md-4 col-12 film-item px-3"
+          key={ele.maPhim}
+        >
           <div
             className="card movie-card"
             style={{ marginBottom: 20, overflow: "hidden" }}
@@ -86,7 +68,7 @@ export default function MovieList() {
 
   return (
     <div style={styleBgMovieList}>
-       <div
+      <div
         style={{
           textAlign: "center",
           background:
@@ -95,23 +77,15 @@ export default function MovieList() {
         }}
       >
         <h2
-          className="text-center text-light p-3 display-4"
+          className="text-center text-light mt-3 p-3 display-4"
           style={{
             
           }}
         >MOVIE SELECTION</h2>
       </div>
-     
-      <div className="container py-5" id="carouselId" >
-        <Carousel
-          autoplay
-          slidesToShow={4}
-          slidesToScroll={1}
-          arrows
-          dots={false}
-        >
-          {renderMovieList()}
-        </Carousel>
+
+      <div className="container" style={{ paddingTop: "50px" }}>
+        <div className="row">{renderMovieList()}</div>
       </div>
     </div>
   );

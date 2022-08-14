@@ -119,6 +119,9 @@ export default function FormRegister() {
                       name="hoTen"
                       onChange={handleChange}
                       title="(*) Họ tên"
+                      pattern='^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
+                    "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
+                    "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$'
                     />
                   </div>
                   {state.errors.hoTen && (
@@ -156,7 +159,7 @@ export default function FormRegister() {
                     </div>
                     <input
                       required
-                      type="text"
+                      type="password"
                       className="form-control"
                       placeholder="Mật khẩu"
                       name="matKhau"
@@ -183,6 +186,7 @@ export default function FormRegister() {
                       name="soDT"
                       onChange={handleChange}
                       title="(*) Số điện thoại"
+                      pattern = '^[0-9]+$'
                     />
                   </div>
                   {state.errors.soDT && (

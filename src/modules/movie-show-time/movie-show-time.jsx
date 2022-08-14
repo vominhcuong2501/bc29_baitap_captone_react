@@ -136,6 +136,19 @@ import { fetchCumRapApi } from "services/cinema";
 import { fetchMovieDetailApi } from "services/movie";
 import { format } from "utils/common";
 
+let DEFAULT_VALUES = {
+  maHeThongRap: "",
+  maRap: "",
+  ngayKhoiChieu: "",
+  giaVe: "",
+};
+let DEFAULT_ERRROS = {
+  maHeThongRap: "",
+  maRap: "",
+  ngayKhoiChieu: "",
+  giaVe: "",
+};
+
 export default function MovieShowTime() {
   // chuyển trang
   const navigate = useNavigate();
@@ -148,10 +161,8 @@ export default function MovieShowTime() {
 
   // đặt state
   const [state, setState] = useState({
-    maHeThongRap: "",
-    maRap: "",
-    ngayKhoiChieu: "",
-    giaVe: "",
+    values: DEFAULT_VALUES,
+    errors: DEFAULT_ERRROS,
   });
 
   // lấy thông tin phim
@@ -161,28 +172,43 @@ export default function MovieShowTime() {
 
   // setState khi nhập dữ liệu
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const {
+      name,
+      value,
+      title,
+      validity: { valueMissing, patternMismatch },
+    } = event.target;
+    let message = "";
+    if (patternMismatch) {
+      message = `${title} không đúng kiểu dữ liệu`;
+    }
+    if (valueMissing) {
+      message = `${title} không được bỏ trống`;
+    }
     setState({
-      ...state,
-      [name]: value,
+      values: { ...state.values, [name]: value },
+      errors: { ...state.errors, [name]: message },
     });
   };
 
   // setCumRAp khi có maHeThongRap
   const { state: cumRap } = useAsync({
-    service: () => fetchCumRapApi(state.maHeThongRap),
-    dependencies: [state.maHeThongRap],
-    condition: !!state.maHeThongRap,
+    service: () => fetchCumRapApi(state.values.maHeThongRap),
+    dependencies: [state.values.maHeThongRap],
+    condition: !!state.values.maHeThongRap,
   });
-
+console.log(cumRap);
   // submit
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!event.target.checkValidity()) {
+      return;
+    }
     const create = {
       maPhim: movieDetail.maPhim,
       ngayChieuGioChieu: format(state.ngayChieuGioChieu, "DD/MM/YYYY hh:mm:ss"),
-      giaVe: Number(state.giaVe),
-      maRap: state.maRap,
+      giaVe: Number(state.values.giaVe),
+      maRap: state.values.maRap,
     };
     try {
       await fetchAddShowTimeApi(create);
@@ -207,7 +233,11 @@ export default function MovieShowTime() {
   // renderCumRap
   const renderCumRap = () => {
     return cumRap?.map((ele, index) => {
-      return <option key={index} value={ele.maCumRap}>{ele.tenCumRap}</option>;
+      return (
+        <option key={index} value={ele.maCumRap}>
+          {ele.tenCumRap}
+        </option>
+      );
     });
   };
 
@@ -216,7 +246,12 @@ export default function MovieShowTime() {
       <h2>Tạo lịch chiếu - {movieDetail.tenPhim}</h2>
       <div className="row mt-5">
         <div className="col-4">
-          <img src={movieDetail.hinhAnh} alt={movieDetail.hinhAnh} width={300} height={360} />
+          <img
+            src={movieDetail.hinhAnh}
+            alt={movieDetail.hinhAnh}
+            width={300}
+            height={360}
+          />
         </div>
         <div className="col-8">
           <div className="card p-0">
@@ -231,14 +266,21 @@ export default function MovieShowTime() {
                         </span>
                       </div>
                       <select
+                        required
                         className="form-control"
                         onChange={handleChange}
                         name="maHeThongRap"
+                        title="(*) Hệ thống rạp"
                       >
                         <option>Chọn hệ thống rạp</option>
                         {renderHethongRap()}
                       </select>
                     </div>
+                    {state.errors.maHeThongRap && (
+                      <span className="text-danger">
+                        {state.errors.maHeThongRap}
+                      </span>
+                    )}
                   </div>
                   <div className=" col-12 form-group my-3">
                     <div className="input-group">
@@ -251,11 +293,16 @@ export default function MovieShowTime() {
                         className="form-control"
                         onChange={handleChange}
                         name="maRap"
+                        required
+                        title="(*) Mã rạp"
                       >
                         <option>Chọn cụm rạp</option>
                         {renderCumRap()}
                       </select>
                     </div>
+                    {state.errors.maRap && (
+                      <span className="text-danger">{state.errors.maRap}</span>
+                    )}
                   </div>
                   <div className=" col-12 form-group my-3">
                     <div className="input-group">
@@ -271,8 +318,14 @@ export default function MovieShowTime() {
                         placeholder="Ngày khởi chiếu"
                         onChange={handleChange}
                         name="ngayChieuGioChieu"
+                        title="Ngày khởi chiếu"
                       />
                     </div>
+                    {state.errors.ngayChieuGioChieu && (
+                      <span className="text-danger">
+                        {state.errors.ngayChieuGioChieu}
+                      </span>
+                    )}
                   </div>
                   <div className="form-group col-12 my-3">
                     <div className="input-group">
@@ -287,13 +340,22 @@ export default function MovieShowTime() {
                         className="form-control"
                         placeholder="Giá vé"
                         name="giaVe"
+                        title="(*) Giá vé"
                         onChange={handleChange}
+                        pattern= "^[0-9]+$"
                       />
                     </div>
+                    {state.errors.giaVe && (
+                      <span className="text-danger">{state.errors.giaVe}</span>
+                    )}
                   </div>
                 </div>
                 <div className="text-right">
-                  <button type="submit" className="btn btn-warning mr-2">
+                  <button
+                    disabled={!formRef.current?.checkValidity()}
+                    type="submit"
+                    className="btn btn-warning mr-2"
+                  >
                     CREATE SHOW-TIME
                   </button>
                 </div>

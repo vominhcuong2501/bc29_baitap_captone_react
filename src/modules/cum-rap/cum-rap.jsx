@@ -59,8 +59,8 @@ export default function MovieShowTime() {
                 className={`row pt-3 ${index === 0 && "active"}`}
                 key={ele.maCumRap}
               >
-                <div className="col-5">
-                  <div className="row">
+                <div className="col-lg-5 col-12">
+                  <div className="row mb-3">
                     <div className="col-4">
                       <img className="img-fluid rounded" src={ele.hinhAnh} />
                     </div>
@@ -75,7 +75,7 @@ export default function MovieShowTime() {
                     </div>
                   </div>
                 </div>
-                <div className="col-7">
+                <div className="col-lg-7 col-12">
                   <div className="row">
                     {ele.danhSachPhim.map((ele) => {
                       return (
@@ -84,7 +84,7 @@ export default function MovieShowTime() {
                           key={ele.maPhim}
                         >
                           <div className="row">
-                            <div className="col-4">
+                            <div className="col-lg-4 col-12">
                               <img
                                 src={ele.hinhAnh}
                                 alt={ele.hinhAnh}
@@ -92,14 +92,14 @@ export default function MovieShowTime() {
                                 height={150}
                               />
                             </div>
-                            <div className="col-8">
-                              <h4
+                            <div className="col-lg-8 col-12">
+                              <h3
                                 className="text-dark m-0"
                                 style={{ fontWeight: "bold" }}
                               >
                                 {ele.tenPhim}
-                              </h4>
-                              <p className="text-dark mb-0">
+                              </h3>
+                              <p className="text-dark mt-2 mb-3">
                                 Thời gian:{" "}
                                 <span>{format(ele.ngayChieuGioChieu)}</span>
                               </p>
@@ -107,7 +107,7 @@ export default function MovieShowTime() {
                               <Link
                                 to={`/movie/${ele.maPhim}`}
                                 className="btn btnDatVe"
-                                style={{ backgroundColor: "pink" }}
+                                style={{ backgroundColor: "green" }}
                               >
                                 Xem thêm
                               </Link>
@@ -135,30 +135,24 @@ export default function MovieShowTime() {
     height: "100%",
   };
 
+  const styleTitle = {
+    backgroundColor: "white",
+    background:
+      "linear-gradient(to right,#673ab7 0,#e91e63 36%,#e91e63 65%,#673ab7 100%)",
+    fontWeight: "700",
+    color: "white",
+    animation: "development 6s infinite linear",
+  };
+
   return (
     <div style={styleBgCinema}>
-      <h1
-        className="text-center text-warning p-3"
-        style={{
-          backgroundColor: "white",
-          background:
-            "linear-gradient(to right,#673ab7 0,#e91e63 36%,#e91e63 65%,#673ab7 100%)",
-          fontWeight: "700",
-          color: "white",
-          animation: "development 6s infinite linear",
-        }}
+      <div
+        className="container-fluid p-5"
+        style={{ fontWeight: "bold", background: "rgba(255,255,255,0.5)" }}
       >
-        DANH SÁCH CỤM RẠP
-      </h1>
-      <div className="container-fluid p-5" style={{fontWeight: "bold"}}>
-        <div
-          className="row"
-        >
+        <div className="row">
           <div className="col-lg-3 col-12 p-0">
-            <h2
-              className="text-center p-3"
-              style={{ fontWeight: "bold", color: "black" }}
-            >
+            <h2 className="text-center p-3" style={styleTitle}>
               Cụm rạp
             </h2>
             <div
@@ -171,11 +165,8 @@ export default function MovieShowTime() {
             </div>
           </div>
           <div className="col-lg-9 col-12 p-0 pl-5">
-            <h2
-              className="text-center p-3"
-              style={{ fontWeight: "bold", color: "black" }}
-            >
-              Thông tin rạp
+            <h2 className="text-center p-3" style={styleTitle}>
+              Thông tin lịch chiếu
             </h2>
 
             <div className="tab-content" id="v-pills-tabContent">
