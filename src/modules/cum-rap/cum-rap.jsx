@@ -30,9 +30,7 @@ export default function MovieShowTime() {
       return (
         <a
           key={ele}
-          className={`nav-link text-capitalize text-dark ${
-            index === 0 && "active"
-          }`}
+          className={`nav-link text-capitalize text-dark ${index === 0 && "active"}`}
           data-toggle="pill"
           role="tab"
           aria-selected="true"
@@ -56,7 +54,7 @@ export default function MovieShowTime() {
           {ele.lstCumRap.map((ele, index) => {
             return (
               <div
-                className={`row pt-3 ${index === 0 && "active"}`}
+                className='row pt-3 '
                 key={ele.maCumRap}
               >
                 <div className="col-lg-5 col-12">
@@ -106,8 +104,8 @@ export default function MovieShowTime() {
 
                               <Link
                                 to={`/movie/${ele.maPhim}`}
-                                className="btn btnDatVe"
-                                style={{ backgroundColor: "green" }}
+                                className="btn"
+                                style={{ backgroundColor: "aqua" }}
                               >
                                 Xem thêm
                               </Link>

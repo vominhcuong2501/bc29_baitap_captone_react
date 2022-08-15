@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, notification, Space, Table } from "antd";
+import React, { useState } from "react";
+import { Button, Input, notification, Space, Table } from "antd";
 import { useAsync } from "hooks/useAsync";
 import { useNavigate } from "react-router-dom";
 import "./user-table.scss";
@@ -7,6 +7,10 @@ import { fetchDeleteUserApi, fetchUserListApi } from "services/user";
 
 export default function UserTable() {
   const navigate = useNavigate();
+
+  const [searchState, setSearchState] = useState([]);
+
+  const { Search } = Input;
 
   const columns = [
     {
@@ -83,8 +87,31 @@ export default function UserTable() {
     }
   };
 
+  const onSearch = (value) => {
+    let searchData = data.filter((ele) => {
+      return (
+        ele.hoTen.toLowerCase().trim().indexOf(value.toLowerCase().trim()) !==
+        -1
+      );
+    });
+    console.log(searchData);
+    setSearchState(searchData);
+    console.log(searchData);
+  };
+
   return (
     <div className="container">
+        <div>
+          <Space direction="vertical">
+            <Search
+              placeholder="Nhập họ tên cần tìm"
+              onSearch={onSearch}
+              enterButton
+              name="keyword"
+              allowClear
+            />
+          </Space>
+        </div>
       <div className="text-right mb-3">
         <Button
           type="primary"
@@ -96,7 +123,7 @@ export default function UserTable() {
       <Table
         className="table"
         columns={columns}
-        dataSource={data}
+        dataSource={searchState.length > 0 ? searchState : data}
         rowKey="taiKhoan"
         style={{
           fontFamily: "Times New Roman', Times, serif",

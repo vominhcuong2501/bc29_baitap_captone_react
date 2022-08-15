@@ -52,7 +52,7 @@ export default function FormLogin() {
       return;
     }
     try {
-      const result = await loginApi(state);
+      const result = await loginApi(state.values);
 
       // 1. lưu local store
       localStorage.setItem(USER_INFO_KEY, JSON.stringify(result.data.content));
@@ -111,7 +111,7 @@ export default function FormLogin() {
                       </div>
                       <input
                         required
-                        type="password"
+                        type="text"
                         className="form-control"
                         placeholder="Mật khẩu"
                         name="matKhau"

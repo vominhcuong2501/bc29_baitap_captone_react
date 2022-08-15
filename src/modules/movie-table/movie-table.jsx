@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, notification, Space, Table } from "antd";
+import React, { useState } from "react";
+import { Button, Input, notification, Space, Table } from "antd";
 import { useAsync } from "hooks/useAsync";
 import { fetchDeleteMovieApi, fetchMovieListApi } from "services/movie";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,10 @@ import "./movie-table.scss";
 
 export default function MovieTable() {
   const navigate = useNavigate();
+
+  const [searchState, setSearchState] = useState([]);
+
+  const { Search } = Input;
 
   const columns = [
     {
@@ -99,8 +103,30 @@ export default function MovieTable() {
     }
   };
 
+  // tìm kiếm
+  const onSearch = (value) => {
+    let searchData = data.filter((ele) => {
+      return (
+        ele.tenPhim.toLowerCase().trim().indexOf(value.toLowerCase().trim()) !==
+        -1
+      );
+    });
+    setSearchState(searchData);
+  };
+
   return (
     <div className="container">
+      <div>
+          <Space direction="vertical">
+            <Search
+              placeholder="Nhập họ tên cần tìm"
+              onSearch={onSearch}
+              enterButton
+              name="keyword"
+              allowClear
+            />
+          </Space>
+        </div>
       <div className="text-right mb-3">
         <Button
           type="primary"
@@ -112,7 +138,7 @@ export default function MovieTable() {
       <Table
         className="table"
         columns={columns}
-        dataSource={data}
+        dataSource={searchState.length > 0 ? searchState : data}
         rowKey="maPhim"
         style={{
           fontFamily: "Times New Roman', Times, serif",
