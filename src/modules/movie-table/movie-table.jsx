@@ -119,7 +119,7 @@ export default function MovieTable() {
       <div>
           <Space direction="vertical">
             <Search
-              placeholder="Nhập họ tên cần tìm"
+              placeholder="Nhập tên phim"
               onSearch={onSearch}
               enterButton
               name="keyword"

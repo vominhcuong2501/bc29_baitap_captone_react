@@ -7,6 +7,7 @@ import {
   fetchRoomListApi,
 } from "../../services/booking";
 import "./booking.scss";
+import { notification } from "antd";
 
 export default function Booking() {
   // chuyển trang khi đặt xong
@@ -31,10 +32,10 @@ export default function Booking() {
   // };
 
   //cách 2: dùng useAsync tự tạo, lấy danh sách phòng vé về
-  const {state: roomList = []} = useAsync({
+  const { state: roomList = [] } = useAsync({
     dependencies: [],
-    service: () => fetchRoomListApi(params.maLichChieu)
-  })
+    service: () => fetchRoomListApi(params.maLichChieu),
+  });
 
   // thao tác click kiểm tra ghế dc chọn đã có trong mảng chưa
   const handleSelect = (selecTedChair) => {
@@ -60,9 +61,17 @@ export default function Booking() {
       maLichChieu: params.maLichChieu,
       danhSachVe,
     };
-    await fetchBookingTicketApi(submitData);
-    alert("Chúc mừng bạn đã đặt vé thành công !!!");
-    navigate("/");
+    try {
+      await fetchBookingTicketApi(submitData);
+      notification.success({
+        description: "Chúc mừng bạn đã đặt vé thành công !!!",
+      });
+      navigate("/");
+    } catch (errors) {
+      notification.warning({
+        message: errors.response.data.content,
+      });
+    }
   };
 
   const styleBgBooking = {
@@ -76,10 +85,7 @@ export default function Booking() {
 
   // nếu roomList tồn tại xuất nội dung còn không thì chạy loading
   return (
-    <div
-      className="container-fluid py-3"
-      style={styleBgBooking}
-    >
+    <div className="container-fluid py-3" style={styleBgBooking}>
       <div className="row m-5 text-center">
         <div className="col-12 col-lg-8 ">
           <div className="booking-top">
@@ -89,7 +95,7 @@ export default function Booking() {
                 style={{
                   position: "absolute",
                   right: "50%",
-                  height:'100px',
+                  height: "100px",
                   transform: "translatex(50%)",
                 }}
               >
@@ -124,7 +130,9 @@ export default function Booking() {
           </div>
         </div>
         <div className="col-12 col-lg-4  ">
-          <h1 className="text-light mb-3" style={{fontWeight: 'bold'}}>Thông tin đặt vé</h1>
+          <h1 className="text-light mb-3" style={{ fontWeight: "bold" }}>
+            Thông tin đặt vé
+          </h1>
           <table
             className="table p-5 text-light"
             style={{ border: "2px dashed white" }}
@@ -132,7 +140,10 @@ export default function Booking() {
             <tbody>
               <tr className="my-2 text-center">
                 <th className="text-left">Tên phim:</th>
-                <th className="text-right text-warning" style={{ fontSize: 20 }}>
+                <th
+                  className="text-right text-warning"
+                  style={{ fontSize: 20 }}
+                >
                   <b>{roomList?.thongTinPhim?.tenPhim}</b>
                 </th>
               </tr>
@@ -144,7 +155,9 @@ export default function Booking() {
               </tr>
               <tr>
                 <td className="text-left">Địa chỉ:</td>
-                <td className="text-right text-warning">{roomList?.thongTinPhim?.diaChi}</td>
+                <td className="text-right text-warning">
+                  {roomList?.thongTinPhim?.diaChi}
+                </td>
               </tr>
               <tr>
                 <td className="text-left">Ngày - giờ chiếu:</td>
@@ -207,5 +220,5 @@ export default function Booking() {
         </div>
       </div>
     </div>
-  )
+  );
 }
