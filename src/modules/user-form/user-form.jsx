@@ -114,7 +114,7 @@ export default function UserForm() {
         name="hoTen"
         validateTrigger={["onChange"]}
         rules={[
-          { required: true, message: "Tên phim không được bỏ trống" },
+          { required: true, message: "Họ tên không được bỏ trống" },
           {
             pattern:
               "^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +

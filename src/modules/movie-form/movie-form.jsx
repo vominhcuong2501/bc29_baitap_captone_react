@@ -162,7 +162,14 @@ export default function MovieForm() {
       >
         <Input />
       </Form.Item>
-      <Form.Item label="Trailer" name="trailer">
+      <Form.Item
+        label="Trailer"
+        name="trailer"
+        validateTrigger={["onChange"]}
+        rules={[
+          { required: true, message: "Trailer không được bỏ trống" },
+        ]}
+      >
         <Input />
       </Form.Item>
       <Form.Item
