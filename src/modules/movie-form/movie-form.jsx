@@ -151,13 +151,6 @@ export default function MovieForm() {
         validateTrigger={["onChange"]}
         rules={[
           { required: true, message: "Tên phim không được bỏ trống" },
-          {
-            pattern:
-              "^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
-              "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
-              "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$",
-            message: "Tên phim không đúng định dạng",
-          },
         ]}
       >
         <Input />
@@ -178,13 +171,6 @@ export default function MovieForm() {
         validateTrigger={["onChange"]}
         rules={[
           { required: true, message: "Mô tả không được bỏ trống" },
-          {
-            pattern:
-              "^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
-              "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
-              "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$",
-            message: "Mô tả không đúng định dạng",
-          },
         ]}
       >
         <Input />
