@@ -42,7 +42,7 @@ export default function UserForm() {
     }
   }, [infoUser]);
 
-  // hàm submit thêm phim
+  // hàm submit
   const handleSave = async (values) => {
     if (params.taiKhoan) {
       try {

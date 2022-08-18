@@ -4,6 +4,7 @@ import { fetchEditUserApi, fetchInfomationApi } from "../../services/user";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { useAsync } from "../../hooks/useAsync";
+import { notification } from "antd";
 
 export default function FormProfile(props) {
   // chuyển trang
@@ -35,6 +36,7 @@ export default function FormProfile(props) {
   // lấy thông tin từ reducer
   const { userInfo } = useSelector((state) => state.userReducer);
 
+  console.log(userInfo);
   // setState khi nhập dữ liệu
   const handleChange = (event) => {
     const {
@@ -74,7 +76,6 @@ export default function FormProfile(props) {
 
   // cách 2: dùng useAsync tự tạo, lấy thông tin về
   const { state: infoUser } = useAsync({
-    dependencies: [],
     service: () => fetchInfomationApi(userInfo.taiKhoan),
   });
 
@@ -90,15 +91,16 @@ export default function FormProfile(props) {
 
   // submit cập nhật thông tin
   const handleSubmit = async (event) => {
-    // ngăn load lại trang
     event.preventDefault();
     if (!event.target.checkValidity()) {
       return;
     }
     try {
       await fetchEditUserApi(state.values);
-      alert("Cập nhật thành công");
-      navigate("/profile");
+      notification.success({
+        description: "Cập nhật thành công"
+      })
+      navigate("/");
     } catch (errors) {
       alert(errors.response.data.content);
     }
@@ -308,7 +310,7 @@ export default function FormProfile(props) {
                     <p className="card-text m-0">
                       Giá vé:{" "}
                       <span className="text-primary">
-                        {ele.giaVe.toLocaleString()} VNĐ
+                        {ele.giaVe.toLocaleString()} VNĐ/ghế
                       </span>
                     </p>
                     <p className="card-text m-0">

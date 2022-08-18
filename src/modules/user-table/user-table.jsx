@@ -94,9 +94,14 @@ export default function UserTable() {
         -1
       );
     });
-    console.log(searchData);
-    setSearchState(searchData);
-    console.log(searchData);
+    if(searchData) {
+      setSearchState(searchData);
+
+    } else {
+      notification.warning({
+        message: "Kết quả tìm kiếm không tồn tại !!!!"
+      })
+    }
   };
 
   return (

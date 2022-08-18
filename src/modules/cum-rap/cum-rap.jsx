@@ -21,7 +21,6 @@ export default function MovieShowTime() {
   const handleSelect = async (maHeThongRap) => {
     const result = await fetchInfomationShowTimeApi(maHeThongRap, GROUP_ID);
     setCumRap(result.data.content);
-    console.log(result.data.content);
   };
 
   //render logo hệ thống rạp
@@ -30,13 +29,15 @@ export default function MovieShowTime() {
       return (
         <a
           key={ele}
-          className={`nav-link text-capitalize text-dark ${index === 0 && "active"}`}
+          className={`nav-link text-capitalize text-dark ${
+            index === 0 && "active"
+          }`}
           data-toggle="pill"
           role="tab"
           aria-selected="true"
           onClick={() => handleSelect(ele)}
         >
-          <span className="ml-3">{ele}</span>
+          {ele}
         </a>
       );
     });
@@ -53,10 +54,7 @@ export default function MovieShowTime() {
         >
           {ele.lstCumRap.map((ele, index) => {
             return (
-              <div
-                className='row pt-3 '
-                key={ele.maCumRap}
-              >
+              <div className="row pt-3 " key={ele.maCumRap}>
                 <div className="col-lg-5 col-12">
                   <div className="row mb-3">
                     <div className="col-4">
@@ -90,13 +88,13 @@ export default function MovieShowTime() {
                                 height={150}
                               />
                             </div>
-                            <div className="col-lg-8 col-12">
-                              <h3
+                            <div className="col-lg-8 col-12 px-5">
+                              <h4
                                 className="text-dark m-0"
                                 style={{ fontWeight: "bold" }}
                               >
                                 {ele.tenPhim}
-                              </h3>
+                              </h4>
                               <p className="text-dark mt-2 mb-3">
                                 Thời gian:{" "}
                                 <span>{format(ele.ngayChieuGioChieu)}</span>
@@ -146,10 +144,10 @@ export default function MovieShowTime() {
     <div style={styleBgCinema}>
       <div
         className="container-fluid p-5"
-        style={{ fontWeight: "bold", background: "rgba(255,255,255,0.5)" }}
+        style={{ fontWeight: "bold"}}
       >
         <div className="row">
-          <div className="col-lg-3 col-12 p-0">
+          <div className="col-lg-3 col-12 px-5">
             <h2 className="text-center p-3" style={styleTitle}>
               Cụm rạp
             </h2>
@@ -162,7 +160,7 @@ export default function MovieShowTime() {
               {renderTabs()}
             </div>
           </div>
-          <div className="col-lg-9 col-12 p-0 pl-5">
+          <div className="col-lg-9 col-12 px-5">
             <h2 className="text-center p-3" style={styleTitle}>
               Thông tin lịch chiếu
             </h2>
