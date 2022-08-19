@@ -70,8 +70,18 @@ export default function FormRegister() {
     }
   };
 
+  const styleBg = {
+    backgroundImage: `url(./../hinhnen.jpg)`,
+    backgroundSize: "cover",
+    backgroundAttachment: "fixed",
+    backgroundPosition: "center",
+    width: "100%",
+    height: "100%",
+  };
+
   return (
-    <div className="container">
+    <div style={styleBg}>
+      <div className="container pb-5">
       <div className="row ">
         <div className="w-25 col-md-6 col-12 mx-auto mt-5">
           <div className="card p-0">
@@ -234,6 +244,7 @@ export default function FormRegister() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

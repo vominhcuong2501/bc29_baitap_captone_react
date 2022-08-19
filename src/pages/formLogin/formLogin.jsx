@@ -67,8 +67,18 @@ export default function FormLogin() {
     }
   };
 
+  const styleBg = {
+    backgroundImage: `url(./../hinhnen.jpg)`,
+    backgroundSize: "cover",
+    backgroundAttachment: "fixed",
+    backgroundPosition: "center",
+    width: "100%",
+    height: "60vh",
+  };
+
   return (
-    <div className="container">
+   <div style={styleBg}>
+     <div className="container">
       <div className="row">
         <div className="w-25 col-md-6 col-12 mx-auto mt-5">
           <div className="card p-0">
@@ -146,5 +156,6 @@ export default function FormLogin() {
         </div>
       </div>
     </div>
+   </div>
   );
 }

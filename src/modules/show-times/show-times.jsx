@@ -64,10 +64,10 @@ export default function ShowTimes() {
           {ele.cumRapChieu.map((ele) => {
             return (
               <div className="row mb-5" key={ele.maCumRap}>
-                <div className="col-lg-3">
-                  <img className="img-fluid rounded" src={ele.hinhAnh} />
+                <div className="col-lg-3 col-12">
+                  <img className="rounded" src={ele.hinhAnh} width={150} height={150} />
                 </div>
-                <div className="col-lg-9 pl-0">
+                <div className="col-lg-9 col-12">
                   <h3 className="text-warning m-0">{ele.tenCumRap}</h3>
                   <span className="text-light">Địa chỉ: {ele.diaChi}</span>
                   <div className="row">
@@ -103,7 +103,7 @@ export default function ShowTimes() {
 
   return (
     <div className="row">
-      <div className="col-3">
+      <div className="col-sm-4 col-12">
         <div
           className="nav flex-column nav-pills"
           id="v-pills-tab"
@@ -113,7 +113,7 @@ export default function ShowTimes() {
           {renderTabs()}
         </div>
       </div>
-      <div className="col-9">
+      <div className="col-sm-8 col-12">
         <div className="tab-content" id="v-pills-tabContent">
           {renderContent()}
         </div>
