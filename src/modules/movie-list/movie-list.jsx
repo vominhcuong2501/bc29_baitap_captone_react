@@ -86,7 +86,7 @@ export default function MovieList() {
 
   return (
     <div style={styleBgMovieList}>
-       <div
+      <div
         style={{
           textAlign: "center",
           background:
@@ -94,21 +94,41 @@ export default function MovieList() {
           animation: "development 6s infinite linear",
         }}
       >
-        <h2
-          className="text-center text-light p-3 display-4"
-          style={{
-            
-          }}
-        >MOVIE SELECTION</h2>
+        <h2 className="text-center text-light p-3 display-4" style={{}}>
+          MOVIE SELECTION
+        </h2>
       </div>
-     
-      <div className="container py-5" id="carouselId" >
+
+      <div className="container py-5" id="carouselId">
         <Carousel
           autoplay
           slidesToShow={4}
           slidesToScroll={1}
           arrows
           dots={false}
+          responsive={[
+            {
+              breakpoint: 1200,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+              },
+            },
+            {
+              breakpoint: 992,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+              },
+            },
+            {
+              breakpoint: 576,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+              },
+            },
+          ]}
         >
           {renderMovieList()}
         </Carousel>

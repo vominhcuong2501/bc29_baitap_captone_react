@@ -84,11 +84,11 @@ export default function MovieShowTime() {
                               <img
                                 src={ele.hinhAnh}
                                 alt={ele.hinhAnh}
-                                width={200}
-                                height={150}
+                                width={170}
+                                height={130}
                               />
                             </div>
-                            <div className="col-lg-8 col-12 px-5">
+                            <div className="col-lg-8 col-12 pl-lg-5 pl-3">
                               <h4
                                 className="text-dark m-0"
                                 style={{ fontWeight: "bold" }}
