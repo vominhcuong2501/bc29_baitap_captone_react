@@ -1,6 +1,7 @@
-.btnDatVe {
-    transition: all 0.5s;
-    &:hover {
-        background-color: rgb(255, 118, 244);
-    }
+.btn {
+  transition: all 0.5s;
+  &:hover {
+    color: #212529 !important;
+    background-color: pink;
+  }
 }

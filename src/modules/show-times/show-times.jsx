@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { fetchMovieShowTimesApi } from "../../services/cinema";
 import { Link, useParams } from "react-router-dom";
 import { format } from "../../utils/common";
-import {useAsync} from "../../hooks/useAsync"
-
+import { useAsync } from "../../hooks/useAsync";
+import "./show-time.scss"
 export default function ShowTimes() {
   // dùng để lấy địa chỉ url
   let params = useParams();
@@ -24,12 +24,11 @@ export default function ShowTimes() {
   //   console.log(result.data.content);
   // };
 
-
   // cách 2: dùng useAsync tự tạo, lấy lịch chiếu film
-  const {state: movieShowTimes = []} = useAsync({
+  const { state: movieShowTimes = [] } = useAsync({
     dependencies: [],
-    service: () => fetchMovieShowTimesApi(params.movieId)
-  })
+    service: () => fetchMovieShowTimesApi(params.movieId),
+  });
   console.log(movieShowTimes);
 
   //render logo hệ thống rạp
@@ -64,30 +63,32 @@ export default function ShowTimes() {
           {ele.cumRapChieu.map((ele) => {
             return (
               <div className="row mb-5" key={ele.maCumRap}>
-                <div className="col-lg-3 col-12">
-                  <img className="rounded" src={ele.hinhAnh} width={150} height={150} />
+                <div className="col-lg-3 col-12 pr-0">
+                  <img
+                    className="rounded"
+                    src={ele.hinhAnh}
+                    width={150}
+                    height={150}
+                  />
                 </div>
-                <div className="col-lg-9 col-12">
+                <div className="col-lg-9 col-12 text-light pl-0">
                   <h3 className="text-warning m-0">{ele.tenCumRap}</h3>
-                  <span className="text-light">Địa chỉ: {ele.diaChi}</span>
+                  <span>Địa chỉ: {ele.diaChi}</span>
+                  <p>Chọn giờ chiếu:</p>
                   <div className="row">
                     {ele.lichChieuPhim.map((ele) => {
                       return (
                         <div
-                          className="col-12 col-md-6 text-light"
+                          className="col-12 col-md-3 text-light p-1"
                           key={ele.maLichChieu}
                         >
-                          <p className="text-light mb-0 mt-3">Thời gian: <span className="text-warning">{format(ele.ngayChieuGioChieu)}</span></p>
-                          
-                          <div>
-                            <Link
-                              to={`/booking/${ele.maLichChieu}`}
-                              className="btn btnDatVe"
-                              style={{ backgroundColor: "pink" }}
-                            >
-                              ĐẶT VÉ
-                            </Link>
-                          </div>
+                          <Link
+                            to={`/booking/${ele.maLichChieu}`}
+                            className="btn"
+                            style={{ border: "2px solid pink", color: "white", }}
+                          >
+                            {format(ele.ngayChieuGioChieu)}
+                          </Link>
                         </div>
                       );
                     })}
@@ -103,7 +104,7 @@ export default function ShowTimes() {
 
   return (
     <div className="row">
-      <div className="col-sm-4 col-12">
+      <div className="col-sm- 3col-12">
         <div
           className="nav flex-column nav-pills"
           id="v-pills-tab"
@@ -113,7 +114,7 @@ export default function ShowTimes() {
           {renderTabs()}
         </div>
       </div>
-      <div className="col-sm-8 col-12">
+      <div className="col-sm-9 col-12">
         <div className="tab-content" id="v-pills-tabContent">
           {renderContent()}
         </div>

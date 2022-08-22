@@ -36,28 +36,11 @@
 
 #carouselId {
   .ant-carousel {
-    .slick-dots li.slick-active button {
-      opacity: 1;
-      background: #ff4ef6;
-    }
-
-    .slick-prev::before,
+        .slick-prev::before,
     .slick-next::before {
       font-family: FontAwesome;
       font-size: 20px;
       color: white;
-      opacity: 0.75;
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      padding: 10px;
-      background: linear-gradient(
-        to right,
-        #673ab7 0,
-        #e91e63 36%,
-        #e91e63 65%,
-        #673ab7 100%
-      );
       z-index: 10;
     }
 

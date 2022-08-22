@@ -1,12 +1,9 @@
-import { render } from "@testing-library/react";
-import { Tabs, Space } from "antd";
+import { Tabs } from "antd";
 import { GROUP_ID } from "constans/common";
 import { useAsync } from "hooks/useAsync";
-import React, { useRef, useState } from "react";
-import { useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { fetchCinemaApi, fetchInfomationShowTimeApi } from "services/cinema";
-import { format } from "utils/common";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { fetchCinemaApi } from "services/cinema";
 import "./cum-rap.scss";
 const { TabPane } = Tabs;
 

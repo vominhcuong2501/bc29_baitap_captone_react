@@ -44,7 +44,7 @@ export default function MovieList() {
       return (
         <div className="film-item px-3" key={ele.maPhim}>
           <div
-            className="card movie-card"
+            className="card movie-card mx-3"
             style={{ marginBottom: 20, overflow: "hidden" }}
           >
             <img
