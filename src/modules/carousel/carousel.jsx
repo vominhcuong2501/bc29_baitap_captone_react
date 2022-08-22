@@ -35,7 +35,7 @@ export default function Carousels() {
             src={ele.hinhAnh}
             data-src="holder.js/900x500/auto/#777:#555/text:First slide"
             alt={ele.maBanner}
-            style={{ width: "100%", height: "100vh" }}
+            style={{ width: "100%", height: "80vh" }}
           />
         </div>
       );
