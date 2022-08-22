@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import "./header.scss";
 import { USER_INFO_KEY } from "../../constans/common";
 import { setUserAction } from "../../store/actions/user.action";
-import {getInfomationApi} from "../../services/user"
 
 export default function Header() {
   // gửi thông tin
@@ -15,9 +14,6 @@ export default function Header() {
 
   // lấy dữ liệu từ reducer
   const { userInfo } = useSelector((state) => state.userReducer);
-
-  // đặt state
-  const [infoUser, setInfoUser] = useState()
 
   // btn đăng xuất
   const handleLogout = () => {
@@ -70,11 +66,6 @@ export default function Header() {
                 PHIM
               </NavLink>
             </li>
-            {/* <li className="nav-item ">
-              <NavLink className="nav-link px-lg-4 px-2" to="/cum-rap">
-                LỊCH CHIẾU
-              </NavLink>
-            </li> */}
             <li className="nav-item ">
               <NavLink className="nav-link px-lg-4 px-2" to="/cum-rap">
                 CỤM RẠP

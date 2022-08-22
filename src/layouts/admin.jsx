@@ -1,29 +1,12 @@
 import {
   DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
   UserOutlined,
-  MailOutlined,
+  HeartOutlined
 } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu } from "antd";
+import { Layout, Menu } from "antd";
 import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 const { Header, Content, Footer, Sider } = Layout;
-
-function getItem(label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  };
-}
-
-// const items = [
-//   getItem("User Management", "1", <UserOutlined />),
-//   getItem("Movie Management", "2", <DesktopOutlined />),
-// ];
 
 const items = [
   {
@@ -36,6 +19,9 @@ const items = [
         <h2 style={{color: 'orange'}}>Disney</h2>
       </Link>
     ),
+    key: "Logo",
+    icon: <HeartOutlined />,
+    
   },
   {
     label: (

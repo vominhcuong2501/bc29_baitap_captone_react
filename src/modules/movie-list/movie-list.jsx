@@ -83,23 +83,22 @@ export default function MovieList() {
     width: "100%",
     height: "100%",
   };
+  const styleTitle = {
+    backgroundColor: "white",
+    background:
+      "linear-gradient(to right,#673ab7 0,#e91e63 36%,#e91e63 65%,#673ab7 100%)",
+    fontWeight: "700",
+    color: "white",
+    animation: "development 6s infinite linear",
+    fontSize: "50px",
+  };
 
   return (
     <div style={styleBgMovieList}>
-      <div
-        style={{
-          textAlign: "center",
-          background:
-            "linear-gradient(to right,#673ab7 0,#e91e63 36%,#e91e63 65%,#673ab7 100%)",
-          animation: "development 6s infinite linear",
-        }}
-      >
-        <h2 className="text-center text-light p-3 display-4" style={{}}>
-          MOVIE SELECTION
-        </h2>
-      </div>
-
       <div className="container py-5" id="carouselId">
+        <h2 className="text-center p-3 mb-5" style={styleTitle}>
+          Danh sách phim
+        </h2>
         <Carousel
           autoplay
           slidesToShow={4}

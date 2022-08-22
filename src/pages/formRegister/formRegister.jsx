@@ -1,3 +1,4 @@
+import { notification } from "antd";
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerApi } from "../../services/user";
@@ -66,7 +67,9 @@ export default function FormRegister() {
       alert("Bạn đã đăng ký thành công !!!");
       navigate("/login");
     } catch (errors) {
-      alert(errors.response.data.content);
+      notification.error({
+        message: errors.response.data.content,
+      });
     }
   };
 
@@ -82,169 +85,173 @@ export default function FormRegister() {
   return (
     <div style={styleBg}>
       <div className="container pb-5">
-      <div className="row ">
-        <div className="w-25 col-md-6 col-12 mx-auto mt-5">
-          <div className="card p-0">
-            <div
-              className="card-header bg-warning text-white font-weight-bold text-center"
-              style={{ fontSize: "25px" }}
-            >
-              ĐĂNG KÝ
-            </div>
-            <div className="card-body">
-              <form ref={formRef} noValidate onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        <i className="fa-solid fa-user"></i>
-                      </span>
+        <div className="row ">
+          <div className="w-25 col-md-6 col-12 mx-auto mt-5">
+            <div className="card p-0">
+              <div
+                className="card-header bg-warning text-white font-weight-bold text-center"
+                style={{ fontSize: "25px" }}
+              >
+                ĐĂNG KÝ
+              </div>
+              <div className="card-body">
+                <form ref={formRef} noValidate onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa-solid fa-user"></i>
+                        </span>
+                      </div>
+                      <input
+                        required
+                        type="text"
+                        className="form-control input-sm"
+                        placeholder="Tài khoản"
+                        name="taiKhoan"
+                        onChange={handleChange}
+                        title="(*) Tài khoản"
+                      />
                     </div>
-                    <input
-                      required
-                      type="text"
-                      className="form-control input-sm"
-                      placeholder="Tài khoản"
-                      name="taiKhoan"
-                      onChange={handleChange}
-                      title="(*) Tài khoản"
-                    />
+                    {state.errors.taiKhoan && (
+                      <span className="text-danger">
+                        {state.errors.taiKhoan}
+                      </span>
+                    )}
                   </div>
-                  {state.errors.taiKhoan && (
-                    <span className="text-danger">{state.errors.taiKhoan}</span>
-                  )}
-                </div>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        <i className="fa fa-address-book" />
-                      </span>
-                    </div>
-                    <input
-                      required
-                      type="text"
-                      className="form-control input-sm"
-                      placeholder="Họ tên"
-                      name="hoTen"
-                      onChange={handleChange}
-                      title="(*) Họ tên"
-                      pattern='^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa fa-address-book" />
+                        </span>
+                      </div>
+                      <input
+                        required
+                        type="text"
+                        className="form-control input-sm"
+                        placeholder="Họ tên"
+                        name="hoTen"
+                        onChange={handleChange}
+                        title="(*) Họ tên"
+                        pattern='^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
                     "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
                     "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$'
-                    />
-                  </div>
-                  {state.errors.hoTen && (
-                    <span className="text-danger">{state.errors.hoTen}</span>
-                  )}
-                </div>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        <i className="fa fa-envelope" />
-                      </span>
+                      />
                     </div>
-                    <input
-                      required
-                      type="email"
-                      className="form-control input-sm"
-                      placeholder="Email"
-                      pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                      name="email"
-                      onChange={handleChange}
-                      title="(*) Email"
-                    />
+                    {state.errors.hoTen && (
+                      <span className="text-danger">{state.errors.hoTen}</span>
+                    )}
                   </div>
-                  {state.errors.email && (
-                    <span className="text-danger">{state.errors.email}</span>
-                  )}
-                </div>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        <i className="fa fa-key" />
-                      </span>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa fa-envelope" />
+                        </span>
+                      </div>
+                      <input
+                        required
+                        type="email"
+                        className="form-control input-sm"
+                        placeholder="Email"
+                        pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                        name="email"
+                        onChange={handleChange}
+                        title="(*) Email"
+                      />
                     </div>
-                    <input
-                      required
-                      type="text"
-                      className="form-control"
-                      placeholder="Mật khẩu"
-                      name="matKhau"
-                      onChange={handleChange}
-                      title="(*) Mật khẩu"
-                    />
+                    {state.errors.email && (
+                      <span className="text-danger">{state.errors.email}</span>
+                    )}
                   </div>
-                  {state.errors.matKhau && (
-                    <span className="text-danger">{state.errors.matKhau}</span>
-                  )}
-                </div>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        <i className="fa-solid fa-phone"></i>
-                      </span>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa fa-key" />
+                        </span>
+                      </div>
+                      <input
+                        required
+                        type="text"
+                        className="form-control"
+                        placeholder="Mật khẩu"
+                        name="matKhau"
+                        onChange={handleChange}
+                        title="(*) Mật khẩu"
+                      />
                     </div>
-                    <input
-                      required
-                      type="text"
-                      className="form-control"
-                      placeholder="Số điện thoại"
-                      name="soDT"
-                      onChange={handleChange}
-                      title="(*) Số điện thoại"
-                      pattern = '^[0-9]+$'
-                    />
-                  </div>
-                  {state.errors.soDT && (
-                    <span className="text-danger">{state.errors.soDT}</span>
-                  )}
-                </div>
-                <div className="form-group">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        <i className="fa fa-briefcase" />
+                    {state.errors.matKhau && (
+                      <span className="text-danger">
+                        {state.errors.matKhau}
                       </span>
-                    </div>
-                    <input
-                      required
-                      type="text"
-                      className="form-control"
-                      placeholder="Mã nhóm"
-                      name="maNhom"
-                      onChange={handleChange}
-                      title="(*) Mã nhóm"
-                    />
+                    )}
                   </div>
-                  {state.errors.maNhom && (
-                    <span className="text-danger">{state.errors.maNhom}</span>
-                  )}
-                </div>
-                <p>
-                  Nếu bạn đã có tài khoản vui lòng nhấn{" "}
-                  <Link style={{ border: "none", color: "blue" }} to="/login">
-                    đăng nhập
-                  </Link>
-                </p>
-                <div className="text-right">
-                  <button
-                    disabled={!formRef.current?.checkValidity()}
-                    type="submit"
-                    className="btn btn-warning mr-2"
-                  >
-                    Đăng ký
-                  </button>
-                </div>
-              </form>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa-solid fa-phone"></i>
+                        </span>
+                      </div>
+                      <input
+                        required
+                        type="text"
+                        className="form-control"
+                        placeholder="Số điện thoại"
+                        name="soDT"
+                        onChange={handleChange}
+                        title="(*) Số điện thoại"
+                        pattern="^[0-9]+$"
+                      />
+                    </div>
+                    {state.errors.soDT && (
+                      <span className="text-danger">{state.errors.soDT}</span>
+                    )}
+                  </div>
+                  <div className="form-group">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa fa-briefcase" />
+                        </span>
+                      </div>
+                      <input
+                        required
+                        type="text"
+                        className="form-control"
+                        placeholder="Mã nhóm"
+                        name="maNhom"
+                        onChange={handleChange}
+                        title="(*) Mã nhóm"
+                      />
+                    </div>
+                    {state.errors.maNhom && (
+                      <span className="text-danger">{state.errors.maNhom}</span>
+                    )}
+                  </div>
+                  <p>
+                    Nếu bạn đã có tài khoản vui lòng nhấn{" "}
+                    <Link style={{ border: "none", color: "blue" }} to="/login">
+                      đăng nhập
+                    </Link>
+                  </p>
+                  <div className="text-right">
+                    <button
+                      disabled={!formRef.current?.checkValidity()}
+                      type="submit"
+                      className="btn btn-warning mr-2"
+                    >
+                      Đăng ký
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

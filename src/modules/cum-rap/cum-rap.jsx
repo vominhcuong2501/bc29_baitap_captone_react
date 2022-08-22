@@ -1,109 +1,90 @@
-import { GROUP_ID, maHeThongRap } from "constans/common";
+import { render } from "@testing-library/react";
+import { Tabs, Space } from "antd";
+import { GROUP_ID } from "constans/common";
+import { useAsync } from "hooks/useAsync";
 import React, { useRef, useState } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { fetchInfomationShowTimeApi } from "services/cinema";
+import { fetchCinemaApi, fetchInfomationShowTimeApi } from "services/cinema";
 import { format } from "utils/common";
 import "./cum-rap.scss";
+const { TabPane } = Tabs;
 
 export default function MovieShowTime() {
-  // chuyển trang
-  const navigate = useNavigate();
+  const { state: cinema } = useAsync({
+    service: () => fetchCinemaApi(GROUP_ID),
+  });
+  console.log(cinema);
 
-  // dùng để lấy event.target trong form
-  const formRef = useRef();
-
-  // lấy thông tin url
-  const params = useParams();
-
-  // đặt state
-  const [cumRap, setCumRap] = useState();
-
-  const handleSelect = async (maHeThongRap) => {
-    const result = await fetchInfomationShowTimeApi(maHeThongRap, GROUP_ID);
-    setCumRap(result.data.content);
-  };
-
-  //render logo hệ thống rạp
-  const renderTabs = () => {
-    return maHeThongRap.map((ele, index) => {
+  const renderHeThongRap = () => {
+    return cinema?.map((ele) => {
       return (
-        <a
-          key={ele}
-          className={`nav-link text-capitalize text-dark ${
-            index === 0 && "active"
-          }`}
-          data-toggle="pill"
-          role="tab"
-          aria-selected="true"
-          onClick={() => handleSelect(ele)}
-        >
-          {ele}
-        </a>
-      );
-    });
-  };
-
-  // dựa vào hệ thống rạp render cụm rạp chiếu
-  const renderContent = () => {
-    return cumRap?.map((ele, index) => {
-      return (
-        <div
-          className={`tab-pane fade show ${index === 0 && "active"}`}
-          role="tabpanel"
+        <TabPane
+        className="mb-2"
+          tab={
+            <div>
+              <img
+                src={ele.logo}
+                className="rounded-full mx-4"
+                width={100}
+                alt={ele.tenHeThongRap}
+              />
+            </div>
+          }
           key={ele.maHeThongRap}
         >
-          {ele.lstCumRap.map((ele, index) => {
-            return (
-              <div className="row pt-3 " key={ele.maCumRap}>
-                <div className="col-lg-5 col-12">
-                  <div className="row mb-3">
-                    <div className="col-4">
-                      <img className="img-fluid rounded" src={ele.hinhAnh} />
+          <Tabs tabPosition={tabPosition}>
+            {ele.lstCumRap?.map((ele) => {
+              return (
+                <TabPane
+                  tab={
+                    <div style={{ display: "flex" }} className="mx-auto my-3">
+                      <img src={ele.hinhAnh} width={70} />
+                      <div className="text-left ml-2">
+                        <h5
+                          className="text-warning mb-2"
+                          style={{ fontWeight: "bold" }}
+                        >
+                          {ele.tenCumRap}
+                        </h5>
+                        <p className="text-dark m-0">
+                          Địa chỉ:{" "}
+                          {ele.diaChi.length > 50
+                            ? ele.diaChi.substring(0, 40) + "..."
+                            : ele.diaChi}
+                        </p>
+                      </div>
                     </div>
-                    <div className="col-8 pl-0">
-                      <h4
-                        className="text-dark m-0"
-                        style={{ fontWeight: "bold" }}
-                      >
-                        {ele.tenCumRap}
-                      </h4>
-                      <span>Địa chỉ: {ele.diaChi}</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-7 col-12">
+                  }
+                  key={ele.maCumRap}
+                >
                   <div className="row">
-                    {ele.danhSachPhim.map((ele) => {
+                    {ele.danhSachPhim?.map((ele) => {
                       return (
                         <div
-                          className="col-12 text-light mb-5"
+                          className="py-2 col-lg-4 col-md-6 col-12"
                           key={ele.maPhim}
+                          style={{ display: "flex" }}
                         >
                           <div className="row">
-                            <div className="col-lg-4 col-12">
+                            <div className="col-4">
                               <img
                                 src={ele.hinhAnh}
+                                style={{ width: "100%", height: "80%" }}
                                 alt={ele.hinhAnh}
-                                width={170}
-                                height={130}
                               />
                             </div>
-                            <div className="col-lg-8 col-12 pl-lg-5 pl-3">
-                              <h4
-                                className="text-dark m-0"
+                            <div className="pl-3 col-8">
+                              <h5
+                                className="text-warning"
                                 style={{ fontWeight: "bold" }}
                               >
                                 {ele.tenPhim}
-                              </h4>
-                              <p className="text-dark mt-2 mb-3">
-                                Thời gian:{" "}
-                                <span>{format(ele.ngayChieuGioChieu)}</span>
-                              </p>
-
+                              </h5>
                               <Link
                                 to={`/movie/${ele.maPhim}`}
-                                className="btn"
-                                style={{ backgroundColor: "aqua" }}
+                                className="btn btnDatVe"
+                                style={{ backgroundColor: "pink" }}
                               >
                                 Xem thêm
                               </Link>
@@ -113,14 +94,15 @@ export default function MovieShowTime() {
                       );
                     })}
                   </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                </TabPane>
+              );
+            })}
+          </Tabs>
+        </TabPane>
       );
     });
   };
+  const [tabPosition, setTabPosition] = useState("top");
 
   //style background
   const styleBgCinema = {
@@ -138,38 +120,16 @@ export default function MovieShowTime() {
     fontWeight: "700",
     color: "white",
     animation: "development 6s infinite linear",
+    fontSize: "50px",
   };
-
   return (
     <div style={styleBgCinema}>
-      <div
-        className="container-fluid p-5"
-        style={{ fontWeight: "bold"}}
-      >
-        <div className="row">
-          <div className="col-lg-3 col-12 px-5">
-            <h2 className="text-center p-3" style={styleTitle}>
-              Cụm rạp
-            </h2>
-            <div
-              className="nav flex-column nav-pills"
-              id="v-pills-tab"
-              role="tablist"
-              aria-orientation="vertical"
-            >
-              {renderTabs()}
-            </div>
-          </div>
-          <div className="col-lg-9 col-12 px-5">
-            <h2 className="text-center p-3" style={styleTitle}>
-              Thông tin lịch chiếu
-            </h2>
+      <div className="container py-5">
+        <h2 className="text-center p-3 mb-5" style={styleTitle}>
+          Hệ thống rạp phim
+        </h2>
 
-            <div className="tab-content" id="v-pills-tabContent">
-              {renderContent()}
-            </div>
-          </div>
-        </div>
+        <Tabs tabPosition={tabPosition}>{renderHeThongRap()}</Tabs>
       </div>
     </div>
   );

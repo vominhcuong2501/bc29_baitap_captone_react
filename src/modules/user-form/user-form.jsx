@@ -105,7 +105,17 @@ export default function UserForm() {
         label="Tài khoản"
         name="taiKhoan"
         validateTrigger={["onChange"]}
-        rules={[{ required: true, message: "Tài khoản không được bỏ trống" }]}
+        rules={[
+          { required: true, message: "Tài khoản không được bỏ trống" },
+          {
+            validator: (rules, value) => {
+              if (value.length < 6 || value.length > 10) {
+                return Promise.reject("Tài khoản phải từ 6 - 10 ký tự");
+              }
+              return Promise.resolve();
+            },
+          },
+        ]}
       >
         <Input />
       </Form.Item>
@@ -135,7 +145,7 @@ export default function UserForm() {
           {
             pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
             message: "Email không đúng dịnh dạng",
-          }
+          },
         ]}
       >
         <Input />
@@ -164,37 +174,58 @@ export default function UserForm() {
           {
             pattern:
               /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{0,}$/,
-            message: "Mật khẩu cần ít nhất 1 chữ viết hoa và 1 ký tự đặc biệt và số",
+            message:
+              "Mật khẩu cần ít nhất 1 chữ viết hoa và 1 ký tự đặc biệt và số",
           },
         ]}
       >
         <Input />
       </Form.Item>
       <Form.Item
-        label="Mã nhóm"
         name="maNhom"
+        label="Mã nhóm"
         validateTrigger={["onChange"]}
-        rules={[{ required: true, message: "Mã nhóm không được bỏ trống" }]}
+        rules={[{ required: true, message: "Vui lòng chọn mã nhóm" }]}
       >
-        <Input />
+        <Select>
+          <Option value="GP01">GP01</Option>
+          <Option value="GP02">GP02</Option>
+          <Option value="GP03">GP03</Option>
+          <Option value="GP04">GP04</Option>
+          <Option value="GP05">GP05</Option>
+          <Option value="GP06">GP06</Option>
+          <Option value="GP07">GP07</Option>
+          <Option value="GP08">GP08</Option>
+          <Option value="GP09">GP09</Option>
+          <Option value="GP10">GP10</Option>
+        </Select>
       </Form.Item>
       <Form.Item
         name="maLoaiNguoiDung"
         label="Loại người dùng"
         validateTrigger={["onChange"]}
-        rules={[
-          { required: true, message: "Vui lòng chọn loại người dùng" },
-        ]}
+        rules={[{ required: true, message: "Vui lòng chọn loại người dùng" }]}
       >
-        <Select placeholder="Chọn loại người dùng">
+        <Select>
           <Option value="QuanTri">QuanTri</Option>
           <Option value="KhachHang">KhachHang</Option>
         </Select>
       </Form.Item>
-      <Form.Item style={{ marginLeft: 150 }} className="mt-3">
-        <Button htmlType="submit" type="primary">
-          SAVE
-        </Button>
+      <Form.Item style={{ marginLeft: 150 }} className="mt-3" shouldUpdate>
+        {() => {
+          return (
+            <Button
+              htmlType="submit"
+              type="primary"
+              disabled={
+                !form.isFieldsTouched() ||
+                form.getFieldsError().some((ele) => ele.errors.length > 0)
+              }
+            >
+              SAVE
+            </Button>
+          );
+        }}
       </Form.Item>
     </Form>
   );

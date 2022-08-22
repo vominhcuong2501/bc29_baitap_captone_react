@@ -1,3 +1,4 @@
+import { notification } from "antd";
 import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -63,7 +64,7 @@ export default function FormLogin() {
       // 3. đăng nhập thành công chuyển page
       navigate("/");
     } catch (errors) {
-      alert(errors.response.data.content);
+      notification.error({ message: errors.response.data.content });
     }
   };
 
@@ -77,85 +78,91 @@ export default function FormLogin() {
   };
 
   return (
-   <div style={styleBg}>
-     <div className="container">
-      <div className="row">
-        <div className="w-25 col-md-6 col-12 mx-auto mt-5">
-          <div className="card p-0">
-            <div
-              className="card-header bg-warning text-white font-weight-bold text-center"
-              style={{ fontSize: "25px" }}
-            >
-              ĐĂNG NHẬP
-            </div>
-            <div className="card-body">
-              <form ref={formRef} noValidate onSubmit={handleSubmit}>
-                <div className="row">
-                  <div className=" col-12 form-group my-3">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">
-                          <i className="fa-solid fa-user"></i>
-                        </span>
+    <div style={styleBg}>
+      <div className="container">
+        <div className="row">
+          <div className="w-25 col-md-6 col-12 mx-auto mt-5">
+            <div className="card p-0">
+              <div
+                className="card-header bg-warning text-white font-weight-bold text-center"
+                style={{ fontSize: "25px" }}
+              >
+                ĐĂNG NHẬP
+              </div>
+              <div className="card-body">
+                <form ref={formRef} noValidate onSubmit={handleSubmit}>
+                  <div className="row">
+                    <div className=" col-12 form-group my-3">
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">
+                            <i className="fa-solid fa-user"></i>
+                          </span>
+                        </div>
+                        <input
+                          required
+                          type="text"
+                          className="form-control"
+                          placeholder="Tài khoản"
+                          onChange={handleChange}
+                          name="taiKhoan"
+                          title="(*) Tài khoản"
+                        />
                       </div>
-                      <input
-                        required
-                        type="text"
-                        className="form-control"
-                        placeholder="Tài khoản"
-                        onChange={handleChange}
-                        name="taiKhoan"
-                        title="(*) Tài khoản"
-                      />
-                    </div>
-                    {state.errors.taiKhoan && (
-                    <span className="text-danger">{state.errors.taiKhoan}</span>
-                  )}
-                  </div>
-                  <div className="form-group col-12 my-3">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">
-                          <i className="fa fa-key" />
+                      {state.errors.taiKhoan && (
+                        <span className="text-danger">
+                          {state.errors.taiKhoan}
                         </span>
-                      </div>
-                      <input
-                        required
-                        type="text"
-                        className="form-control"
-                        placeholder="Mật khẩu"
-                        name="matKhau"
-                        onChange={handleChange}
-                        title="(*) Mật khẩu"
-                      />
+                      )}
                     </div>
-                    {state.errors.matKhau && (
-                    <span className="text-danger">{state.errors.matKhau}</span>
-                  )}
+                    <div className="form-group col-12 my-3">
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">
+                            <i className="fa fa-key" />
+                          </span>
+                        </div>
+                        <input
+                          required
+                          type="text"
+                          className="form-control"
+                          placeholder="Mật khẩu"
+                          name="matKhau"
+                          onChange={handleChange}
+                          title="(*) Mật khẩu"
+                        />
+                      </div>
+                      {state.errors.matKhau && (
+                        <span className="text-danger">
+                          {state.errors.matKhau}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <p>
-                  Nếu bạn chưa có tài khoản vui lòng nhấn{" "}
-                  <Link
-                    style={{ border: "none", color: "blue" }}
-                    to="/register"
-                  >
-                    đăng ký
-                  </Link>
-                </p>
-                <div className="text-right">
-                  <button
-                    disabled={!formRef.current?.checkValidity()}
-                  type="submit" className="btn btn-warning mr-2">
-                    Đăng nhập
-                  </button>
-                </div>
-              </form>
+                  <p>
+                    Nếu bạn chưa có tài khoản vui lòng nhấn{" "}
+                    <Link
+                      style={{ border: "none", color: "blue" }}
+                      to="/register"
+                    >
+                      đăng ký
+                    </Link>
+                  </p>
+                  <div className="text-right">
+                    <button
+                      disabled={!formRef.current?.checkValidity()}
+                      type="submit"
+                      className="btn btn-warning mr-2"
+                    >
+                      Đăng nhập
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-   </div>
   );
 }

@@ -149,9 +149,7 @@ export default function MovieForm() {
         label="Tên phim"
         name="tenPhim"
         validateTrigger={["onChange"]}
-        rules={[
-          { required: true, message: "Tên phim không được bỏ trống" },
-        ]}
+        rules={[{ required: true, message: "Tên phim không được bỏ trống" }]}
       >
         <Input />
       </Form.Item>
@@ -159,9 +157,7 @@ export default function MovieForm() {
         label="Trailer"
         name="trailer"
         validateTrigger={["onChange"]}
-        rules={[
-          { required: true, message: "Trailer không được bỏ trống" },
-        ]}
+        rules={[{ required: true, message: "Trailer không được bỏ trống" }]}
       >
         <Input />
       </Form.Item>
@@ -170,7 +166,14 @@ export default function MovieForm() {
         name="moTa"
         validateTrigger={["onChange"]}
         rules={[
-          { required: true, message: "Mô tả không được bỏ trống" },
+          {
+            validator: (rules, value) => {
+              if (value === "") {
+                return Promise.reject("Mô tả không được bỏ trống");
+              }
+              return Promise.resolve();
+            },
+          },
         ]}
       >
         <Input />
@@ -204,6 +207,12 @@ export default function MovieForm() {
             pattern: /^[0-9]+$/,
             message: "Số sao không đúng định dạng",
           },
+          { min: 1, message: "Số sao phải lớn hơn 0", type: "number" },
+          {
+            max: 10,
+            message: "Số sao phải bé hơn hoặc bằng 10",
+            type: "number",
+          },
         ]}
       >
         <InputNumber />
@@ -216,10 +225,21 @@ export default function MovieForm() {
         <Input type="file" onChange={handleChangeImage} />
       </Form.Item>
       <Image src={image} />
-      <Form.Item style={{ marginLeft: 150 }} className="mt-3">
-        <Button htmlType="submit" type="primary">
-          SAVE
-        </Button>
+      <Form.Item style={{ marginLeft: 150 }} className="mt-3" shouldUpdate>
+        {() => {
+          return (
+            <Button
+              htmlType="submit"
+              type="primary"
+              disabled={
+                !form.isFieldsTouched() ||
+                form.getFieldsError().some((ele) => ele.errors.length > 0)
+              }
+            >
+              SAVE
+            </Button>
+          );
+        }}
       </Form.Item>
     </Form>
   );
