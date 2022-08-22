@@ -85,7 +85,7 @@ export default function ShowTimes() {
                           <Link
                             to={`/booking/${ele.maLichChieu}`}
                             className="btn"
-                            style={{ border: "2px solid pink", color: "white", }}
+                            style={{ border: "2px solid pink" }}
                           >
                             {format(ele.ngayChieuGioChieu)}
                           </Link>

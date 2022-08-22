@@ -33,7 +33,7 @@ export default function Detail() {
   const styleButtonTrailer = {
     textDecoration: "none",
     fontSize: "20px",
-    color: "#fff",
+    color: "black",
   };
 
   return (

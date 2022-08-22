@@ -1,6 +1,4 @@
-
 import CumRap from "modules/cum-rap/cum-rap";
-import MovieList1 from "modules/movie-list/movie-list-1";
 import React, { lazy } from "react";
 import { useRoutes } from "react-router-dom";
 // import HomeLayout from "../layouts/home";
@@ -19,7 +17,6 @@ import { useRoutes } from "react-router-dom";
 // import FormProfile from "../pages/profile/profile";
 // import MovieCreate from "../pages/movie-create/movie-create";
 
-
 // lazyLoading: sau khi thêm component suspense ở trang app.js => đặt biến cho đường link component
 const HomeLayout = lazy(() => import("../layouts/home"));
 const MovieList = lazy(() => import("../modules/movie-list/movie-list"));
@@ -31,15 +28,21 @@ const Booking = lazy(() => import("../modules/booking/booking"));
 const AdminLayout = lazy(() => import("../layouts/admin"));
 const NoAuthGuard = lazy(() => import("pages/guards/noAuth.guard"));
 const AuthGuard = lazy(() => import("pages/guards/auth.guard"));
-const MovieManagement = lazy(() => import("pages/movie-management/movie-management"));
-const UserManagement = lazy(() => import("pages/user-management/user-management"));
+const MovieManagement = lazy(() =>
+  import("pages/movie-management/movie-management")
+);
+const UserManagement = lazy(() =>
+  import("pages/user-management/user-management")
+);
 const AdminGuard = lazy(() => import("pages/guards/admin.guard"));
 const FormProfile = lazy(() => import("../modules/profile/profile"));
 const MovieCreate = lazy(() => import("pages/movie-create/movie-create"));
-const MovieShowTime = lazy (() => import("../modules/movie-show-time/movie-show-time"));
-const CreateUser = lazy (() => import("pages/create-user/create-user"));
-const MovieUpdate = lazy (() => import("pages/movie-update/movie-update"));
-const UpdateUser = lazy (() => import("pages/update-user/update-user"));
+const MovieShowTime = lazy(() =>
+  import("../modules/movie-show-time/movie-show-time")
+);
+const CreateUser = lazy(() => import("pages/create-user/create-user"));
+const MovieUpdate = lazy(() => import("pages/movie-update/movie-update"));
+const UpdateUser = lazy(() => import("pages/update-user/update-user"));
 
 export default function Router() {
   const routing = useRoutes([
@@ -57,10 +60,6 @@ export default function Router() {
         {
           path: "/movie",
           element: <MovieList />,
-        },
-        {
-          path: "/movie-1",
-          element: <MovieList1 />,
         },
         // trang cụm rạp
         {
@@ -136,7 +135,7 @@ export default function Router() {
             // show-time
             {
               path: "/admin/movie-management/show-time/:movieId",
-              element: <MovieShowTime />
+              element: <MovieShowTime />,
             },
             // trang quản lý người dùng
             {

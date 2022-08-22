@@ -80,8 +80,7 @@ export default function MovieShowTime() {
                               </h5>
                               <Link
                                 to={`/movie/${ele.maPhim}`}
-                                className="btn btnDatVe"
-                                style={{ backgroundColor: "pink" }}
+                                className="btn"
                               >
                                 Xem thêm
                               </Link>

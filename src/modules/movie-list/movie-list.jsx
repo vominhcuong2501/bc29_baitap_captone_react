@@ -62,7 +62,7 @@ export default function MovieList() {
                   {ele.tenPhim}
                 </h5>
                 <Button
-                  type="primary"
+                  className="btn"
                   onClick={() => navigate(`/movie/${ele.maPhim}`)}
                 >
                   XEM CHI TIẾT

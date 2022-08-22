@@ -15,9 +15,12 @@ export default function Footer() {
             />
           </NavLink>
           <p className="mt-3">
-            <b className="text-warning" style={{fontSize: '30px'}}>D</b>ISNEY giúp bạn mua vé trực tuyến và cập nhật thường xuyên các
-            thông tin như trailer, tin tức, thong tin rạp, suất chiếu, các đánh
-            giá phim và các khuyến mãi dành cho người sử dụng
+            <b className="text-warning" style={{ fontSize: "30px" }}>
+              D
+            </b>
+            ISNEY giúp bạn mua vé trực tuyến và cập nhật thường xuyên các thông
+            tin như trailer, tin tức, thong tin rạp, suất chiếu, các đánh giá
+            phim và các khuyến mãi dành cho người sử dụng
           </p>
         </div>
         <div className="col-12 col-md-6 col-lg-3 mt-3">
@@ -86,10 +89,12 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="text-center mt-5">
-        <p style={{ fontSize: 30, color: " rgb(253, 194, 33)" }}>
-          @VMC _ BC29_CAPTONE_REACT_JS
-        </p>
+      <div className="row mt-3">
+        <div className="col-12 text-center">
+          <p style={{ fontSize: 30, color: " rgb(253, 194, 33)" }}>
+            BC29_CAPTONE_REACT_JS
+          </p>
+        </div>
       </div>
     </div>
   );

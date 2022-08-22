@@ -6,3 +6,13 @@
     background-position: 1000px 0;
   }
 }
+
+.btn {
+  background-color: pink !important;
+  transition: all 0.5s;
+  &:hover {
+    color: black;
+
+    background-color: rgb(192, 247, 255) !important;
+  }
+}
