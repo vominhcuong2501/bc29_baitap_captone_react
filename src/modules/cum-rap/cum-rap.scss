@@ -16,3 +16,7 @@
     background-color: rgb(192, 247, 255) !important;
   }
 }
+
+.slick-slide .slick-active .slick-current {
+  display: none;
+}

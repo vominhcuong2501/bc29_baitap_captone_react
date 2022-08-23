@@ -116,7 +116,8 @@ export default function MovieShowTime() {
     fontWeight: "700",
     color: "white",
     animation: "development 6s infinite linear",
-    fontSize: "50px",
+    fontSize: "40px",
+    borderRadius: "20px"
   };
   return (
     <div style={styleBgCinema}>
