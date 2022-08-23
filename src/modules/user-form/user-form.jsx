@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, notification, Radio, Select } from "antd";
+import { Button, Form, Input, notification, Radio, Select, Password } from "antd";
 
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -169,6 +169,7 @@ export default function UserForm() {
         label="Mật khẩu"
         name="matKhau"
         validateTrigger={["onChange"]}
+        type="password"
         rules={[
           { required: true, message: "Mật khẩu không được bỏ trống" },
           {
@@ -179,7 +180,7 @@ export default function UserForm() {
           },
         ]}
       >
-        <Input />
+        <Input.Password />
       </Form.Item>
       <Form.Item
         name="maNhom"

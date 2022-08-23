@@ -174,7 +174,7 @@ export default function FormRegister() {
                       </div>
                       <input
                         required
-                        type="text"
+                        type="password"
                         className="form-control"
                         placeholder="Mật khẩu"
                         name="matKhau"
