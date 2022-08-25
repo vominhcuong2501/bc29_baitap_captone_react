@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, notification, Radio, Select, Password } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  notification,
+  Radio,
+  Select,
+  Password,
+} from "antd";
 
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -80,7 +88,7 @@ export default function UserForm() {
       wrapperCol={{
         span: 14,
       }}
-      layout="horizontal"
+      layout="vertical"
       initialValues={{
         taiKhoan: "",
         hoTen: "",
@@ -189,16 +197,17 @@ export default function UserForm() {
         rules={[{ required: true, message: "Vui lòng chọn mã nhóm" }]}
       >
         <Select>
-          <Option value="GP01">GP01</Option>
-          <Option value="GP02">GP02</Option>
-          <Option value="GP03">GP03</Option>
-          <Option value="GP04">GP04</Option>
-          <Option value="GP05">GP05</Option>
-          <Option value="GP06">GP06</Option>
-          <Option value="GP07">GP07</Option>
-          <Option value="GP08">GP08</Option>
-          <Option value="GP09">GP09</Option>
-          <Option value="GP10">GP10</Option>
+          <Select.Option value="">Chọn mã nhóm</Select.Option>
+          <Select.Option value="GP01">GP01</Select.Option>
+          <Select.Option value="GP02">GP02</Select.Option>
+          <Select.Option value="GP03">GP03</Select.Option>
+          <Select.Option value="GP04">GP04</Select.Option>
+          <Select.Option value="GP05">GP05</Select.Option>
+          <Select.Option value="GP06">GP06</Select.Option>
+          <Select.Option value="GP07">GP07</Select.Option>
+          <Select.Option value="GP08">GP08</Select.Option>
+          <Select.Option value="GP09">GP09</Select.Option>
+          <Select.Option value="GP10">GP10</Select.Option>
         </Select>
       </Form.Item>
       <Form.Item
@@ -208,11 +217,12 @@ export default function UserForm() {
         rules={[{ required: true, message: "Vui lòng chọn loại người dùng" }]}
       >
         <Select>
-          <Option value="QuanTri">QuanTri</Option>
-          <Option value="KhachHang">KhachHang</Option>
+          <Select.Option value="">Chọn loại người dùng</Select.Option>
+          <Select.Option value="QuanTri">QuanTri</Select.Option>
+          <Select.Option value="KhachHang">KhachHang</Select.Option>
         </Select>
       </Form.Item>
-      <Form.Item style={{ marginLeft: 150 }} className="mt-3" shouldUpdate>
+      <Form.Item className="mt-3" shouldUpdate>
         {() => {
           return (
             <Button
