@@ -67,12 +67,10 @@ export default function UserTable() {
     },
   ];
 
-  // lấy danh sách phim
   const { state: data = [] } = useAsync({
     service: () => fetchUserListApi(),
   });
 
-  // xóa phim
   const fetchDeleteUser = async (taiKhoan) => {
     try {
       await fetchDeleteUserApi(taiKhoan);
