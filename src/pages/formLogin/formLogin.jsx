@@ -34,11 +34,14 @@ export default function FormLogin() {
       name,
       value,
       title,
-      validity: { valueMissing },
+      validity: { valueMissing, patternMismatch },
     } = event.target;
     let message = "";
     if (valueMissing) {
       message = `${title} bị rỗng`;
+    }
+    if (patternMismatch) {
+      message = `${title} không đúng kiểu dữ liệu`;
     }
     setState({
       values: { ...state.values, [name]: value },
@@ -126,10 +129,11 @@ export default function FormLogin() {
                           required
                           type="password"
                           className="form-control"
-                          placeholder="Mật khẩu"
+                          placeholder="Mật khẩu (Ex: Miku@123)"
                           name="matKhau"
                           onChange={handleChange}
                           title="(*) Mật khẩu"
+                          pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{0,}$"
                         />
                       </div>
                       {state.errors.matKhau && (

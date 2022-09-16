@@ -176,10 +176,11 @@ export default function FormRegister() {
                         required
                         type="password"
                         className="form-control"
-                        placeholder="Mật khẩu"
+                        placeholder="Mật khẩu (Ex: Miku@123)"
                         name="matKhau"
                         onChange={handleChange}
                         title="(*) Mật khẩu"
+                        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{0,}$"
                       />
                     </div>
                     {state.errors.matKhau && (
@@ -217,7 +218,24 @@ export default function FormRegister() {
                           <i className="fa fa-briefcase" />
                         </span>
                       </div>
-                      <input
+                      <select  required
+                        className="form-control"
+                        name="maNhom"
+                        onChange={handleChange}
+                        title="(*) Mã nhóm">
+                          <option value="0">Vui lòng chọn mã nhóm</option>
+                          <option value="GP01">GP01</option>
+                          <option value="GP02">GP02</option>
+                          <option value="GP03">GP03</option>
+                          <option value="GP04">GP04</option>
+                          <option value="GP05">GP05</option>
+                          <option value="GP06">GP06</option>
+                          <option value="GP07">GP07</option>
+                          <option value="GP08">GP08</option>
+                          <option value="GP09">GP09</option>
+                          <option value="GP10">GP10</option>
+                        </select>
+                      {/* <input
                         required
                         type="text"
                         className="form-control"
@@ -225,7 +243,7 @@ export default function FormRegister() {
                         name="maNhom"
                         onChange={handleChange}
                         title="(*) Mã nhóm"
-                      />
+                      /> */}
                     </div>
                     {state.errors.maNhom && (
                       <span className="text-danger">{state.errors.maNhom}</span>

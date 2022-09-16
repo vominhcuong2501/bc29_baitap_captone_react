@@ -11,7 +11,6 @@ export default function MovieShowTime() {
   const { state: cinema } = useAsync({
     service: () => fetchCinemaApi(GROUP_ID),
   });
-  console.log(cinema);
 
   const renderHeThongRap = () => {
     return cinema?.map((ele) => {
