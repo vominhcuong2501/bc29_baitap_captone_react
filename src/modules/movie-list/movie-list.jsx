@@ -42,7 +42,7 @@ export default function MovieList() {
   const renderMovieList = () => {
     return movieList.map((ele) => {
       return (
-        <div className="film-item px-3" key={ele.maPhim}>
+        <div className="film-item" key={ele.maPhim}>
           <div
             className="card movie-card mx-3"
             style={{ marginBottom: 20, overflow: "hidden" }}
@@ -54,7 +54,7 @@ export default function MovieList() {
               alt="movie"
             />
             <div className="overlay">
-              <div className="card-body film-text">
+              <div className="card-body film-text p-3">
                 <h5
                   className="card-title text-danger"
                   style={{ fontWeight: "bold", fontSize: "20px" }}
@@ -81,7 +81,7 @@ export default function MovieList() {
     backgroundAttachment: "fixed",
     backgroundPosition: "center",
     width: "100%",
-    height: "100%",
+    height: "100vh",
   };
   const styleTitle = {
     backgroundColor: "white",
@@ -97,7 +97,7 @@ export default function MovieList() {
   return (
     <div style={styleBgMovieList}>
       <div className="container py-5" id="carouselId">
-        <h2 className="text-center p-3 mb-5" style={styleTitle}>
+        <h2 className="text-center p-3 my-5" style={styleTitle}>
           Danh sách phim
         </h2>
         <Carousel
